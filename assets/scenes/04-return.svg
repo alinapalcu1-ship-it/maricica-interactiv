@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img"><defs>
+<linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffbef"/><stop offset="1" stop-color="#ffe8d9"/></linearGradient>
+<linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e9bb9a"/><stop offset="1" stop-color="#cb9776"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#b8ecfb"/><stop offset="1" stop-color="#e8fdfb"/></linearGradient>
+<linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd6d5"/><stop offset="1" stop-color="#ef959d"/></linearGradient>
+<linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e4fff4"/><stop offset="1" stop-color="#82dcca"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffdcae"/><stop offset="1" stop-color="#d9a977"/></linearGradient>
+<linearGradient id="toilet" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#dce7eb"/></linearGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="16" result="blur"/><feOffset dx="0" dy="13" result="off"/><feComponentTransfer><feFuncA type="linear" slope=".20"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="blur"><feGaussianBlur stdDeviation="27"/></filter>
+<pattern id="dot" width="36" height="36" patternUnits="userSpaceOnUse"><circle cx="18" cy="18" r="2.3" fill="#fff" opacity=".52"/></pattern>
+<pattern id="tile" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="#ffffff" stroke-width="4" opacity=".44"/></pattern>
+</defs><rect width="1600" height="900" fill="#f7e4d7"/><rect width="1600" height="620" fill="url(#dot)" opacity=".26"/>
+<path d="M0 635 Q710 625 1600 635V900H0Z" fill="#e4c8b1"/><path d="M0 635Q740 624 1600 635" stroke="#e1b79c" stroke-width="12" fill="none"/>
+<ellipse cx="810" cy="830" rx="690" ry="58" fill="#fff8dc" opacity=".15"/>
+<circle cx="1314" cy="87" r="170" fill="#fff" opacity=".18" filter="url(#blur)"/><rect width="1600" height="630" fill="url(#tile)" opacity=".58"/><path d="M0 630H1600" stroke="#fff" stroke-width="12"/>
+<g filter="url(#shadow)"><rect x="160" y="118" width="370" height="370" rx="165" fill="#fed3af" stroke="#ffc392" stroke-width="20"/><rect x="178" y="136" width="334" height="336" rx="158" fill="#c9eefa"/><path d="M230 372Q308 220 450 180" fill="none" stroke="#fff" opacity=".42" stroke-width="25" stroke-linecap="round"/></g>
+<g filter="url(#shadow)"><rect x="75" y="662" width="615" height="161" rx="34" fill="url(#wood)"/><rect x="96" y="622" width="575" height="92" rx="45" fill="#fff" stroke="#dbe9ec" stroke-width="12"/><ellipse cx="380" cy="660" rx="178" ry="35" fill="#d8e9ef"/><ellipse cx="380" cy="651" rx="105" ry="17" fill="#afc5cc"/><path d="M353 616v-60q0-32 40-32q40 0 40 32v29" fill="none" stroke="#f7d68c" stroke-width="22" stroke-linecap="round"/><path d="M426 580h38" stroke="#f7d68c" stroke-width="22" stroke-linecap="round"/></g>
+<g filter="url(#shadow)"><rect x="706" y="174" width="247" height="22" rx="11" fill="#c5a079"/><path d="M746 194h81v184q-43 34-81 0Z" fill="url(#pink)"/><path d="M848 194h75v184q-32 26-75 0Z" fill="#fffaf4"/><path d="M746 236h81M848 233h75" stroke="#fff" stroke-width="10" opacity=".7"/></g>
+<g transform="translate(105 532)"><ellipse cx="0" cy="0" rx="29" ry="34" fill="#fff" opacity=".75"/><circle cx="40" cy="-65" r="15" fill="#fff" opacity=".8"/><circle cx="105" cy="-13" r="18" fill="#fff" opacity=".76"/></g><g transform="translate(1420 488) scale(0.8)" filter="url(#shadow)"><path d="M-43 110h87l-13 134h-62Z" fill="#f1b78b"/><ellipse cy="110" rx="45" ry="14" fill="#f7cba2"/>
+<path d="M0 102Q-100 48-56-22Q-2 8 0 72Q-45-112 12-120Q42-20 0 80Q70-100 101-48Q91 25 0 89Q124 8 112 63Q53 120 0 98" fill="#68b99c" stroke="#489a7b" stroke-width="5"/>
+<path d="M0 95Q-13-14-36-45M0 95Q24-48 54-77M0 95Q49 45 95 32" stroke="#459378" stroke-width="5" fill="none"/></g></svg>
