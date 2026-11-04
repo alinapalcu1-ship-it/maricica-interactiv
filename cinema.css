@@ -1,0 +1,182 @@
+/* MARICICA CINEMA • Premium pastel 3D, cinematic movement and accessible touch targets */
+:root{--cine-ink:#513b56;--cine-coral:#ed7189;--cine-mint:#bfe8d5;--cine-indigo:#8e7ad5}
+body{background:radial-gradient(ellipse at 5% 15%,#fff0e6,transparent 35%),radial-gradient(ellipse at 90% 7%,#dcf8ec,transparent 40%),#fff8f1}
+.app-shell{max-width:1440px}
+.site-header{border-bottom:1px solid #fff6;position:relative;z-index:12}
+.brand-type strong{letter-spacing:-.5px}
+/* Main screen */
+.cine-home{min-height:min(83vh,760px);display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:clamp(24px,3.5vw,65px);padding:25px 0 42px}
+.cine-home-visual{height:clamp(430px,56vw,685px);position:relative;overflow:hidden;border:8px solid #fff;border-radius:48px;box-shadow:0 32px 80px #976c7d2f,0 5px 20px #70586d1f;isolation:isolate;background:#f4eadf}
+.cine-home-room{position:absolute;inset:-2%;background:url('assets/cinema/01-bedroom.webp') center/cover;transform:scale(1.04);animation:cine-zoom 19s ease-in-out infinite alternate}
+.cine-home-light{position:absolute;inset:0;background:radial-gradient(circle at 61% 22%,#fff5d155,transparent 52%),linear-gradient(0deg,#dc9b7255,transparent 41%);pointer-events:none}
+.cine-home-visual .cine-actor{position:absolute;z-index:3;bottom:-5%;left:29%;width:min(63%,400px);height:auto;filter:drop-shadow(0 24px 14px #68474d48);--actor-scale:1;--actor-translate:0px}
+.cine-home-friend{position:absolute;z-index:2;left:2%;bottom:9%;width:32%;max-height:57%;object-fit:contain;filter:drop-shadow(0 15px 13px #77516745);animation:cine-friend 4.1s ease-in-out infinite}
+.cine-home-teddy{position:absolute;z-index:5;right:1%;bottom:4%;width:32%;filter:drop-shadow(0 15px 12px #77516743);animation:cine-teddy 3.7s ease-in-out infinite}
+.cine-home-welcome{position:absolute;z-index:7;right:4%;top:8%;background:#ffffffed;border-radius:26px 26px 6px 26px;color:#da7182;padding:15px 23px;font-size:clamp(16px,1.8vw,25px);font-weight:950;box-shadow:0 13px 20px #b7757f37;transform:rotate(3deg);animation:cine-bubble 3.8s ease-in-out infinite}
+.cine-home-welcome span{color:#ed6d82}
+.cine-home-ribbon{position:absolute;z-index:6;left:4%;bottom:4%;font-size:clamp(10px,1vw,13px);font-weight:850;color:#6f4c56;background:#fffdf4f0;border-radius:999px;padding:12px 18px;box-shadow:0 8px 20px #9b7b7644}
+.cine-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:1.6px;font-weight:950;color:#c86f86;background:#ffedf1;padding:12px 17px;border-radius:999px}
+.cine-eyebrow span{font-size:18px}
+.cine-home-copy h1{font-weight:980;font-size:clamp(46px,5vw,80px);color:var(--cine-ink);line-height:1.02;letter-spacing:-3px;margin:18px 0 20px}
+.cine-home-copy h1 em{display:block;font-style:normal;color:#e96f86;text-shadow:0 7px 0 #fff0ee}
+.cine-lead{font-size:clamp(16px,1.4vw,19px);color:#736776;max-width:530px;line-height:1.7;font-weight:650}
+.cine-home-actions{display:grid;gap:15px;margin-top:30px}
+.cine-cta{position:relative;width:100%;min-height:99px;display:flex;align-items:center;text-align:left;gap:17px;border:3px solid #fff;border-radius:28px;padding:15px 22px;cursor:pointer;box-shadow:0 13px 0 #de8a9e55,0 20px 30px #a17b8930;transform:translateY(0);transition:transform .16s,box-shadow .16s,filter .16s;overflow:hidden;color:#4b3e53}
+.cine-cta:after{content:"";position:absolute;left:12%;top:0;width:66%;height:25%;background:linear-gradient(#fff9,transparent);border-radius:50%;pointer-events:none}
+.cine-cta:hover,.cine-cta:focus-visible{transform:translateY(-5px);filter:saturate(1.08);box-shadow:0 17px 0 #de8a9e55,0 26px 40px #a17b8938}
+.cine-cta:active{transform:translateY(2px)}
+.cine-cta-pink{background:linear-gradient(130deg,#ffd8e0,#ffa6b8)}
+.cine-cta-blue{background:linear-gradient(130deg,#d4e9ff,#a7d2f5);box-shadow:0 13px 0 #83acd455,0 20px 30px #a17b8930}
+.cine-cta-icon{display:grid;place-items:center;flex:none;width:62px;height:62px;background:linear-gradient(140deg,#fff,#ffeef5);border-radius:20px;color:#e56e85;font-size:27px;box-shadow:0 7px 10px #bd8e9b36,inset 0 3px 2px #fff}
+.cine-cta-blue .cine-cta-icon{color:#6499c3}
+.cine-cta strong{display:block;font-size:clamp(18px,1.65vw,23px);font-weight:950;line-height:1.2}
+.cine-cta small{display:block;font-size:clamp(10px,.8vw,13px);font-weight:750;color:#766678;margin-top:5px}
+.cine-cta-arrow{margin-left:auto;font-size:36px;color:#ac7688;font-weight:800}
+.cine-home-chips{display:flex;gap:13px;flex-wrap:wrap;color:#7a7483;font-weight:850;font-size:12px;margin-top:25px}
+.cine-home-chips span{background:#ffffffb9;border-radius:99px;padding:9px 13px}
+/* Arm-rig. The face and dress are original image pixels; only gestures are animated. */
+.cine-actor{aspect-ratio:500/862;position:relative;isolation:isolate;transform-origin:50% 94%;animation:cine-bob 3.5s ease-in-out infinite;will-change:transform}
+.cine-actor>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
+.cine-actor .cine-body{z-index:2}
+.cine-actor .cine-arm{z-index:4;will-change:transform;transition:transform .35s ease-out}
+.cine-actor .arm-left{transform-origin:42% 50%;animation:cine-arm-left 4.8s ease-in-out infinite}
+.cine-actor .arm-right{transform-origin:77% 49%;animation:cine-arm-right 4.8s ease-in-out infinite}
+.cine-actor.is-speaking{animation:cine-talk .54s ease-in-out infinite alternate}
+.cine-actor.is-speaking .arm-right,.cine-actor[data-gesture=happy] .arm-right,.cine-actor[data-gesture=hands] .arm-right{animation:cine-wave-right 1s ease-in-out infinite;transform-origin:77% 50%}
+.cine-actor[data-gesture=happy] .arm-left,.cine-actor[data-gesture=hands] .arm-left{animation:cine-wave-left 1.05s ease-in-out infinite;transform-origin:42% 50%}
+.cine-actor[data-gesture=no]{animation:cine-shake 1.8s ease-in-out infinite}
+.cine-actor[data-gesture=sad]{animation:cine-sad 3s ease-in-out infinite;filter:saturate(.80) brightness(.98)}
+.cine-actor[data-gesture=washing] .arm-left,.cine-actor[data-gesture=washing] .arm-right{animation:cine-wash 1s ease-in-out infinite alternate}
+.cine-actor[data-gesture=combing] .arm-right{animation:cine-comb 1.8s ease-in-out infinite}
+.cine-actor[data-gesture=brushing] .arm-right{animation:cine-brush 1.2s ease-in-out infinite}
+.cine-particles{position:absolute;inset:0;overflow:hidden;z-index:7;pointer-events:none}
+.cine-particles i{position:absolute;border:2px solid #fffb;box-shadow:inset -4px -4px 7px #afd8e655,0 3px 10px #fff8;border-radius:50%;width:21px;height:21px;bottom:-14%;left:10%;animation:cine-float 8s linear infinite}
+.cine-particles i:nth-child(2){left:32%;width:12px;height:12px;animation-delay:-3s;animation-duration:6s}
+.cine-particles i:nth-child(3){left:64%;width:34px;height:34px;animation-delay:-6s;animation-duration:11s}
+.cine-particles i:nth-child(4){left:85%;width:16px;height:16px;animation-delay:-1s;animation-duration:9s}
+.cine-particles i:nth-child(5){left:46%;width:8px;height:8px;animation-delay:-5s;animation-duration:7s}
+.cine-particles i:nth-child(6){left:92%;width:24px;height:24px;animation-delay:-8s;animation-duration:9s}
+/* Six cinematic scenes, all using 3D props and the same Maricica. */
+.story-stage{height:clamp(410px,57vh,670px);border:8px solid #fff;border-radius:43px;background:#f9e8df;box-shadow:0 24px 70px #8e697527}
+.cine-scene{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+.cine-backdrop{position:absolute;inset:-2%;background-size:cover;background-position:center;transform:scale(1.04);animation:cine-zoom 16s ease-in-out infinite alternate;z-index:0}
+.cine-film-light{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,#fff9e939 0%,transparent 60%),radial-gradient(circle at 83% 9%,#fff9d376,transparent 42%)}
+.cine-floor-glow{position:absolute;z-index:2;bottom:-14%;left:20%;width:70%;height:33%;border-radius:50%;background:#fff5d1b0;filter:blur(40px)}
+.cine-scene .cine-actor{position:absolute;z-index:5;right:13%;bottom:-11%;height:113%;width:auto;filter:drop-shadow(0 20px 13px #67445356)}
+.cine-support{position:absolute;z-index:4;object-fit:contain;filter:drop-shadow(0 16px 13px #69495542);transition:transform .3s}
+.cine-friend{height:75%;max-width:27%;left:13%;bottom:-3%;animation:cine-friend 3.6s ease-in-out infinite}
+.cine-friend.is-speaking,.cine-friend.is-greeting{animation:cine-wave-left 1.25s ease-in-out infinite}
+.cine-teddy{height:47%;max-width:34%;left:32%;bottom:2%;animation:cine-teddy 3.5s ease-in-out infinite}
+.cine-teddy.is-speaking{animation:cine-teddy-speak .6s ease-in-out infinite alternate}
+.cine-scene-3 .cine-actor{right:4%;height:104%}
+.cine-scene-3 .cine-caption{left:4%;top:4%}
+.cine-scene-6 .cine-teddy{left:15%;height:44%;bottom:9%}
+.cine-prop-pair{position:absolute;z-index:3;left:8%;bottom:8%;display:grid;grid-template-columns:repeat(2,1fr);gap:13px;max-width:38%}
+.cine-prop{width:clamp(82px,9vw,145px);aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 12px 10px #816b6754);animation:cine-prop-idle 4s ease-in-out infinite;transition:transform .3s,filter .3s}
+.cine-prop:nth-child(2){animation-delay:-1s}.cine-prop:nth-child(3){animation-delay:-2s}.cine-prop:nth-child(4){animation-delay:-3s}
+.cine-prop.is-speaking{animation:cine-prop-talk .5s ease-in-out infinite alternate;filter:drop-shadow(0 0 19px #fff3ae)}
+.cine-mirror{position:absolute;width:min(29%,230px);z-index:3;left:14%;bottom:15%;transform:rotate(-7deg);filter:drop-shadow(0 14px 11px #79536450)}
+.cine-caption{position:absolute;z-index:8;left:4%;top:6%;max-width:40%;padding:14px 21px;border-radius:21px 21px 20px 5px;background:#fffdf2e9;color:#6e566d;box-shadow:0 9px 17px #a3828b28;display:grid;gap:3px;transform:rotate(-2deg)}
+.cine-caption-kicker{font-size:10px;font-weight:950;letter-spacing:1.5px;color:#e17a8d}
+.cine-caption strong{font-size:clamp(15px,2vw,25px);font-weight:950;line-height:1.15}
+.cine-caption>span:last-child{font-size:12px;font-weight:750;color:#977d91}
+.cine-sound-bars{position:absolute;z-index:6;right:4%;top:5%;display:flex;align-items:center;gap:4px;height:30px;opacity:.6}
+.cine-sound-bars i{height:8px;width:4px;background:#f59aae;border-radius:5px;animation:cine-equalizer 1.05s ease-in-out infinite alternate}
+.cine-sound-bars i:nth-child(2){animation-delay:-.3s}.cine-sound-bars i:nth-child(3){animation-delay:-.6s}.cine-sound-bars i:nth-child(4){animation-delay:-.9s}.cine-sound-bars i:nth-child(5){animation-delay:-.2s}
+.speech-panel{border:3px solid #fff;background:linear-gradient(145deg,#fff,#fff9f5);box-shadow:0 10px 28px #ad849226}
+.speech-panel .subtitle{font-weight:800;line-height:1.36}
+/* Existing lesson audio remains unchanged; new cinematic 3D environment. */
+.guided-stage.cine-guided-stage{background:#f4e8df;isolation:isolate}
+.cine-guided-stage .guided-room{background:url('assets/cinema/05-care.webp') center/cover;opacity:1}
+.cine-guided-stage:after{background:linear-gradient(90deg,#fff5e9a9,transparent 70%)}
+.cine-guided-stage .cine-actor{position:absolute;z-index:3;right:10%;bottom:-14%;height:127%;width:auto;filter:drop-shadow(0 13px 9px #75575a55)}
+.cine-guided-stage .cine-particles{z-index:4}
+.guided-choice{background:linear-gradient(155deg,#fff,#fff4ee);border:3px solid #fff;box-shadow:0 9px 0 #ecd4d23d,0 12px 20px #977f8725;transition:transform .18s}
+.guided-choice:active{transform:scale(.95)}
+.guided-choice.is-right{background:linear-gradient(145deg,#f5fff9,#d7f5e4)}
+.cine-3d-icon{filter:drop-shadow(0 7px 8px #775b6c34);animation:cine-icon-pop 3.7s ease-in-out infinite}
+.game-card{background:linear-gradient(160deg,#fff,#fff8f2);border:5px solid #fff;box-shadow:0 24px 60px #ad8e8824}
+.option,.order-card,.discover-tile{border:3px solid #fff;background:linear-gradient(160deg,#fff,#fff3ed);box-shadow:0 9px 19px #9f828d26;transition:transform .15s,box-shadow .15s}
+.option:hover,.order-card:hover,.discover-tile:hover{transform:translateY(-6px);box-shadow:0 17px 25px #9f828d28}
+.cine-mini-actor{display:block;width:150px;height:145px;object-fit:contain;object-position:center top;margin:-5px auto 0;filter:drop-shadow(0 10px 7px #aa74873b);animation:cine-bob 3s ease-in-out infinite}
+/* Finale: celebration uses 3D heroine and teddy, no flat GIF. */
+.cine-finale{display:grid;grid-template-columns:1.03fr .97fr;gap:25px;align-items:center;padding:30px 0;min-height:650px}
+.cine-finale-stage{height:570px;border:7px solid white;border-radius:40px;position:relative;overflow:hidden;background:#fff1de;box-shadow:0 25px 60px #8e69753b}
+.cine-finale-stage .cine-backdrop{background-position:center}
+.cine-finale-maricica{position:absolute;z-index:3;right:16%;bottom:-8%;height:110%;filter:drop-shadow(0 18px 13px #7a4d4a54);animation:cine-bob 3s ease-in-out infinite}
+.cine-finale-bear{position:absolute;z-index:4;left:4%;bottom:0%;height:44%;filter:drop-shadow(0 9px 9px #72545b44);animation:cine-teddy 3s ease-in-out infinite}
+.cine-finale-copy h1{font-size:clamp(40px,5vw,70px);color:#e8778b;line-height:1.1;margin:15px 0;font-weight:950}
+.cine-finale-copy p{font-size:19px;color:#776d79;line-height:1.6;margin-bottom:25px}
+.cine-finale-copy>.pill-button{margin-top:15px;margin-right:7px}
+/* Animated loops for an actual 2.5D cartoon feel. */
+@keyframes cine-bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+@keyframes cine-talk{0%{transform:translateY(0) rotate(-1.5deg) scale(1)}100%{transform:translateY(-5px) rotate(1.4deg) scale(1.014)}}
+@keyframes cine-arm-left{0%,100%{transform:rotate(0)}40%{transform:rotate(3deg)}55%{transform:rotate(-3deg)}}
+@keyframes cine-arm-right{0%,100%{transform:rotate(0)}40%{transform:rotate(-2deg)}55%{transform:rotate(4deg)}}
+@keyframes cine-wave-right{0%,100%{transform:rotate(1deg)}50%{transform:rotate(-56deg)}}
+@keyframes cine-wave-left{0%,100%{transform:rotate(1deg)}50%{transform:rotate(52deg)}}
+@keyframes cine-wash{0%{transform:rotate(-15deg)}100%{transform:rotate(18deg)}}
+@keyframes cine-comb{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(-62deg)}}
+@keyframes cine-brush{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(-34deg)}}
+@keyframes cine-shake{0%,100%{transform:rotate(0)}30%{transform:rotate(-3deg)}60%{transform:rotate(3deg)}}
+@keyframes cine-sad{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(3px) rotate(-4deg)}}
+@keyframes cine-float{0%{transform:translateY(0) scale(.6);opacity:0}12%{opacity:.8}90%{opacity:.8}100%{transform:translateY(-800px) scale(1.4);opacity:0}}
+@keyframes cine-equalizer{0%{height:6px}100%{height:25px}}
+@keyframes cine-zoom{0%{transform:scale(1.04) translateX(0)}100%{transform:scale(1.15) translateX(-1.3%)}}
+@keyframes cine-friend{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(3deg) translateY(-8px)}}
+@keyframes cine-teddy{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(4deg) translateY(-10px)}}
+@keyframes cine-teddy-speak{0%{transform:rotate(-5deg) scale(1)}100%{transform:rotate(5deg) scale(1.04)}}
+@keyframes cine-bubble{0%,100%{transform:rotate(3deg) translateY(0)}50%{transform:rotate(1deg) translateY(-7px)}}
+@keyframes cine-prop-idle{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-8px)}}
+@keyframes cine-prop-talk{0%{transform:scale(1) rotate(-5deg)}100%{transform:scale(1.12) rotate(5deg)}}
+@keyframes cine-icon-pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+/* Responsive tablet, board and mobile; no off-screen puzzle pieces. */
+@media(max-width:1020px){.cine-home{grid-template-columns:1fr 1fr;gap:20px}.cine-home-copy h1{font-size:clamp(40px,5.3vw,62px)}.cine-home-visual{height:clamp(420px,50vw,610px)}.cine-home-visual .cine-actor{left:25%;width:71%}.cine-home-teddy{width:39%;right:-2%}.cine-cta{padding:12px 14px;min-height:89px}.cine-cta-icon{width:48px;height:48px;flex-basis:48px}.cine-friend{left:7%}}
+@media(max-width:720px){
+ .cine-home{display:flex;flex-direction:column;gap:14px;padding:0 0 32px;min-height:0}
+ .cine-home-visual{order:0;width:100%;height:clamp(320px,49vh,440px);border-width:5px;border-radius:28px}
+ .cine-home-copy{order:1;width:100%;padding:0 5px}
+ .cine-home-visual .cine-actor{left:28%;width:min(61%,325px);bottom:-8%}
+ .cine-home-friend{left:2%;width:31%;bottom:8%}
+ .cine-home-teddy{right:0;width:31%;bottom:4%}
+ .cine-home-welcome{right:3%;top:5%;padding:9px 12px;font-size:13px}
+ .cine-home-ribbon{font-size:9px;left:3%;bottom:3%;padding:8px 10px}
+ .cine-home-copy h1{font-size:clamp(35px,9vw,53px);letter-spacing:-1.8px;line-height:1.02;margin:10px 0 11px}
+ .cine-lead{font-size:13px;line-height:1.45;margin-bottom:9px}
+ .cine-home-actions{margin-top:15px;gap:10px}
+ .cine-cta{min-height:70px;border-radius:19px;padding:10px 12px;gap:11px;border-width:2px}
+ .cine-cta-icon{width:42px;height:42px;flex-basis:42px;border-radius:13px;font-size:20px}
+ .cine-cta strong{font-size:15px}.cine-cta small{font-size:10px;line-height:1.3}
+ .cine-cta-arrow{font-size:25px}.cine-home-chips{gap:4px;font-size:9px;margin-top:16px}.cine-home-chips span{padding:6px 8px}
+ .story-stage{height:clamp(310px,43vh,460px);border-width:5px;border-radius:27px}
+ .cine-scene .cine-actor{right:-1%;height:95%;bottom:-8%}
+ .cine-scene-3 .cine-actor{right:-4%;height:93%}
+ .cine-caption{left:3%;top:4%;max-width:57%;padding:9px 11px;border-radius:14px}
+ .cine-caption strong{font-size:14px}.cine-caption-kicker{font-size:8px}.cine-caption>span:last-child{font-size:9px}
+ .cine-prop-pair{left:4%;bottom:11%;gap:4px;max-width:42%}.cine-prop{width:min(19vw,90px)}
+ .cine-friend{height:59%;max-width:29%;left:2%;bottom:5%}
+ .cine-teddy{height:34%;max-width:29%;left:24%;bottom:4%}
+ .cine-scene-6 .cine-teddy{left:4%;height:31%}
+ .cine-mirror{left:5%;bottom:16%;width:27%}
+ .cine-sound-bars{top:2%;right:3%}
+ .cine-guided-stage .cine-actor{right:0%;height:109%;bottom:-17%}
+ .cine-finale{grid-template-columns:1fr;min-height:0;gap:18px;padding:8px 0 35px}
+ .cine-finale-stage{height:clamp(310px,45vh,440px);border-radius:27px;border-width:5px}
+ .cine-finale-maricica{height:110%;right:11%}.cine-finale-bear{height:37%;left:3%}
+ .cine-finale-copy h1{font-size:37px}.cine-finale-copy p{font-size:15px}
+}
+@media(max-width:390px){.cine-home-visual{height:315px}.cine-cta strong{font-size:14px}.cine-cta small{font-size:9px}.cine-home-copy h1{font-size:36px}.cine-home-welcome{font-size:11px}.cine-caption{max-width:63%}.cine-scene .cine-actor{right:-9%}}
+@media(prefers-reduced-motion:reduce){.cine-actor,.cine-actor .cine-arm,.cine-home-room,.cine-backdrop,.cine-support,.cine-home-welcome,.cine-prop,.cine-3d-icon,.cine-particles i,.cine-sound-bars i,.cine-mini-actor,.cine-finale-maricica,.cine-finale-bear{animation:none!important;transition:none!important}}
+
+.cine-friend{height:54%;max-width:26%;left:9%;bottom:15%}
+.cine-scene-3:after{content:"";position:absolute;z-index:4;left:7%;bottom:1%;width:35%;height:18%;border-radius:40px 40px 10px 10px;background:linear-gradient(180deg,#ffe0b0,#db9b69);box-shadow:0 -6px 20px #a8785b33,0 12px 15px #83576844;pointer-events:none}
+.cine-home-friend{display:none}
+@media(max-width:720px){.cine-friend{height:46%;max-width:26%;left:5%;bottom:12%}.cine-scene-3:after{left:4%;width:34%;height:15%}}
+/* Final composition polish: full character and red bows remain visible on narrow screens. */
+@media(max-width:720px){
+ .cine-home-visual .cine-actor{left:28%;width:min(47%,205px);bottom:0}
+ .cine-home-welcome{left:3%;right:auto;top:7%;font-size:12px;transform:rotate(-3deg)}
+ .cine-scene .cine-actor{right:5%;height:91%;bottom:-5%}
+ .cine-scene-3 .cine-actor{right:5%;height:90%;bottom:-5%}
+}
+@media(max-width:390px){.cine-scene .cine-actor{right:4%;height:89%}.cine-scene-3 .cine-actor{right:3%;height:89%}}

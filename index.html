@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff7ef">
+<meta name="description" content="Maricica învață să fie curată – poveste 3D interactivă în limba română pentru copiii de 3 ani. Ascultă, descoperă, joacă-te și învață despre îngrijirea personală.">
+<title>Maricica • O poveste interactivă</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/maricica.webp" as="image">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="v4.css?v=4">
+<link rel="stylesheet" href="v5.css?v=5">
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="app-shell">
+  <header class="site-header">
+    <a href="#acasa" class="brand" id="brand-home" aria-label="Înapoi la pagina principală">
+      <span class="brand-mark" aria-hidden="true">✿</span>
+      <span class="brand-type"><strong>Maricica<span class="brand-dot">.</span></strong><small>O poveste cu grijă</small></span>
+    </a>
+    <nav class="header-tools" aria-label="Meniu aplicație">
+      <span class="age-pill"><span class="age-dot"></span> Grupa mică · 3 ani</span>
+      <button type="button" class="icon-btn sound-toggle" id="sound-toggle" aria-label="Oprește sunetele" title="Pornește sau oprește sunetele">♫</button>
+      <button type="button" class="info-btn" id="about-btn" aria-label="Informații pentru educatoare"><span aria-hidden="true">ⓘ</span> <span class="info-label">Pentru educatoare</span></button>
+    </nav>
+  </header>
+  <main id="app" tabindex="-1"></main>
+  <footer class="site-footer"><span>O poveste care ne învață să avem grijă de noi ✨</span><span>Inspirată de „Maricica”, Luiza Vlădescu · Adaptare educațională</span></footer>
+</div>
+<div id="modal-root" aria-live="polite"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="script.js" defer></script>
+<link rel="stylesheet" href="cinema.css">
+<script src="cinema.js" defer></script>
+<script src="v4.js?v=4" defer></script>
+<script src="v5.js?v=5" defer></script>
+</body>
+</html>
