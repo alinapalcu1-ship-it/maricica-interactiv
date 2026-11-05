@@ -1,0 +1,21 @@
+{
+  "name": "Maricica – poveste și jocuri",
+  "short_name": "Maricica",
+  "id": "./",
+  "description": "O poveste interactivă despre igienă, prietenie și grijă pentru grupa mică.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff7ef",
+  "theme_color": "#fff7ef",
+  "lang": "ro",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

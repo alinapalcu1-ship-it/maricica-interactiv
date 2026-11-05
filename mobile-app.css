@@ -1,0 +1,118 @@
+/* Maricica Mobile Experience v1: shell de aplicatie, vizualizare landscape si controale tactile. */
+:root{--mapp-surface:#fffdfb;--mapp-ink:#453a55;--mapp-pink:#d95683;--mapp-sky:#d9f5f2}
+html{-webkit-text-size-adjust:100%}
+body{overscroll-behavior-y:contain}
+button{touch-action:manipulation}
+.mapp-dock{display:none}
+.mapp-zoom-launch{position:absolute;bottom:clamp(8px,1.7vw,16px);right:clamp(8px,1.7vw,16px);z-index:32;display:flex;align-items:center;justify-content:center;gap:6px;min-width:48px;min-height:48px;border:1.5px solid #fff9;background:#252035c9;color:#fff;padding:8px 12px;border-radius:16px;box-shadow:0 5px 16px #2315264f;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);font-size:23px;font-weight:850;cursor:pointer}
+.mapp-zoom-launch small{font-size:12px;font-weight:850;color:#fff}
+.mapp-zoom-launch:focus-visible{outline:4px solid #f3bc51;outline-offset:2px}
+.mapp-viewer[hidden]{display:none!important}
+.mapp-viewer{position:fixed;inset:0;z-index:5000;display:block;overflow:hidden;background:linear-gradient(145deg,#1c1728,#312338);color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;--mapp-zoom:1;--mapp-pan-x:0px;--mapp-pan-y:0px}
+body.mapp-viewer-open{overflow:hidden!important;touch-action:none}
+body.mapp-viewer-open .mapp-dock{visibility:hidden!important;pointer-events:none!important}
+.mapp-viewer-top{position:absolute;left:0;top:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:calc(68px + env(safe-area-inset-top,0px));padding:calc(9px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 9px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(to bottom,#1d192af4,#1d192aab,transparent)}
+.mapp-viewer-top strong{font-size:17px;letter-spacing:-.025em;white-space:nowrap}
+.mapp-viewer-flower{display:inline-grid;place-items:center;width:32px;height:32px;background:#ee7295;border-radius:12px;margin-right:5px;color:white;font-size:22px}
+.mapp-viewer button{font:inherit;cursor:pointer;touch-action:manipulation;border:1px solid #ffffff3c;background:#ffffff23;color:#fff;border-radius:16px;padding:10px 15px;min-height:46px;font-weight:800;font-size:14px;white-space:nowrap}
+.mapp-viewer button:focus-visible{outline:3px solid #fff4a9;outline-offset:3px}
+.mapp-viewer button:disabled{opacity:.35;cursor:default}
+.mapp-viewer-close{background:#fff2!important;color:#fff!important}
+.mapp-viewer-canvas{position:absolute;inset:calc(66px + env(safe-area-inset-top,0px)) 0 calc(120px + env(safe-area-inset-bottom,0px));display:grid;place-items:center;overflow:hidden}
+.mapp-viewer-photo{display:block;width:100%;height:100%;max-width:calc(100vw - 12px);max-height:100%;object-fit:contain;user-select:none;-webkit-user-select:none;touch-action:none;transform-origin:center center;transform:translate(var(--mapp-pan-x),var(--mapp-pan-y)) scale(var(--mapp-zoom));filter:drop-shadow(0 12px 20px #0003)}
+.mapp-viewer[data-rotated="yes"] .mapp-viewer-photo{width:calc(100dvh - 196px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:calc(100vw - 14px);max-width:none;max-height:none;transform:translate(var(--mapp-pan-x),var(--mapp-pan-y)) rotate(90deg) scale(var(--mapp-zoom))}
+.mapp-viewer-footer{position:absolute;bottom:0;left:0;right:0;z-index:2;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;min-height:calc(113px + env(safe-area-inset-bottom,0px));padding:8px max(12px,env(safe-area-inset-left,0px)) calc(11px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-right,0px));background:linear-gradient(to top,#201928f5,#201928c3,transparent)}
+.mapp-viewer-description{margin:0;text-align:center;max-width:100%;font-size:13px;font-weight:650;color:#f4e7ef;line-height:1.3;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.mapp-viewer-tools{display:flex;align-items:center;justify-content:center;gap:8px}
+.mapp-viewer-tools button{min-width:48px}
+.mapp-viewer-zoom-status{color:#fff9d5;font-size:13px;font-weight:850;min-width:42px;text-align:center;font-variant-numeric:tabular-nums}
+@media(max-width:900px){
+ .mapp-dock{position:fixed;z-index:90;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;align-items:center;min-height:calc(66px + env(safe-area-inset-bottom,0px));padding:6px max(9px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(9px,env(safe-area-inset-left,0px));background:#fffefbeb;border-top:1px solid #ebdce4;box-shadow:0 -6px 29px #5f456324;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+ .mapp-dock button{border:0;background:transparent;border-radius:16px;color:#76667b;display:flex;align-items:center;flex-direction:column;justify-content:center;gap:2px;padding:4px 2px;min-height:52px;cursor:pointer}
+ .mapp-dock button>span{font-size:23px;line-height:1.15}
+ .mapp-dock button small{font-size:11px;font-weight:850;line-height:1.2}
+ .mapp-dock button.active{background:#fde4ed;color:#b5386c}
+ .mapp-dock button:focus-visible{outline:3px solid #8e65e0;outline-offset:1px}
+ .app-shell{width:100%;min-height:100dvh;padding-bottom:calc(81px + env(safe-area-inset-bottom,0px))!important}
+ .site-header{position:sticky;top:0;z-index:75;min-height:66px;height:auto!important;margin-inline:-13px;padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top,0px));background:#fff9f6e8;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #e9dce326}
+ .site-header .brand{min-width:0}
+ .site-header .brand-type strong{font-size:20px}
+ .header-tools{gap:7px}
+ .site-footer{min-height:47px;gap:4px;flex-wrap:wrap;justify-content:center;text-align:center;padding:12px 0}
+ .site-footer span{font-size:11px}
+ .modal-overlay{z-index:500!important}
+ .v4-home{grid-template-columns:minmax(0,1fr)!important;gap:13px;margin:10px 0 22px}
+ .v4-home-media{height:clamp(215px,35dvh,350px)!important;max-height:350px;border-width:4px!important;border-radius:26px!important}
+ .v4-home-hero{height:94%!important;left:18%!important}
+ .v4-home-teddy{height:37%!important;right:8%!important}
+ .v4-home-content{padding:0 3px}
+ .v4-home-content h1{font-size:clamp(33px,8.7vw,49px);line-height:1.04;margin:10px 0 8px}
+ .v4-home-content>p{font-size:15px;margin:0 0 14px;line-height:1.4}
+ .v4-topline{font-size:10px;padding:8px 12px;letter-spacing:.075em}
+ .v4-start-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .v4-start-grid>.v4-main-action{min-width:0;min-height:104px;padding:12px!important;gap:3px;border:3px solid #fff;border-radius:19px;box-shadow:0 6px 14px #a67b9430}
+ .v4-start-grid>.v4-main-action>span{font-size:26px}
+ .v4-start-grid>.v4-main-action strong{font-size:clamp(14px,3.8vw,19px);line-height:1.2}
+ .v4-start-grid>.v4-main-action small{font-size:clamp(10px,2.7vw,13px);line-height:1.25}
+ .v4-start-grid>.poem-home-entry{min-height:95px!important;padding:10px 13px!important}
+ .v4-friendly{margin-top:13px;font-size:11px;line-height:1.5}
+ .story-stage{height:auto!important;aspect-ratio:16/9;min-height:0!important;border-radius:19px!important;border-width:3px!important;overflow:hidden!important}
+ .story-view{gap:9px;padding-bottom:12px}
+ .speech-panel{min-height:86px;border-radius:19px;padding:10px 13px;gap:9px}
+ .story-head{gap:7px}
+ .story-head button,.story-crumb button,.v5-play-nav button,.v4-breadcrumb button,.poem-home,.hg-back{min-height:44px;touch-action:manipulation}
+ .story-head .chapter-count{font-size:11px;padding:7px 10px}
+ .poem-view{padding:7px 0 15px}
+ .poem-intro{margin:0 0 10px}
+ .poem-intro h1{font-size:clamp(26px,7vw,34px)}
+ .poem-layout{grid-template-columns:minmax(0,1fr);gap:10px}
+ .poem-stage{width:100%;aspect-ratio:1672/941;border-width:3px;border-radius:19px;min-height:0}
+ .poem-reading{padding:15px;border-radius:22px}
+ .poem-counter{padding-bottom:8px}
+ .poem-stanza{min-height:75px;margin:9px auto;gap:6px}
+ .poem-stanza p{font-size:clamp(20px,5.9vw,26px)}
+ .poem-move-hint{font-size:13px;margin:0 0 11px}
+ .poem-audio-controls{gap:8px}
+ .poem-button{font-size:14px;min-height:50px;padding:10px;border-radius:15px;flex:1 1 145px}
+ .poem-navigation{margin-top:14px}
+ .poem-navigation>button{min-height:48px}
+ .v5-play{padding:0 2px;margin-bottom:14px}
+ .v5-play-panel{padding:13px;border-width:3px;border-radius:23px}
+ .v5-play-heading{margin-bottom:12px}
+ .v5-play-heading h1{font-size:clamp(25px,6vw,36px)}
+ .v5-board{border-width:4px;border-radius:15px}
+ .v5-puzzle-layout{grid-template-columns:minmax(0,1fr)}
+ .v5-game-aside{min-width:0}
+ .v5-tray-piece,.v5-puzzle-slot,.v5-memory-tile,.hg-token,.hg-basket,.hg-choice{touch-action:manipulation}
+ .hg-view{padding:6px 0 14px}
+ .hg-play-layout{grid-template-columns:minmax(0,1fr);gap:10px}
+ .hg-game-surface{border-width:3px;border-radius:22px}
+ .hg-guide{min-height:0}
+ .mapp-zoom-launch{display:flex}
+ .mapp-zoom-launch small{font-size:11px}
+}
+@media(max-width:390px){
+ .site-header{padding-left:10px;padding-right:10px}
+ .v4-home-media{height:clamp(190px,31dvh,280px)!important}
+ .v4-start-grid>.v4-main-action{padding:9px!important}
+ .v4-start-grid>.v4-main-action strong{font-size:14px}
+ .v4-start-grid>.v4-main-action small{font-size:10px}
+ .mapp-zoom-launch small{display:none}
+ .mapp-zoom-launch{min-width:46px;min-height:46px;padding:9px}
+}
+@media(max-width:900px) and (orientation:landscape) and (max-height:570px){
+ .mapp-viewer-canvas{inset:8px 130px 8px 130px}
+ .mapp-viewer-top{top:0;bottom:0;right:auto;width:130px;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:10px}
+ .mapp-viewer-top strong{font-size:14px}
+ .mapp-viewer-top .mapp-viewer-close span{display:none}
+ .mapp-viewer-footer{top:0;bottom:0;left:auto;width:130px;min-height:0;justify-content:center;gap:12px;padding:10px}
+ .mapp-viewer-description{font-size:11px;max-height:90px}
+ .mapp-viewer-tools{flex-wrap:wrap;gap:4px}
+ .mapp-viewer-tools button{min-width:44px}
+ .mapp-viewer[data-rotated="yes"] .mapp-viewer-photo{width:calc(100dvh - 16px);height:calc(100dvw - 265px)}
+ .mapp-dock{min-height:54px;padding-top:3px;padding-bottom:3px}
+ .mapp-dock button{min-height:45px}
+}
+@media(prefers-reduced-motion:reduce){
+ .mapp-viewer-photo,.mapp-zoom-launch,.mapp-dock button{animation:none!important;transition:none!important}
+}
