@@ -110,6 +110,7 @@ function sequenceNext(id){
  audio.pause();
  audio.onended=null;audio.onerror=null;
  audio.src=file;
+ audio.muted=state.muted;
  let handled=false;
  audio.onended=()=>{if(handled)return;handled=true;complete();};
  audio.onerror=()=>{if(handled)return;handled=true;audio.pause();speakFallback(idx,complete,id);};
@@ -149,7 +150,10 @@ function homeButton(){
 }
 const previousHome=renderHome;
 renderHome=function(){previousHome();homeButton();};
+const previousMuted=setMuted;
+setMuted=function(){previousMuted();audio.muted=state.muted;if(state.muted&&spoken){window.speechSynthesis?.cancel();}};
 document.addEventListener('click',e=>{
+ if(state.view==='poem'&&e.target.closest('#brand-home')){e.preventDefault();e.stopImmediatePropagation();goHome();return;}
  const target=e.target.closest('[data-poem]');
  if(!target)return;
  e.preventDefault();e.stopImmediatePropagation();
