@@ -12,6 +12,7 @@ const assets={
   bedroom:`${BASE}01-bedroom-clear.webp`,
   dirtyMirror:`${BASE}mirror-dirty.webp`,
   classroom:`${BASE}03-classroom-titleless.webp`,
+  classroomRetouched:`${BASE}03-classroom-retouched.webp`,
   wash:`${BASE}05-washing-clear.webp`,
   comb:`${BASE}05-combing-clear.webp`,
   brush:`${BASE}05-brushing-clear.webp`,
@@ -23,7 +24,7 @@ const byLine=(idx)=>{
  if(idx<=2)return assets.bedroom;
  if(idx<=5)return assets.dirtyMirror;
  if(idx<=14)return assets.dirtyMirror;
- if(idx<=26)return assets.classroom;
+ if(idx<=26)return idx>=17&&idx<=20?assets.classroomRetouched:assets.classroom;
  if(idx<=35)return assets.dirtyMirror;
  if(idx<=39)return assets.wash;
  if(idx<=42)return assets.comb;
@@ -55,6 +56,7 @@ function renderAnimatedLine(){
  const idx=state.index,scene=document.querySelector('.v8-scene');
  if(!scene)return;
  const path=byLine(idx),photo=scene.querySelector('.v8-film-photo');
+ if(photo && !photo.dataset.retouchedFallback){photo.dataset.retouchedFallback='yes';photo.addEventListener('error',()=>{if(photo.getAttribute('src')===assets.classroomRetouched){photo.src=assets.classroom;scene.style.setProperty('--v5-photo',`url('${assets.classroom}')`);}})}
  if(photo && photo.getAttribute('src')!==path){
    photo.src=path;
    scene.style.setProperty('--v5-photo',`url('${path}')`);
