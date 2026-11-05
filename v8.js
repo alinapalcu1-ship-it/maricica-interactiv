@@ -12,7 +12,6 @@ const assets={
   bedroom:`${BASE}01-bedroom-clear.webp`,
   dirtyMirror:`${BASE}mirror-dirty.webp`,
   classroom:`${BASE}03-classroom-titleless.webp`,
-  classroomFacing:`${BASE}03-classroom-facing.svg`,
   wash:`${BASE}05-washing-clear.webp`,
   comb:`${BASE}05-combing-clear.webp`,
   brush:`${BASE}05-brushing-clear.webp`,
@@ -24,7 +23,7 @@ const byLine=(idx)=>{
  if(idx<=2)return assets.bedroom;
  if(idx<=5)return assets.dirtyMirror;
  if(idx<=14)return assets.dirtyMirror;
- if(idx<=26)return (idx>=17&&idx<=20)?assets.classroomFacing:assets.classroom;
+ if(idx<=26)return assets.classroom;
  if(idx<=35)return assets.dirtyMirror;
  if(idx<=39)return assets.wash;
  if(idx<=42)return assets.comb;
