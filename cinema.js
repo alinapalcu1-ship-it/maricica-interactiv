@@ -6,7 +6,7 @@
 'use strict';
 const art='assets/cinema/';
 const backgrounds=['01-bedroom.webp','02-bathroom.webp','03-classroom.webp','04-return.webp','05-care.webp','06-finale.webp'];
-const prop3d=id=>`${art}${id}.webp${['soap','water','comb','brush'].includes(id)?'?v=6':''}`;
+const prop3d=id=>`${art}${id}.webp${['soap','water','comb','brush'].includes(id)?'?v=7':''}`;
 const dirtyAt=i=>i>=2&&i<40;
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function rig(variant='clean',label='Maricica, fetița cu fundițe roșii'){
@@ -28,7 +28,7 @@ stageDecor=function(ci){
    <div class="cine-backdrop" style="background-image:url('${art}${backgrounds[ci]}')"></div>
    <div class="cine-film-light"></div><div class="cine-floor-glow"></div>
    ${left}${rig(dirtyAt(state.index)?'dirty':'clean')}${particles()}
-   <div class="cine-caption"><span class="cine-caption-kicker">MOMENTUL ${ci+1} DIN 6</span><strong>${escapeHtml(c.title)}</strong><span>${escapeHtml(c.desc)}</span></div>
+   <div class="cine-caption"><strong>${escapeHtml(c.title)}</strong></div>
    <div class="cine-sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
  </div>`;
 };

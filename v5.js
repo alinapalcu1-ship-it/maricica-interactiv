@@ -5,8 +5,8 @@
 const ART='assets/cinema5/';
 const BASE='assets/cinema/';
 const EXIST='assets/cinema4/';
-const sceneImages=[`${EXIST}01-bedroom.webp`,`${ART}mirror-dirty.webp`,`${ART}classroom-sad.webp`,`${ART}mirror-dirty.webp`,`${ART}washing.webp`,`${EXIST}06-finale.webp`];
-const motionImages=[`${ART}washing.webp`,`${ART}washing.webp`,`${ART}combing.webp`,`${ART}brushing.webp`];
+const sceneImages=[`${ART}01-bedroom-clear.webp`,`${ART}02-mirror-clean.webp`,`${ART}03-classroom-clear.webp`,`${ART}02-mirror-clean.webp`,`${ART}05-washing-clear.webp`,`${ART}02-mirror-clean.webp`];
+const motionImages=[`${ART}05-washing-clear.webp`,`${ART}05-washing-clear.webp`,`${ART}05-combing-clear.webp`,`${ART}05-brushing-clear.webp`];
 const memoryObjects=[['soap','Săpun'],['comb','Pieptene'],['brush','Periuță'],['water','Apă']];
 const safe=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const joy=()=>{if(!state.muted)tonal(true)};
@@ -14,7 +14,7 @@ const introVoice=(s)=>{if(!state.muted)speak(s)};
 const oldRenderHome=renderHome;
 renderHome=function(){oldRenderHome();if(state.view!=='home')return;
  app.classList.add('v5-ready');
- const bear=app.querySelector('.v4-home-teddy');if(bear)bear.src=`${ART}teddy-original.webp`;
+ const bear=app.querySelector('.v4-home-teddy');if(bear)bear.src=`${ART}teddy-cutout.webp`;
  const puzzle=app.querySelector('[data-v4="puzzle"]');if(puzzle){puzzle.querySelector('small').textContent='4 sau 6 piese';}
  const memory=app.querySelector('[data-v4="memory"]');if(memory){memory.querySelector('small').textContent='4, 6 sau 8 cartonașe';}
 };
@@ -26,7 +26,7 @@ stageDecor=function(ci){
  return `<div class="v5-scene v5-scene-${ci+1}" style="--v5-photo:url('${sceneImages[ci]}')" role="img" aria-label="${safe(name)}. Ilustrație de poveste 3D">
  <img class="v5-scene-photo" src="${sceneImages[ci]}" draggable="false" alt="">
  <div class="v5-scene-lights" aria-hidden="true"><i></i><i></i><i></i></div>
- <span class="v5-scene-number" aria-hidden="true">${ci+1}<small>/6</small></span>
+ 
  </div>`;
 };
 const oldCaption=updateCaption;
@@ -35,6 +35,7 @@ updateCaption=function(){oldCaption();if(state.view!=='story')return;
  const idx=state.index,ci=sceneOf(idx),pic=scene.querySelector('.v5-scene-photo');
  let path=sceneImages[ci];
  if(ci===4){path=idx>=43?motionImages[3]:idx>=40?motionImages[2]:motionImages[1]}
+ if(ci===5){path=idx>=54?`${ART}06-finale-clear.webp`:`${ART}02-mirror-clean.webp`}
  if(pic&&pic.getAttribute('src')!==path){scene.style.setProperty('--v5-photo',`url('${path}')`);pic.src=path;pic.classList.remove('v5-switch');void pic.offsetWidth;pic.classList.add('v5-switch')}
  scene.classList.toggle('v5-speaking',state.playing&&LINES[idx]?.[1]!=='Narator');
  scene.classList.toggle('v5-sad',ci===2&&idx>=19&&idx<=26);
@@ -100,7 +101,7 @@ function renderMemory5(){if(state.view!=='v5-memory')return;
  app.innerHTML=`<section class="v5-play"><nav class="v5-play-nav"><button data-action="home">⌂ Acasă</button><span>Jocuri • Memory</span></nav>
  <div class="v5-play-panel"><div class="v5-play-heading"><div><span>💗 JOC DE MEMORIE</span><h1>Găsește perechile!</h1><p>Întoarce două cartonașe care arată la fel.</p></div><div class="v5-size-options" role="group" aria-label="Numărul cartonașelor">
  ${[4,6,8].map(n=>`<button data-v5="memory-size" data-size="${n}" class="${n===game.size?'active':''}" aria-pressed="${n===game.size}">${n} piese</button>`).join('')}</div></div>
- <div class="v5-memory-layout"><div class="v5-memory-board" style="--cols:${cols}">${game.cards.map((key,id)=>{const open=game.open.includes(id)||game.found.has(id),label=memoryObjects.find(v=>v[0]===key)?.[1];return `<button data-v5="memory-flip" data-id="${id}" class="v5-memory-tile ${open?'is-open':''} ${game.found.has(id)?'is-matched':''}" aria-label="Cartonașul ${id+1}${open?', '+label:''}" ${game.found.has(id)?'disabled':''}>${open?`<img src="${BASE}${key}.webp?v=6" alt=""><b>${label}</b>`:'<span aria-hidden="true">✿</span>'}</button>`}).join('')}</div>
+ <div class="v5-memory-layout"><div class="v5-memory-board" style="--cols:${cols}">${game.cards.map((key,id)=>{const open=game.open.includes(id)||game.found.has(id),label=memoryObjects.find(v=>v[0]===key)?.[1];return `<button data-v5="memory-flip" data-id="${id}" class="v5-memory-tile ${open?'is-open':''} ${game.found.has(id)?'is-matched':''}" aria-label="Cartonașul ${id+1}${open?', '+label:''}" ${game.found.has(id)?'disabled':''}>${open?`<img src="${BASE}${key}.webp?v=7" alt=""><b>${label}</b>`:'<span aria-hidden="true">✿</span>'}</button>`}).join('')}</div>
  <div class="v5-memory-companion"><img src="${BASE}maricica-clean.webp" alt="Maricica te încurajează"/><div class="v5-win">${done?'🌟 Bravo! Ai reușit!':'♡ Hai, mai găsește o pereche!'}</div>
  <div class="v5-game-actions"><button data-v5="memory-reset">↻ Reia</button><button data-v5="puzzle-open">Puzzle →</button></div></div></div></div></section>`;
 }
@@ -129,7 +130,7 @@ renderGames=function(){startPuzzle(4)};
 
 // No duplicated or badly cut teddy over the finale photograph.
 showFinale=function(){stopAll();state.view='finale';modalRoot.innerHTML='';
- app.innerHTML=`<section class="v5-finale"><div class="v5-finale-art"><img src="${EXIST}06-finale.webp" alt="Maricica îmbrățișează ursulețul, bucuroasă și curată"><div class="v5-finale-sparkle" aria-hidden="true">✦ ✧ ✦</div></div><div class="v5-finale-copy"><span>★ POVESTEA S-A ÎNCHEIAT</span><h1>Bravo, Maricica!</h1><p>Maricica a învățat cum să aibă grijă de ea. Acum ne invită la joacă!</p><div class="v5-finale-actions"><button data-action="guided-start">Ne jucăm împreună!</button><button data-v5="puzzle-open">Puzzle</button><button data-v5="memory-open">Memory</button><button data-action="home">⌂ Acasă</button></div></div></section>`;
+ app.innerHTML=`<section class="v5-finale"><div class="v5-finale-art"><img src="${ART}06-finale-clear.webp" alt="Maricica se joacă fericită cu copiii la grădiniță"><div class="v5-finale-sparkle" aria-hidden="true">✦ ✧ ✦</div></div><div class="v5-finale-copy"><span>★ POVESTEA S-A ÎNCHEIAT</span><h1>Bravo, Maricica!</h1><p>Acum Maricica este curată, fericită și se joacă împreună cu prietenii ei de la grădiniță.</p><div class="v5-finale-actions"><button data-action="guided-start">Ne jucăm împreună!</button><button data-v5="puzzle-open">Puzzle</button><button data-v5="memory-open">Memory</button><button data-action="home">⌂ Acasă</button></div></div></section>`;
  joy();launchConfetti(app.querySelector('.v5-finale-art'),36);
 };
 

@@ -224,7 +224,7 @@ let state={view:'home',mode:'listen',index:0,muted:false,playing:false,waiting:f
 let toastTimeout=0;
 let context;
 const clipPath=i=>`audio/${String(i+1).padStart(2,'0')}.mp3`;
-const imgPath=id=>['soap','water','comb','brush'].includes(id)?`assets/cinema/${id}.webp?v=6`:`assets/objects/${id}.svg`;
+const imgPath=id=>['soap','water','comb','brush'].includes(id)?`assets/cinema/${id}.webp?v=7`:`assets/objects/${id}.svg`;
 const sceneOf=i=>CHAPTERS.findIndex(c=>i>=c.start&&i<=c.end);
 const escapeHtml=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 
@@ -241,9 +241,9 @@ function updateCaption(){
  const [line,speaker]=LINES[state.index];
  const card=document.querySelector('.speech-panel');if(!card)return;
  card.classList.toggle('is-narrator',speaker==='Narator');
- card.querySelector('.speaker').textContent=speaker;
+ card.querySelector('.speaker').textContent='';
  card.querySelector('.subtitle').textContent=line;
- card.querySelector('.speaker-icon').textContent=speaker==='Narator'?'✦':speaker==='Maricica'?'♡':speaker==='Ursulețul'?'♧':'✿';
+ card.querySelector('.speaker-icon').textContent='';
  const chapter=CHAPTERS[sceneIndex()];
  const progress=(state.index-chapter.start+1)/(chapter.end-chapter.start+1)*100;
  document.querySelector('.progress-fill').style.width=`${progress}%`;
@@ -281,7 +281,7 @@ function stageDecor(ci){const c=CHAPTERS[ci];let html=`<div class="scene-art" st
 }
 function renderStory(){const ci=sceneIndex(),c=CHAPTERS[ci];state.view='story';
  app.innerHTML=`<section class="story-view" aria-label="Povestea Maricica">
-   <div class="story-head"><div class="story-crumb"><button data-action="home" aria-label="Acasă">⌂ Acasă</button><span>›</span><strong>${escapeHtml(c.title)}</strong></div><span class="chapter-count">Momentul ${ci+1} din 6</span></div>
+   <div class="story-head"><div class="story-crumb"><button data-action="home" aria-label="Acasă">⌂ Acasă</button></div></div>
    <div class="chapter-nav" role="group" aria-label="Alege momentul poveștii">${CHAPTERS.map((part,n)=>`<button class="chapter-dot ${n<ci?'completed':''} ${n===ci?'current':''}" data-action="jump" data-scene="${n}" aria-label="Momentul ${n+1}: ${escapeHtml(part.title)}" ${n===ci?'aria-current="step"':''}></button>`).join('')}</div>
    <div class="story-stage ${ci===2&&state.index>=21?'is-sad':''}">${stageDecor(ci)}</div>
    <div class="speech-panel is-narrator" aria-live="polite"><div class="speaker-icon">✦</div><div class="speaker-text"><div class="speaker">Narator</div><div class="subtitle"></div></div></div>

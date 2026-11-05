@@ -110,8 +110,7 @@ button:focus-visible{outline:4px solid #8270ff!important;outline-offset:4px!impo
 @media(max-width:800px){.v5-finale{grid-template-columns:1fr;margin:18px auto 35px}.v5-finale-copy{padding:0 12px}.v5-finale-actions button{min-height:54px;font-size:14px}}
 @media(prefers-reduced-motion:reduce){.v5-finale-art>img{animation:none!important}}
 
-
-/* Version 6: new large, consistent hygiene visuals from the selected design set */
+/* Version 6: consistent hygiene items drawn from the selected design set */
 .guided-choice .guided-objects{width:100%;max-width:100%;height:clamp(120px,13vw,190px);display:flex;gap:5px;align-items:center;justify-content:center;overflow:visible}
 .guided-choice .guided-objects img{width:100%;max-width:95%!important;height:100%!important;max-height:180px;object-fit:contain!important;flex:1 1 0;min-width:0;filter:drop-shadow(0 4px 6px #92736b22)}
 .guided-choice .guided-objects img:only-child{flex:0 1 auto;max-width:175px!important}
@@ -122,3 +121,27 @@ button:focus-visible{outline:4px solid #8270ff!important;outline-offset:4px!impo
  .guided-choice .guided-objects img:only-child{max-width:95%!important}
  .v5-memory-tile img{width:100%!important;height:75%!important}
 }
+
+
+/* v6 clarity patch */
+.speaker:empty,.speaker-icon:empty,.chapter-count,.v5-scene-number,.cine-caption-kicker{display:none!important}
+.cine-caption span:last-child{display:none!important}
+.story-stage,.v5-scene,.cine-scene,.guided-stage{overflow:hidden!important}
+.v5-play-panel,.v5-memory-tile,.v5-puzzle-slot{overflow:hidden}
+.v5-scene-photo,.guided-motion-icon,.v5-game-friend,.cine-actor,.home-character{image-rendering:auto;will-change:transform;}
+@keyframes gentleFloat{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(-1deg)}100%{transform:translateY(0) rotate(0deg)}}
+@keyframes gentleNod{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-3px) rotate(1.2deg)}}
+@keyframes sparklePulse{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+.v5-scene-photo{animation:gentleNod 5s ease-in-out infinite}
+.cine-actor,.home-character,.v5-game-friend{animation:gentleFloat 4.8s ease-in-out infinite}
+.v5-finale-sparkle,.cine-particles{animation:sparklePulse 2.4s ease-in-out infinite}
+.guided-choice .guided-objects img,.discover-tile img,.order-card img,.option img,.v5-memory-tile img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.08));object-fit:contain}
+.v5-memory-companion img,.v5-game-aside img{max-width:100%;height:auto;object-fit:contain}
+
+/* V7 - readable, full-frame scenes and soft motion without cropped subjects. */
+.story-head .chapter-count,.story-head .story-crumb strong,.story-head .story-crumb>span,.speech-panel .speaker,.speech-panel .speaker-icon{display:none!important}
+.v5-scene-photo{object-fit:contain!important;object-position:center center!important;animation:v7-film 9s ease-in-out infinite alternate!important}
+@keyframes v7-film{from{transform:translate3d(0,0,0) scale(0.992)}to{transform:translate3d(0,-.2%,0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.v5-scene-photo{animation:none!important}}
+/* Maintain large touch targets and unobstructed photographs on interactive boards. */
+@media(min-width:1500px){.story-stage{aspect-ratio:16/9;max-height:75vh}.v5-scene-photo{max-width:100%;max-height:100%}}
