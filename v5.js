@@ -7,7 +7,8 @@ const BASE='assets/cinema/';
 const EXIST='assets/cinema4/';
 const sceneImages=[`${ART}01-bedroom-clear.webp`,`${ART}02-mirror-clean.webp`,`${ART}03-classroom-clear.webp`,`${ART}02-mirror-clean.webp`,`${ART}05-washing-clear.webp`,`${ART}02-mirror-clean.webp`];
 const motionImages=[`${ART}05-washing-clear.webp`,`${ART}05-washing-clear.webp`,`${ART}05-combing-clear.webp`,`${ART}05-brushing-clear.webp`];
-const memoryObjects=[['soap','Săpun'],['comb','Pieptene'],['brush','Periuță'],['water','Apă']];
+const memoryObjects=[['soap','Săpun'],['comb','Pieptene'],['brush','Periuță'],['water','Apă'],['maricica-clean','Maricica'],['teddy-cutout','Ursuleț'],['towel','Prosop'],['mirror','Oglindă']];
+const memoryImg=key=>key==='teddy-cutout'?`${ART}teddy-cutout.webp?v=8`:`${BASE}${key}.webp?v=8`;
 const safe=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const joy=()=>{if(!state.muted)tonal(true)};
 const introVoice=(s)=>{if(!state.muted)speak(s)};
@@ -16,7 +17,7 @@ renderHome=function(){oldRenderHome();if(state.view!=='home')return;
  app.classList.add('v5-ready');
  const bear=app.querySelector('.v4-home-teddy');if(bear)bear.src=`${ART}teddy-cutout.webp`;
  const puzzle=app.querySelector('[data-v4="puzzle"]');if(puzzle){puzzle.querySelector('small').textContent='4 sau 6 piese';}
- const memory=app.querySelector('[data-v4="memory"]');if(memory){memory.querySelector('small').textContent='4, 6 sau 8 cartonașe';}
+ const memory=app.querySelector('[data-v4="memory"]');if(memory){memory.querySelector('small').textContent='4, 6 sau 8 perechi';}
 };
 
 // The scenery is a single coherent 3D illustration. No second, overlaid mirror or cut-out face.
@@ -89,7 +90,7 @@ function renderPuzzle5(){if(state.view!=='v5-puzzle')return;
  <div class="v5-game-actions"><button data-v5="puzzle-reset">↻ Reia</button><button data-v5="memory-open">Memory →</button></div>
  </div></div></div></section>`;
 }
-function startMemory(size=4){stopGameSound();const symbols=memoryObjects.slice(0,size/2).map(x=>x[0]);const cards=shuffled([...symbols,...symbols]);game={type:'memory',size,cards,open:[],found:new Set(),locked:false,version:game.version+1};state.view='v5-memory';renderMemory5();introVoice('Memory! Găsește două imagini la fel.');}
+function startMemory(size=8){stopGameSound();const symbols=memoryObjects.slice(0,size/2).map(x=>x[0]);const cards=shuffled([...symbols,...symbols]);game={type:'memory',size,cards,open:[],found:new Set(),locked:false,version:game.version+1};state.view='v5-memory';renderMemory5();introVoice('Memory! Găsește două imagini la fel.');}
 function flipMemory(id){if(state.view!=='v5-memory'||game.locked||game.found.has(id)||game.open.includes(id))return;
  game.open.push(id);renderMemory5();if(game.open.length!==2)return;
  const [i,j]=game.open,ver=game.version;
@@ -97,11 +98,11 @@ function flipMemory(id){if(state.view!=='v5-memory'||game.locked||game.found.has
  else{game.locked=true;tonal(false);finishTimer=setTimeout(()=>{if(game.version!==ver||state.view!=='v5-memory')return;game.open=[];game.locked=false;renderMemory5()},1100)}
 }
 function renderMemory5(){if(state.view!=='v5-memory')return;
- const done=game.found.size===game.size,cols=game.size===4?2:game.size===6?3:4;
+ const done=game.found.size===game.size,cols=4;
  app.innerHTML=`<section class="v5-play"><nav class="v5-play-nav"><button data-action="home">⌂ Acasă</button><span>Jocuri • Memory</span></nav>
- <div class="v5-play-panel"><div class="v5-play-heading"><div><span>💗 JOC DE MEMORIE</span><h1>Găsește perechile!</h1><p>Întoarce două cartonașe care arată la fel.</p></div><div class="v5-size-options" role="group" aria-label="Numărul cartonașelor">
- ${[4,6,8].map(n=>`<button data-v5="memory-size" data-size="${n}" class="${n===game.size?'active':''}" aria-pressed="${n===game.size}">${n} piese</button>`).join('')}</div></div>
- <div class="v5-memory-layout"><div class="v5-memory-board" style="--cols:${cols}">${game.cards.map((key,id)=>{const open=game.open.includes(id)||game.found.has(id),label=memoryObjects.find(v=>v[0]===key)?.[1];return `<button data-v5="memory-flip" data-id="${id}" class="v5-memory-tile ${open?'is-open':''} ${game.found.has(id)?'is-matched':''}" aria-label="Cartonașul ${id+1}${open?', '+label:''}" ${game.found.has(id)?'disabled':''}>${open?`<img src="${BASE}${key}.webp?v=7" alt=""><b>${label}</b>`:'<span aria-hidden="true">✿</span>'}</button>`}).join('')}</div>
+ <div class="v5-play-panel"><div class="v5-play-heading"><div><span>💗 JOC DE MEMORIE</span><h1>Găsește perechile!</h1><p>Întoarce două cartonașe care arată la fel.</p></div><div class="v5-size-options" role="group" aria-label="Numărul perechilor">
+ ${[4,6,8].map(n=>`<button data-v5="memory-size" data-size="${n*2}" class="${n*2===game.size?'active':''}" aria-pressed="${n*2===game.size}">${n} perechi</button>`).join('')}</div></div>
+ <div class="v5-memory-layout"><div class="v5-memory-board" style="--cols:${cols}">${game.cards.map((key,id)=>{const open=game.open.includes(id)||game.found.has(id),label=memoryObjects.find(v=>v[0]===key)?.[1];return `<button data-v5="memory-flip" data-id="${id}" class="v5-memory-tile ${open?'is-open':''} ${game.found.has(id)?'is-matched':''}" aria-label="Cartonașul ${id+1}${open?', '+label:''}" ${game.found.has(id)?'disabled':''}>${open?`<img src="${memoryImg(key)}" alt=""><b>${label}</b>`:'<span aria-hidden="true">✿</span>'}</button>`}).join('')}</div>
  <div class="v5-memory-companion"><img src="${BASE}maricica-clean.webp" alt="Maricica te încurajează"/><div class="v5-win">${done?'🌟 Bravo! Ai reușit!':'♡ Hai, mai găsește o pereche!'}</div>
  <div class="v5-game-actions"><button data-v5="memory-reset">↻ Reia</button><button data-v5="puzzle-open">Puzzle →</button></div></div></div></div></section>`;
 }
@@ -135,7 +136,7 @@ showFinale=function(){stopAll();state.view='finale';modalRoot.innerHTML='';
 };
 
 const oldTeacher=showTeacher;
-showTeacher=function(){oldTeacher();const body=modalRoot.querySelector('.teacher-body');if(body){body.insertAdjacentHTML('beforeend','<p><strong>Jocuri de consolidare:</strong> puzzle cu 4 sau 6 piese și Memory cu 4, 6 sau 8 cartonașe. Piesele se pot trage cu mouse-ul sau degetul, dar se pot și selecta prin două atingeri.</p><p><strong>Accesibilitate:</strong> instrucțiunile audio sunt în limba română; când audio este blocat de browser, apăsați butonul de redare. Nu sunt colectate date personale despre copii.</p>')}};
+showTeacher=function(){oldTeacher();const body=modalRoot.querySelector('.teacher-body');if(body){body.insertAdjacentHTML('beforeend','<p><strong>Jocuri de consolidare:</strong> puzzle cu 4 sau 6 piese și Memory cu 4, 6 sau 8 perechi. Piesele se pot trage cu mouse-ul sau degetul, dar se pot și selecta prin două atingeri.</p><p><strong>Accesibilitate:</strong> instrucțiunile audio sunt în limba română; când audio este blocat de browser, apăsați butonul de redare. Nu sunt colectate date personale despre copii.</p>')}};
 
 // Drag/drop for mouse & interactive boards, including touch via Pointer Events.
 let dragging=null;
