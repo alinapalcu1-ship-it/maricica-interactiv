@@ -41,6 +41,7 @@ const oldDecor=stageDecor;
 stageDecor=function(ci){
  const initial=byLine(state.index);
  const chars=objects.map(([id,name])=>propTemplate(id,name)).join('');
+ const speakingFriend=ci===2?`<div class="v10-blonde-float" aria-hidden="true"><img src="${window.MaricicaClassroomFull || assets.classroom}" alt="" draggable="false"></div>`:'';
  return `<div class="v5-scene v8-scene v8-chapter-${ci+1}" role="img" aria-label="Ilustrație din povestea Maricica" style="--v5-photo:url('${initial}')">
  <div class="v8-background-glow" aria-hidden="true"></div>
  <img class="v5-scene-photo v8-film-photo" src="${initial}" alt="" draggable="false">
@@ -49,7 +50,7 @@ stageDecor=function(ci){
  <div class="v8-friend" aria-hidden="true"><img src="${BASE}friend-lift.webp" alt=""></div>
  <img class="v8-teddy" src="${BASE}teddy-cutout.webp" alt="" aria-hidden="true" draggable="false">
  <div class="v8-animated-stars" aria-hidden="true"><i></i><i></i><i></i></div>
- <div class="v10-blonde-float" aria-hidden="true"><img src="${window.MaricicaClassroomFull || assets.classroom}" alt="" draggable="false"></div>
+ ${speakingFriend}
  </div>`;
 };
 function renderAnimatedLine(){
@@ -72,7 +73,7 @@ function renderAnimatedLine(){
  // Fetița este deja integrată în scena retușată; nu afișăm un al doilea personaj peste ea.
  scene.classList.toggle('v8-friend-show',false);
  scene.classList.toggle('v8-classroom-retouched',idx>=15&&idx<=26);
- scene.classList.toggle('v10-blonde-speaking',idx===18 && playing);
+ scene.classList.toggle('v10-blonde-speaking',playing && currentVoice==='Fetița');
  scene.classList.toggle('v8-teddy-show',playing&&(idx>=21&&idx<=25));
  scene.classList.toggle('v8-objects-on',playing&&(Object.hasOwn(alias,currentVoice)||currentVoice==='Obiectele'));
  scene.querySelectorAll('.v8-object').forEach(el=>{
