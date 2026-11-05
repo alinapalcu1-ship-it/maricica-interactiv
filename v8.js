@@ -11,7 +11,7 @@ const alias={'Săpunul':'soap','Pieptenele':'comb','Periuța de dinți':'brush',
 const assets={
   bedroom:`${BASE}01-bedroom-clear.webp`,
   dirtyMirror:`${BASE}mirror-dirty.webp`,
-  classroom:`${BASE}03-classroom-clear.webp`,
+  classroom:`${BASE}03-classroom-titleless.webp`,
   wash:`${BASE}05-washing-clear.webp`,
   comb:`${BASE}05-combing-clear.webp`,
   brush:`${BASE}05-brushing-clear.webp`,
@@ -45,7 +45,7 @@ stageDecor=function(ci){
  <img class="v5-scene-photo v8-film-photo" src="${initial}" alt="" draggable="false">
  <div class="v8-film-shine" aria-hidden="true"></div>
  <div class="v8-objects" aria-hidden="true">${chars}</div>
- <div class="v8-friend" aria-hidden="true"><img src="${BASE}friend-avatar.webp" alt=""></div>
+ <div class="v8-friend" aria-hidden="true"><img src="${BASE}friend-lift.webp" alt=""></div>
  <img class="v8-teddy" src="${BASE}teddy-cutout.webp" alt="" aria-hidden="true" draggable="false">
  <div class="v8-animated-stars" aria-hidden="true"><i></i><i></i><i></i></div>
  </div>`;

@@ -52,3 +52,12 @@
 @media(prefers-reduced-motion:reduce){.v8-film-photo,.v8-object,.v8-friend,.v8-teddy,.v8-animated-stars i{animation:none!important;transform:none!important}.v8-object.v8-is-talking,.v8-scene.v8-friend-show .v8-friend,.v8-scene.v8-teddy-show .v8-teddy{opacity:1;visibility:visible}}
 
 .progress-nums{display:none!important}
+
+/* V9: colega integrată în decor, fără a doua față în cerc */
+.v8-scene .v8-friend{left:33.37%!important;top:35.02%!important;right:auto!important;width:21.85%!important;height:35.56%!important;aspect-ratio:auto!important;border:0!important;border-radius:0!important;overflow:visible!important;background:transparent!important;box-shadow:none!important;transform-origin:center 70%}
+.v8-scene .v8-friend img{width:100%;height:100%;object-fit:contain!important;object-position:center;filter:drop-shadow(0 6px 6px rgba(75,46,70,.10))}
+.v8-scene.v8-friend-show .v8-friend{animation:v9-approach .72s cubic-bezier(.22,.85,.31,1) both,v9-friend-gesture 2.3s .72s ease-in-out infinite alternate!important}
+@keyframes v9-approach{from{opacity:0;transform:translateY(7%) scale(.965)}to{opacity:1;transform:translateY(-1%) scale(1.018)}}
+@keyframes v9-friend-gesture{from{transform:translateY(-1%) scale(1.018) rotate(-.35deg)}to{transform:translateY(-3.1%) scale(1.035) rotate(.5deg)}}
+@media(prefers-reduced-motion:reduce){.v8-scene.v8-friend-show .v8-friend{animation:none!important;transform:none!important}}
+/* V9: colega integrată în decor */
