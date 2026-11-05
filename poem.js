@@ -173,4 +173,5 @@ document.addEventListener('click',e=>{
 window.addEventListener('pagehide',()=>{if(state.view==='poem')stop()});
 window.MaricicaPoem={open:start,stop,version:'1.0',sceneCount:SCENES.length};
 if(state.view==='home')homeButton();
+if(window.location.hash==='#poezie')start();
 })();
