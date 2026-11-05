@@ -59,3 +59,7 @@
 @media(max-width:940px){.poem-layout{grid-template-columns:minmax(0,1fr)}.poem-reading{max-width:unset}.poem-stage{max-height:none}.poem-stanza{min-height:100px}.poem-intro{margin-bottom:10px}}
 @media(max-width:540px){.poem-view{padding:10px 0 22px}.poem-intro h1{font-size:29px}.poem-layout{gap:10px}.poem-stage{min-height:0;border-radius:17px;border-width:3px}.poem-reading{border-radius:20px;padding:14px}.poem-touch-row{gap:5px;bottom:5px}.poem-touch{min-width:55px;min-height:55px;border-width:2px;border-radius:14px;padding:3px 6px}.poem-touch>span{font-size:24px}.poem-touch small{font-size:10px}.poem-stanza{min-height:90px;margin:9px auto}.poem-stanza p{font-size:21px}.poem-tag{font-size:10px}.poem-navigation{margin-top:18px}.poem-navigation>button{font-size:12px;padding:8px}.poem-dots{gap:4px}}
 @media(prefers-reduced-motion:reduce){.poem-extra-foam b,.poem-touch.poem-popped{animation:none!important}}
+
+/* Audio ElevenLabs: afișăm clar situația când fișierul MP3 lipsește. */
+.poem-audio-error:not([hidden]){display:block;max-width:950px;margin:14px auto;padding:13px 16px;border:2px solid #e8b3b9;border-radius:15px;background:#fff7f5;color:#8a284c;font-weight:700;text-align:center}
+.poem-stage-photo{image-rendering:auto}
