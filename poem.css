@@ -39,7 +39,7 @@
 .poem-stanza .poem-active-line{color:#ca476b;text-shadow:0 0 1px #ca476b}
 .poem-move-hint{font-size:clamp(14px,1.3vw,17px);font-weight:700;color:#836579;text-align:center;line-height:1.4;margin:0 0 16px}
 .poem-audio-controls{display:flex;gap:11px;flex-wrap:wrap}
-.poem-button{border-radius:22px;padding:12px 15px;min-height:51px;cursor:pointer;font:800 15px/1.2 inherit;border:2px solid transparent;flex:1 1 45%}
+.poem-button{border-radius:22px;padding:12px 15px;min-height:51px;cursor:pointer;font-weight:800;font-size:15px;line-height:1.2;font-family:inherit;border:2px solid transparent;flex:1 1 45%}
 .poem-main{background:#e74b69;color:white;box-shadow:0 6px 0 #b82e4b}
 .poem-secondary{background:#fff0d0;color:#90465d;border-color:#ffdc96}
 .poem-navigation{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:24px}
