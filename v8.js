@@ -12,7 +12,7 @@ const assets={
   bedroom:`${BASE}01-bedroom-clear.webp`,
   dirtyMirror:`${BASE}mirror-dirty.webp`,
   classroom:`${BASE}03-classroom-titleless.webp`,
-  classroomRetouched:`${BASE}03-classroom-retouched.webp?v=20261105-final`,
+  classroomRetouched:window.MaricicaClassroomFull || `${BASE}03-classroom-titleless.webp`,
   wash:`${BASE}05-washing-clear.webp`,
   comb:`${BASE}05-combing-clear.webp`,
   brush:`${BASE}05-brushing-clear.webp`,
@@ -49,6 +49,7 @@ stageDecor=function(ci){
  <div class="v8-friend" aria-hidden="true"><img src="${BASE}friend-lift.webp" alt=""></div>
  <img class="v8-teddy" src="${BASE}teddy-cutout.webp" alt="" aria-hidden="true" draggable="false">
  <div class="v8-animated-stars" aria-hidden="true"><i></i><i></i><i></i></div>
+ <div class="v10-blonde-float" aria-hidden="true"><img src="${window.MaricicaClassroomFull || assets.classroom}" alt="" draggable="false"></div>
  </div>`;
 };
 function renderAnimatedLine(){
@@ -71,6 +72,7 @@ function renderAnimatedLine(){
  // Fetița este deja integrată în scena retușată; nu afișăm un al doilea personaj peste ea.
  scene.classList.toggle('v8-friend-show',false);
  scene.classList.toggle('v8-classroom-retouched',idx>=15&&idx<=26);
+ scene.classList.toggle('v10-blonde-speaking',idx===18 && playing);
  scene.classList.toggle('v8-teddy-show',playing&&(idx>=21&&idx<=25));
  scene.classList.toggle('v8-objects-on',playing&&(Object.hasOwn(alias,currentVoice)||currentVoice==='Obiectele'));
  scene.querySelectorAll('.v8-object').forEach(el=>{
