@@ -13,11 +13,10 @@ const POEM=[
  'Spală dinții: uța, uța!'
 ];
 const SCENES=[
- {name:'Trei prieteni', lines:[0,1], clips:[0,1,2], img:ROOT+'01-apa-mana-sapun.webp', fallback:BACK+'05-washing-clear.webp', tip:'Atinge apa, mânuța și săpunul.', props:[['💧','Apa'],['✋','Mâna'],['🧼','Săpunul']]},
- {name:'Ochii și urechile', lines:[2,3], clips:[3,4], img:ROOT+'02-ochii-urechile.webp', fallback:BACK+'02-mirror-clean.webp', tip:'Arată ochișorii și urechile.',props:[['👀','Ochii'],['👂','Urechile']]},
- {name:'Spălăm corpul',lines:[4],clips:[5],img:ROOT+'03-corpul.webp',fallback:BACK+'05-washing-clear.webp',tip:'Mimează cum te speli pe corp.',props:[['🫧','Spumă'],['🧽','Buretele']]},
- {name:'Față și spate',lines:[5],clips:[6],img:ROOT+'04-fata-spatele.webp',fallback:BACK+'05-washing-clear.webp',tip:'Arată partea din față și spatele.',props:[['😊','Fața'],['🫧','Spatele']]},
- {name:'Dințișori curați',lines:[6,7],clips:[7,8],img:ROOT+'05-periuta.webp',fallback:BACK+'05-brushing-clear.webp',tip:'Mișcă mâna ca și cum ai peria dințișorii.',props:[['🪥','Periuța'],['✨','Dinții curați']]}
+ {name:'Apa, mâna și săpunul',lines:[0,1],clips:[0,1,2],img:ROOT+'01-apa-mana-sapun.webp',fallback:BACK+'05-washing-clear.webp',tip:'Atinge apa, mânuța și săpunul.',props:[['💧','Apa'],['✋','Mâna'],['🧼','Săpunul']]},
+ {name:'Ochii și urechile',lines:[2,3],clips:[3,4],img:ROOT+'02-ochii-urechile.webp',fallback:BACK+'02-mirror-clean.webp',tip:'Arată ochișorii și urechile.',props:[['👀','Ochii'],['👂','Urechile']]},
+ {name:'Spălăm corpul, fața și spatele',lines:[4,5],clips:[5,6],img:ROOT+'03-corpul.webp',fallback:BACK+'05-washing-clear.webp',tip:'Arătăm cum ne spălăm în față și pe spate.',props:[['🫧','Spumă'],['🧽','Buretele']]},
+ {name:'Dințișori curați',lines:[6,7],clips:[7,8],img:ROOT+'04-periuta.webp',fallback:BACK+'05-brushing-clear.webp',tip:'Mișcăm ușor mâna ca o periuță de dinți.',props:[['🪥','Periuța'],['✨','Dințișorii']]}
 ];
 const TITLE='Prietenii curățeniei';
 const audio=new Audio();
@@ -26,7 +25,6 @@ let page=0,activeLine=-1,playing=false,runId=0,playList=[],playPos=0,spoken=null
 let pulseTimeout=0;
 const host=document.getElementById('app');
 function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function speechText(i){return i===0?TITLE:POEM[i-1];}
 function sceneOfClip(i){return SCENES.findIndex(s=>s.clips.includes(i));}
 function stop(){
  runId++;playing=false;playList=[];activeLine=-1;
@@ -78,23 +76,20 @@ function paint(){
       </div>
     </aside>
   </div>
+  <p class="poem-audio-error" role="alert" hidden></p>
   <div class="poem-full-poem"><details><summary>Vezi toate versurile</summary><p>${POEM.map(safe).join('<br>')}</p></details></div>
  </section>`;
  loadSceneImage(page);
 }
-function speakFallback(i,onDone,id){
- if(id!==runId||state.view!=='poem')return;
- if(state.muted){onDone();return;}
- if(!('speechSynthesis' in window)){onDone();return;}
- const u=new SpeechSynthesisUtterance(speechText(i));
- u.lang='ro-RO';u.rate=.83;u.pitch=1.08;
- const voices=window.speechSynthesis.getVoices();
- u.voice=voices.find(v=>v.lang.toLowerCase().startsWith('ro'))||null;
- let finished=false;
- const complete=()=>{if(finished)return;finished=true;spoken=null;if(id===runId)onDone();};
- u.onend=complete;u.onerror=complete;spoken=u;
- try{window.speechSynthesis.speak(u);}
- catch(e){complete();}
+function missingAudio(name,blocked){
+ stop();paint();
+ const message=host.querySelector('.poem-audio-error');
+ if(message){
+  message.hidden=false;
+  message.textContent=blocked
+    ? 'Browserul a blocat pornirea audio. Apasă din nou pe „Ascultă versurile”.'
+    : 'Înregistrarea ElevenLabs '+name+' lipsește sau nu poate fi citită. Verifică instalarea fișierelor MP3.';
+ }
 }
 function sequenceNext(id){
  if(id!==runId||state.view!=='poem')return;
@@ -104,18 +99,17 @@ function sequenceNext(id){
  if(target>=0)page=target;
  activeLine=idx;
  paint();
- const complete=()=>sequenceNext(id);
- if(state.muted){complete();return;}
- const file=`audio/poem/${idx+1}_Chapter_1.mp3`;
- audio.pause();
- audio.onended=null;audio.onerror=null;
+ const file='audio/poem/'+String(idx+1)+'_Chapter_1.mp3';
+ audio.pause();audio.onended=null;audio.onerror=null;
  audio.src=file;
- audio.muted=state.muted;
- let handled=false;
- audio.onended=()=>{if(handled)return;handled=true;complete();};
- audio.onerror=()=>{if(handled)return;handled=true;audio.pause();speakFallback(idx,complete,id);};
+ audio.muted=!!state.muted;
+ let settled=false;
+ audio.onended=()=>{if(settled||id!==runId)return;settled=true;sequenceNext(id);};
+ audio.onerror=()=>{if(settled||id!==runId)return;settled=true;missingAudio(file,false);};
  const promise=audio.play();
- if(promise && typeof promise.catch==='function')promise.catch(()=>{if(!handled){handled=true;speakFallback(idx,complete,id);}});
+ if(promise && typeof promise.catch==='function'){
+  promise.catch(()=>{if(settled||id!==runId)return;settled=true;missingAudio(file,true);});
+ }
 }
 function play(indices){
  stop();
@@ -171,7 +165,7 @@ document.addEventListener('click',e=>{
  }
 },true);
 window.addEventListener('pagehide',()=>{if(state.view==='poem')stop()});
-window.MaricicaPoem={open:start,stop,version:'1.0',sceneCount:SCENES.length};
+window.MaricicaPoem={open:start,stop,version:'2.0',sceneCount:SCENES.length};
 if(state.view==='home')homeButton();
 if(window.location.hash==='#poezie')start();
 })();
