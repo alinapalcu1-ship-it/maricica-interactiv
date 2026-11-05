@@ -13,8 +13,7 @@ IMAGES = {
     "assets/poem/01-apa-mana-sapun.webp",
     "assets/poem/02-ochii-urechile.webp",
     "assets/poem/03-corpul.webp",
-    "assets/poem/04-fata-spatele.webp",
-    "assets/poem/05-periuta.webp",
+    "assets/poem/04-periuta.webp",
 }
 AUDIO = {f"audio/poem/{n}_Chapter_1.mp3" for n in range(1, 10)}
 EXPECTED = IMAGES | AUDIO
