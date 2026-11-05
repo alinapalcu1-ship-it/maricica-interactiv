@@ -12,7 +12,7 @@ const assets={
   bedroom:`${BASE}01-bedroom-clear.webp`,
   dirtyMirror:`${BASE}mirror-dirty.webp`,
   classroom:`${BASE}03-classroom-titleless.webp`,
-  classroomRetouched:`${BASE}03-classroom-retouched.webp`,
+  classroomRetouched:`${BASE}03-classroom-retouched.webp?v=20261105-final`,
   wash:`${BASE}05-washing-clear.webp`,
   comb:`${BASE}05-combing-clear.webp`,
   brush:`${BASE}05-brushing-clear.webp`,
@@ -24,7 +24,7 @@ const byLine=(idx)=>{
  if(idx<=2)return assets.bedroom;
  if(idx<=5)return assets.dirtyMirror;
  if(idx<=14)return assets.dirtyMirror;
- if(idx<=26)return idx>=17&&idx<=20?assets.classroomRetouched:assets.classroom;
+ if(idx<=26)return idx<=20?assets.classroomRetouched:assets.classroom;
  if(idx<=35)return assets.dirtyMirror;
  if(idx<=39)return assets.wash;
  if(idx<=42)return assets.comb;
@@ -68,7 +68,8 @@ function renderAnimatedLine(){
  const playing=Boolean(state.playing && !audio.paused && !audio.ended);
  scene.dataset.playing=playing?'yes':'no';
  scene.dataset.voice=String(currentVoice);
- scene.classList.toggle('v8-friend-show',playing&&(idx===17||idx===18));
+ // Fetița este deja integrată în scena retușată; nu afișăm un al doilea personaj peste ea.
+ scene.classList.toggle('v8-friend-show',false);
  scene.classList.toggle('v8-teddy-show',playing&&(idx>=21&&idx<=25));
  scene.classList.toggle('v8-objects-on',playing&&(Object.hasOwn(alias,currentVoice)||currentVoice==='Obiectele'));
  scene.querySelectorAll('.v8-object').forEach(el=>{
