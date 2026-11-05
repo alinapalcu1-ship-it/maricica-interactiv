@@ -77,6 +77,8 @@ function renderAnimatedLine(){
  const speaker=document.querySelector('.speech-panel .speaker');if(speaker)speaker.textContent='';
  const badge=document.querySelector('.speech-panel .speaker-icon');if(badge)badge.textContent='';
  const head=document.querySelector('.story-head .story-crumb strong');if(head)head.hidden=true;
+ const nextBtn=document.querySelector('[data-action="next-scene"]');
+ if(nextBtn&&!outroShowing)nextBtn.innerHTML='Continuă <span>→</span>';
  lastIndex=idx;
  if(outroShowing&&idx!==54){outroShowing=false;clearTimeout(outroTimer)}
 }

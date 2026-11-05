@@ -50,3 +50,5 @@
 /* Puzzle: piese fără spații, fără efecte care ascund conținutul. */
 .v5-board{gap:0!important}.v5-puzzle-slot{border-radius:0!important}.v5-puzzle-slot>span{background-repeat:no-repeat}
 @media(prefers-reduced-motion:reduce){.v8-film-photo,.v8-object,.v8-friend,.v8-teddy,.v8-animated-stars i{animation:none!important;transform:none!important}.v8-object.v8-is-talking,.v8-scene.v8-friend-show .v8-friend,.v8-scene.v8-teddy-show .v8-teddy{opacity:1;visibility:visible}}
+
+.progress-nums{display:none!important}

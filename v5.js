@@ -37,7 +37,7 @@ updateCaption=function(){oldCaption();if(state.view!=='story')return;
  let path=sceneImages[ci];
  if(ci===4){path=idx>=43?motionImages[3]:idx>=40?motionImages[2]:motionImages[1]}
  if(ci===5){path=idx>=54?`${ART}06-finale-clear.webp`:`${ART}02-mirror-clean.webp`}
- if(pic&&pic.getAttribute('src')!==path){scene.style.setProperty('--v5-photo',`url('${path}')`);pic.src=path;pic.classList.remove('v5-switch');void pic.offsetWidth;pic.classList.add('v5-switch')}
+ if(!scene.classList.contains('v8-scene')&&pic&&pic.getAttribute('src')!==path){scene.style.setProperty('--v5-photo',`url('${path}')`);pic.src=path;pic.classList.remove('v5-switch');void pic.offsetWidth;pic.classList.add('v5-switch')}
  scene.classList.toggle('v5-speaking',state.playing&&LINES[idx]?.[1]!=='Narator');
  scene.classList.toggle('v5-sad',ci===2&&idx>=19&&idx<=26);
 };
