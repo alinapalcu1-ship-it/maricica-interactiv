@@ -1,0 +1,96 @@
+/* Maricica V11 — teatrul animat cu corp si brate in straturi. */
+.story-stage .v8-scene .v8-film-photo{
+ filter:blur(5px) saturate(.82) brightness(.88)!important;
+ opacity:.50;transform:scale(1.04)!important;animation:none!important;
+}
+.story-stage .v8-scene:before{filter:blur(20px)!important;opacity:.42}
+.story-stage .v8-scene .v8-objects,.story-stage .v8-scene .v8-friend,
+.story-stage .v8-scene .v8-teddy{z-index:5}
+.v11-theater{position:absolute;inset:0;z-index:7;pointer-events:none;overflow:hidden;isolation:isolate}
+.v11-spot{position:absolute;left:27%;top:6%;width:47%;height:92%;border-radius:47%;background:radial-gradient(ellipse,#fff9e6a3 0%,#fff5ec70 50%,transparent 74%);filter:blur(20px)}
+.v11-actor-zone{position:absolute;left:37%;bottom:0;width:26%;height:92%;transform-origin:50% 95%}
+.v11-puppet{position:absolute;bottom:0;left:50%;height:100%;aspect-ratio:500/862;transform:translateX(-50%);filter:drop-shadow(0 13px 13px #573b5960)}
+.v11-puppet>img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;user-select:none}
+.v11-arm{transform-origin:43% 47%}
+.v11-arm-right{transform-origin:75% 47%}
+.v11-blink{position:absolute;display:none}
+.v11-action-object{position:absolute;right:13%;top:37%;width:15%;height:34%;display:grid;place-items:center;filter:drop-shadow(0 12px 10px #59395055)}
+.v11-action-object[hidden]{display:none}
+.v11-action-object img{width:100%;height:100%;object-fit:contain}
+.v11-effects>span{position:absolute;opacity:0;display:block;text-shadow:0 4px 13px #8b7b9977}
+.v11-sink{left:60%;top:48%;font-size:clamp(24px,5vw,68px)}
+.v11-foam{left:50%;top:55%;color:#fff;font-size:clamp(20px,3vw,42px);filter:drop-shadow(0 2px 3px #b5d3e6)}
+.v11-spark{left:27%;top:18%;color:#ffe47b;font-size:clamp(20px,5vw,70px)}
+.v11-heart{left:67%;top:19%;color:#ee5d83;font-size:clamp(26px,5vw,72px)}
+.v11-tear{left:61%;top:31%;font-size:clamp(15px,2.7vw,38px)}
+.v11-speech{right:26%;top:12%;color:#c15db7;font-size:clamp(23px,4vw,52px)}
+/* Variatie reala pe actiuni, nu simplu zoom al fotografiei. */
+.v8-scene[data-v11-active="yes"][data-v11-action="opening"] .v11-actor-zone,
+.v8-scene[data-v11-active="yes"][data-v11-action="proud"] .v11-actor-zone,
+.v8-scene[data-v11-active="yes"][data-v11-action="finale"] .v11-actor-zone{animation:v11-dance 1.8s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="wake"] .v11-actor-zone{animation:v11-rise 3s ease-out both}
+.v8-scene[data-v11-active="yes"][data-v11-action="walk"] .v11-actor-zone,
+.v8-scene[data-v11-active="yes"][data-v11-action="greet"] .v11-actor-zone{animation:v11-walk 2.2s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="sad"] .v11-actor-zone{animation:v11-sad 2.8s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="refuse"] .v11-actor-zone{animation:v11-refuse 1.15s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="notice"] .v11-actor-zone,
+.v8-scene[data-v11-active="yes"][data-v11-action="hands"] .v11-actor-zone{animation:v11-notice 1.8s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"] .v11-arm-left,
+.v8-scene[data-v11-active="yes"] .v11-arm-right{animation:v11-idle-arm 2.3s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="wake"] .v11-arm-left,
+.v8-scene[data-v11-active="yes"][data-v11-action="wake"] .v11-arm-right{animation:v11-stretch 2.2s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="mirror"] .v11-arm-right,
+.v8-scene[data-v11-active="yes"][data-v11-action="greet"] .v11-arm-right{animation:v11-wave 1s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="refuse"] .v11-arm-left{animation:v11-no .7s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="refuse"] .v11-arm-right{animation:v11-no .8s ease-in-out infinite alternate-reverse}
+.v8-scene[data-v11-active="yes"][data-v11-action="wash"] .v11-arm-left{animation:v11-rub-left .47s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="wash"] .v11-arm-right{animation:v11-rub-right .47s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="comb"] .v11-arm-right{animation:v11-comb .9s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="brush"] .v11-arm-right{animation:v11-brush .38s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="hug"] .v11-arm-left{animation:v11-hug-left 1.2s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="hug"] .v11-arm-right{animation:v11-hug-right 1.2s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="wash"] .v11-sink{animation:v11-drops 1.15s ease-in-out infinite}
+.v8-scene[data-v11-active="yes"][data-v11-action="wash"] .v11-foam{animation:v11-foam 1.6s ease-in-out infinite}
+.v8-scene[data-v11-active="yes"][data-v11-action="proud"] .v11-spark,
+.v8-scene[data-v11-active="yes"][data-v11-action="finale"] .v11-spark{animation:v11-pop 2s ease-in-out infinite}
+.v8-scene[data-v11-active="yes"][data-v11-action="hug"] .v11-heart{animation:v11-pop 1.1s ease-in-out infinite}
+.v8-scene[data-v11-active="yes"][data-v11-action="sad"] .v11-tear{animation:v11-drops 2.1s ease-in-out infinite}
+.v8-scene[data-v11-active="yes"][data-v11-talking="yes"] .v11-speech{animation:v11-pop 1.6s ease-in-out infinite}
+.v8-scene[data-v11-active="yes"][data-v11-action="comb"] .v11-action-object{animation:v11-prop-comb .9s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="brush"] .v11-action-object{animation:v11-prop-brush .38s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="hug"] .v11-action-object{animation:v11-prop-hug 1.2s ease-in-out infinite alternate}
+.v8-scene[data-v11-active="yes"][data-v11-action="objects"] .v11-action-object{animation:v11-pop 1.25s ease-in-out infinite}
+@keyframes v11-rise{from{transform:translateY(24%) scale(.8)}to{transform:translateY(0) scale(1)}}
+@keyframes v11-dance{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-2%) rotate(2deg)}}
+@keyframes v11-walk{from{transform:translateX(-9%) translateY(0) rotate(-2deg)}to{transform:translateX(9%) translateY(-2%) rotate(2deg)}}
+@keyframes v11-sad{from{transform:translateY(4%) rotate(-3deg)}to{transform:translateY(7%) rotate(1deg)}}
+@keyframes v11-refuse{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes v11-notice{from{transform:rotate(-2deg)}to{transform:rotate(5deg)}}
+@keyframes v11-idle-arm{from{transform:rotate(-3deg)}to{transform:rotate(4deg)}}
+@keyframes v11-stretch{from{transform:rotate(-12deg)}to{transform:rotate(29deg)}}
+@keyframes v11-wave{from{transform:rotate(-15deg)}to{transform:rotate(38deg)}}
+@keyframes v11-no{from{transform:rotate(-12deg)}to{transform:rotate(19deg)}}
+@keyframes v11-rub-left{from{transform:rotate(-24deg) translate(0,0)}to{transform:rotate(22deg) translate(8%,3%)}}
+@keyframes v11-rub-right{from{transform:rotate(24deg) translate(0,0)}to{transform:rotate(-22deg) translate(-8%,3%)}}
+@keyframes v11-comb{from{transform:rotate(-10deg)}to{transform:rotate(53deg)}}
+@keyframes v11-brush{from{transform:rotate(31deg) translateY(0)}to{transform:rotate(31deg) translateY(-6%)}}
+@keyframes v11-hug-left{from{transform:rotate(7deg)}to{transform:rotate(-34deg)}}
+@keyframes v11-hug-right{from{transform:rotate(-7deg)}to{transform:rotate(34deg)}}
+@keyframes v11-drops{0%{opacity:0;transform:translateY(-25%)}40%{opacity:1}100%{opacity:0;transform:translateY(60%)}}
+@keyframes v11-foam{0%,100%{opacity:.25;transform:translateY(10%) scale(.9)}50%{opacity:.95;transform:translateY(-25%) scale(1.2)}}
+@keyframes v11-pop{0%,100%{opacity:.2;transform:scale(.65) rotate(-8deg)}50%{opacity:1;transform:scale(1.15) rotate(8deg)}}
+@keyframes v11-prop-comb{from{transform:translate(-48%,-31%) rotate(-24deg)}to{transform:translate(-72%,-52%) rotate(17deg)}}
+@keyframes v11-prop-brush{from{transform:translate(-60%,-36%) rotate(-20deg)}to{transform:translate(-55%,-46%) rotate(16deg)}}
+@keyframes v11-prop-hug{from{transform:translate(-70%,30%) scale(.8)}to{transform:translate(-70%,24%) scale(.9)}}
+.v8-scene[data-v11-active="no"] .v11-theater *,
+.v8-scene[data-v11-active="no"] .v11-theater{animation-play-state:paused!important}
+@media(max-width:680px){
+ .v11-actor-zone{left:34%;width:32%;height:91%}
+ .v11-action-object{right:6%;width:21%;top:40%}
+ .v11-spot{left:24%;width:55%}
+ .story-stage .v8-scene .v8-film-photo{filter:blur(3px) brightness(.86)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .v11-theater *,.v11-theater{animation:none!important;transition:none!important}
+ .v11-effects>span{opacity:0!important}
+}
