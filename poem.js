@@ -22,7 +22,6 @@ const TITLE='Prietenii curățeniei';
 const audio=new Audio();
 audio.preload='auto';
 let page=0,activeLine=-1,playing=false,runId=0,playList=[],playPos=0,spoken=null;
-let pulseTimeout=0;
 const host=document.getElementById('app');
 function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function sceneOfClip(i){return SCENES.findIndex(s=>s.clips.includes(i));}
@@ -31,7 +30,6 @@ function stop(){
  audio.pause();audio.removeAttribute('src');audio.load();
  if(window.speechSynthesis)window.speechSynthesis.cancel();
  if(spoken){spoken.onend=null;spoken.onerror=null;spoken=null;}
- clearTimeout(pulseTimeout);
 }
 function goHome(){
  stop();
@@ -57,9 +55,7 @@ function paint(){
     <section class="poem-stage" aria-label="Ilustrația ${page+1} din ${SCENES.length}">
       <img class="poem-stage-photo" alt="${safe(scene.name)} — Maricica și prietenii curățeniei" draggable="false">
       <div class="poem-stage-light" aria-hidden="true"></div>
-      <div class="poem-extra-foam" aria-hidden="true">${page===2||page===3?'<b>◌</b><b>○</b><b>◌</b><b>○</b><b>◌</b><b>○</b><b>◌</b><b>○</b><b>◌</b>':''}</div>
-      <div class="poem-touch-row">${scene.props.map(([ico,name],i)=>`<button class="poem-touch" type="button" data-poem="touch" data-object="${safe(name)}" title="${safe(name)}" aria-label="Atinge ${safe(name)}"><span aria-hidden="true">${ico}</span><small>${safe(name)}</small></button>`).join('')}</div>
-      <div class="poem-touch-feedback" aria-live="polite"></div>
+      <div class="poem-extra-foam" aria-hidden="true">${page===2?'<b>◌</b><b>○</b><b>◌</b><b>○</b><b>◌</b><b>○</b><b>◌</b><b>○</b><b>◌</b>':''}</div>
     </section>
     <aside class="poem-reading">
       <div class="poem-counter"><span>Momentul ${page+1} din ${SCENES.length}</span><strong>${safe(scene.name)}</strong></div>
@@ -122,24 +118,22 @@ function start(){
  state.view='poem';page=0;activeLine=-1;
  paint();
 }
-function touch(name,control){
- const feedback=host.querySelector('.poem-touch-feedback');
- if(feedback){
-  feedback.textContent=`✨ ${name}!`;
-  feedback.classList.remove('show');void feedback.offsetWidth;feedback.classList.add('show');
-  clearTimeout(pulseTimeout);pulseTimeout=setTimeout(()=>feedback.classList.remove('show'),1600);
- }
- if(control){control.classList.remove('poem-popped');void control.offsetWidth;control.classList.add('poem-popped');}
- if(!state.muted&&typeof tonal==='function')tonal(true);
-}
 function homeButton(){
- if(state.view!=='home')return;
- const root=host.querySelector('.cine-home-actions')||host.querySelector('.home-actions')||host.querySelector('.home-layout');
- if(!root||root.querySelector('[data-poem="start"]'))return;
+ if(state.view!=='home'||host.querySelector('[data-poem="start"]'))return;
+ // Pagina principală activă (v4/v8) folosește v4-start-grid, nu cine-home-actions.
+ const grid=host.querySelector('.v4-start-grid');
+ const root=grid||host.querySelector('.cine-home-actions')||host.querySelector('.home-actions')||host.querySelector('.home-layout');
+ if(!root)return;
  const b=document.createElement('button');
- b.type='button';b.dataset.poem='start';
- b.className='cine-cta cine-cta-pink poem-home-entry';
- b.innerHTML='<span class="cine-cta-icon" aria-hidden="true">♫</span><span><strong>Prietenii curățeniei</strong><small>Poezie cu imagini și gesturi · 2–3 ani</small></span><span class="cine-cta-arrow" aria-hidden="true">›</span>';
+ b.type='button';
+ b.dataset.poem='start';
+ if(grid){
+  b.className='v4-main-action v4-poem poem-home-entry';
+  b.innerHTML='<span aria-hidden="true">♫</span><strong>Prietenii curățeniei</strong><small>Poezie interactivă · imagini și voci ElevenLabs</small>';
+ }else{
+  b.className='cine-cta cine-cta-pink poem-home-entry';
+  b.innerHTML='<span class="cine-cta-icon" aria-hidden="true">♫</span><span><strong>Prietenii curățeniei</strong><small>Poezie interactivă · imagini și voci ElevenLabs</small></span><span class="cine-cta-arrow" aria-hidden="true">›</span>';
+ }
  root.appendChild(b);
 }
 const previousHome=renderHome;
@@ -157,7 +151,6 @@ document.addEventListener('click',e=>{
  if(act==='home'){goHome();return;}
  if(act==='scene-play'){if(playing){stop();paint();}else play(SCENES[page].clips);return;}
  if(act==='all-play'){play([0,1,2,3,4,5,6,7,8]);return;}
- if(act==='touch'){touch(target.dataset.object,target);return;}
  if(act==='previous'||act==='next'||act==='jump'){
   stop();
   page=act==='previous'?Math.max(0,page-1):act==='next'?(page+1)%SCENES.length:Math.min(SCENES.length-1,Math.max(0,Number(target.dataset.page)||0));
@@ -165,7 +158,7 @@ document.addEventListener('click',e=>{
  }
 },true);
 window.addEventListener('pagehide',()=>{if(state.view==='poem')stop()});
-window.MaricicaPoem={open:start,stop,version:'2.0',sceneCount:SCENES.length};
+window.MaricicaPoem={open:start,stop,version:'2.1',sceneCount:SCENES.length};
 if(state.view==='home')homeButton();
 if(window.location.hash==='#poezie')start();
 })();
