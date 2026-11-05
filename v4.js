@@ -5,7 +5,7 @@
 const p='assets/cinema4/';
 const c='assets/cinema/';
 const book=['01-bedroom.webp','02-bathroom.webp','03-classroom.webp','04-return.webp','05-care.webp','06-finale.webp'];
-const objectPhoto=id=>`${c}${id==='bear'?'teddy':id}.webp`;
+const objectPhoto=id=>`${c}${id==='bear'?'teddy':id}.webp${['soap','water','comb','brush'].includes(id)?'?v=6':''}`;
 const snap=()=>document.querySelector('.cine-actor');
 const originalHome=renderHome;
 // The original chosen Maricica: one clean full-body PNG with no separated cut-out arms.

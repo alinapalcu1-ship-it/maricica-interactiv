@@ -109,3 +109,16 @@ button:focus-visible{outline:4px solid #8270ff!important;outline-offset:4px!impo
 .v5-finale-actions button:nth-child(4){background:#d3f9e9;color:#377660}
 @media(max-width:800px){.v5-finale{grid-template-columns:1fr;margin:18px auto 35px}.v5-finale-copy{padding:0 12px}.v5-finale-actions button{min-height:54px;font-size:14px}}
 @media(prefers-reduced-motion:reduce){.v5-finale-art>img{animation:none!important}}
+
+
+/* Version 6: new large, consistent hygiene visuals from the selected design set */
+.guided-choice .guided-objects{width:100%;max-width:100%;height:clamp(120px,13vw,190px);display:flex;gap:5px;align-items:center;justify-content:center;overflow:visible}
+.guided-choice .guided-objects img{width:100%;max-width:95%!important;height:100%!important;max-height:180px;object-fit:contain!important;flex:1 1 0;min-width:0;filter:drop-shadow(0 4px 6px #92736b22)}
+.guided-choice .guided-objects img:only-child{flex:0 1 auto;max-width:175px!important}
+.v5-memory-tile img{width:97%!important;height:80%!important;max-width:100%;object-fit:contain;filter:drop-shadow(0 3px 7px #83656029)}
+@media(max-width:540px){
+ .guided-choice .guided-objects{height:112px!important;gap:0}
+ .guided-choice .guided-objects img{height:108px!important;max-height:108px!important;max-width:49%!important}
+ .guided-choice .guided-objects img:only-child{max-width:95%!important}
+ .v5-memory-tile img{width:100%!important;height:75%!important}
+}

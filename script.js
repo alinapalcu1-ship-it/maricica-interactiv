@@ -224,7 +224,7 @@ let state={view:'home',mode:'listen',index:0,muted:false,playing:false,waiting:f
 let toastTimeout=0;
 let context;
 const clipPath=i=>`audio/${String(i+1).padStart(2,'0')}.mp3`;
-const imgPath=id=>`assets/objects/${id}.svg`;
+const imgPath=id=>['soap','water','comb','brush'].includes(id)?`assets/cinema/${id}.webp?v=6`:`assets/objects/${id}.svg`;
 const sceneOf=i=>CHAPTERS.findIndex(c=>i>=c.start&&i<=c.end);
 const escapeHtml=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 

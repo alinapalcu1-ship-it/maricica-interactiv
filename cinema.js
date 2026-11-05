@@ -6,7 +6,7 @@
 'use strict';
 const art='assets/cinema/';
 const backgrounds=['01-bedroom.webp','02-bathroom.webp','03-classroom.webp','04-return.webp','05-care.webp','06-finale.webp'];
-const prop3d=id=>`${art}${id}.webp`;
+const prop3d=id=>`${art}${id}.webp${['soap','water','comb','brush'].includes(id)?'?v=6':''}`;
 const dirtyAt=i=>i>=2&&i<40;
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function rig(variant='clean',label='Maricica, fetița cu fundițe roșii'){
