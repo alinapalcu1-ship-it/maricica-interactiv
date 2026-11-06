@@ -1,0 +1,49 @@
+name: Prepare Maricica hygiene media
+on:
+  push:
+    paths:
+      - ".github/workflows/prepare-hygiene-media.yml"
+      - "tools/prepare_hygiene_assets.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-hygiene-media:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install media dependencies
+        run: pip install pillow numpy opencv-python-headless
+      - name: Generate isolated transparent art and white enamel
+        run: python tools/prepare_hygiene_assets.py
+      - name: Verify 13 assets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          p=Path('assets/hygiene/individual')
+          files=list(p.glob('*.webp'))
+          assert len(files)==12,len(files)
+          for f in files:
+              im=Image.open(f)
+              assert im.mode=='RGBA'
+              assert im.getbbox()
+          assert Image.open('assets/hygiene/teeth-3d-white.webp').size==(1152,864)
+          print('Verified 12 isolated images + 1 clean dental photo')
+          PY
+      - name: Commit new assets to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/hygiene/individual/*.webp assets/hygiene/teeth-3d-white.webp
+          if git diff --cached --quiet; then
+            echo "Assets unchanged"
+          else
+            git commit -m "Generate isolated hygiene art and polished white teeth"
+            git push origin HEAD:main
+          fi
