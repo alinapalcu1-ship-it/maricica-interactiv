@@ -96,3 +96,75 @@
 @media(max-width:1050px){.hg-play-layout{grid-template-columns:minmax(0,1fr)}.hg-guide{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.hg-guide-top{grid-column:1/-1;grid-template-columns:100px 1fr}.hg-guide-actions{align-self:start}.hg-teacher-note{align-self:center}.hg-header{grid-template-columns:auto 1fr}.hg-tag{display:none}}
 @media(max-width:610px){.hg-view{padding:7px 0 25px;min-height:0}.hg-header{grid-template-columns:1fr auto;align-items:center;gap:10px}.hg-back{grid-column:2;grid-row:1;padding:9px 12px;font-size:13px!important}.hg-titles{grid-column:1;grid-row:1;text-align:left}.hg-kicker{font-size:9px;letter-spacing:.06em}.hg-titles h1{font-size:clamp(24px,6.7vw,34px);margin-bottom:5px}.hg-titles p{font-size:12px}.hg-game-surface{padding:10px;border-width:3px;border-radius:20px}.hg-baskets{gap:6px;margin:13px 0}.hg-basket{border-width:2px;border-radius:14px;padding:3px 1px 7px}.hg-basket-svg{height:64px}.hg-basket strong{font-size:13px}.hg-basket small{font-size:10px}.hg-ticks i{width:8px;height:8px}.hg-token-grid,.hg-choices{gap:7px}.hg-token{min-height:94px;border-radius:13px;border-width:2px;padding:3px}.hg-token .hg-icon{height:62px;width:65px}.hg-token small{font-size:11px}.hg-choice{min-height:116px;border-radius:14px}.hg-choice .hg-icon{height:72px;width:79px}.hg-choice strong{font-size:12px}.hg-guide{display:flex;border-radius:20px;padding:12px;gap:10px}.hg-guide-top{grid-template-columns:72px 1fr}.hg-guide-top img{height:95px}.hg-guide-top strong{font-size:18px}.hg-guide-top p{font-size:13px;margin-top:3px}.hg-feedback{padding:11px;min-height:45px;font-size:14px}.hg-teacher-note{font-size:12px}.hg-dental-board{border-radius:14px;margin-top:10px}.hg-bottom-tip{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.hg-view *, .v4-start-grid>.hg-home-card{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Hygiene art direction v2: illustration 3D + enamel / gum rendering */
+.hg-choice-stage .hg-choices{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.9vw,24px);
+ max-width:720px;margin:0 auto;
+}
+.hg-choice-stage .hg-choice-premium{
+ min-height:clamp(170px,18vw,235px);padding:12px 10px 15px;
+ background:linear-gradient(160deg,#fffefa 0%,#fff8f6 48%,#f5f0ff 100%);
+ border-radius:25px;border:4px solid #fff;
+ box-shadow:0 10px 28px #9d7a9d29,0 5px 0 #e8dfe9;
+}
+.hg-choice-stage .hg-choice-photo{
+ display:block;width:min(100%,175px);height:clamp(116px,13vw,170px);
+ object-fit:contain;object-position:center;
+ border-radius:17px;filter:drop-shadow(0 7px 7px #a27d9a36);
+ transition:transform .3s cubic-bezier(.18,.89,.42,1.22);
+}
+.hg-choice-stage .hg-choice-premium:hover .hg-choice-photo{transform:scale(1.045) rotate(-2deg)}
+.hg-choice-stage .hg-choice-premium>strong{font-size:clamp(16px,1.5vw,22px);color:#654b69}
+.hg-choice-stage .hg-choice-premium.hg-picked{background:linear-gradient(150deg,#edfff5,#ccf5e2);border-color:#a1ddbf}
+.hg-choice-stage .hg-task-prompt{
+ text-align:center;font-size:clamp(18px,2.2vw,28px);font-weight:900;
+ color:#9b4b78;background:linear-gradient(110deg,#fff3e9,#ffedf5);
+ border:2px solid white;padding:16px 12px;border-radius:23px;margin:13px 0 20px;
+ box-shadow:0 8px 18px #b090a025;
+}
+.hg-collected .hg-choice-photo{width:60px;height:55px;object-fit:contain}
+.hg-token .hg-icon-photo{
+ position:relative;display:grid;place-items:center;flex:0 0 auto;
+ overflow:hidden;border-radius:16px;background:#fff7f0;box-shadow:0 4px 15px #7d568e1a;
+ width:clamp(68px,8vw,108px);height:clamp(65px,7vw,100px);
+}
+.hg-token .hg-icon-photo img{display:block;width:100%;height:100%;object-fit:contain;filter:saturate(1.05)}
+.hg-token .hg-icon-photo.hg-hue-yellow img{filter:hue-rotate(44deg) saturate(1.25)}
+.hg-token .hg-icon-photo.hg-hue-blue img{filter:hue-rotate(177deg) saturate(1.05)}
+.hg-token .hg-icon-photo.hg-kind-towel.hg-hue-red img{filter:hue-rotate(125deg) saturate(1.25)}
+.hg-token .hg-icon-photo.hg-kind-towel.hg-hue-yellow img{filter:hue-rotate(226deg) saturate(1.2)}
+.hg-token .hg-icon-photo.hg-kind-towel.hg-hue-blue img{filter:none}
+.hg-token.hg-placed .hg-icon-photo{filter:grayscale(.65)}
+.hg-dental-board{
+ border:4px solid #fff8f7;
+ background:radial-gradient(circle at 29% 22%,#fffefd 0%,#e7faff 41%,#eedbf2 100%);
+ box-shadow:inset 0 5px 32px #e4b5ce32,0 13px 25px #a882aa2a;
+}
+.hg-realistic-mouth .hg-tooth-unit{
+ filter:drop-shadow(0 4px 4px #381f4645);
+}
+.hg-realistic-mouth .hg-dental-plaque{
+ opacity:.98;transition:opacity .27s ease-out;
+}
+.hg-realistic-mouth .hg-dental-plaque.hg-level-1{opacity:.75}
+.hg-realistic-mouth .hg-dental-plaque.hg-level-2{opacity:.42}
+.hg-realistic-mouth .hg-dental-plaque.hg-cleaned{opacity:0;pointer-events:none}
+.hg-realistic-mouth .hg-stroke-dots circle{
+ fill:#f3e6c7;stroke:#fff;stroke-width:2;transition:fill .2s ease,transform .2s ease;
+}
+.hg-realistic-mouth .hg-stroke-dots circle.on{fill:#55c6a3;stroke:#fff9f1}
+.hg-dental-board:has(.hg-brush-cursor) .hg-brush-cursor{filter:drop-shadow(0 6px 4px #5266a555)}
+.hg-bottom-tip{color:#9f5c79;font-weight:850}
+@media(max-width:610px){
+ .hg-choice-stage .hg-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .hg-choice-stage .hg-choice-premium{min-height:145px;padding:8px 4px 10px;border-width:3px;border-radius:19px}
+ .hg-choice-stage .hg-choice-photo{height:105px;width:min(100%,115px)}
+ .hg-choice-stage .hg-choice-premium>strong{font-size:14px}
+ .hg-choice-stage .hg-task-prompt{font-size:16px;padding:11px 9px;margin:10px 0 13px}
+ .hg-token .hg-icon-photo{width:65px;height:63px;border-radius:11px}
+ .hg-realistic-mouth .hg-stroke-dots circle{r:5}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg-choice-stage .hg-choice-photo,.hg-realistic-mouth .hg-dental-plaque{transition:none!important}
+}
