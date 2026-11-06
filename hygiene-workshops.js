@@ -1,5 +1,5 @@
-/* Maricica • Atelierele curateniei v1.0 — extensie izolata V10.
-   Nu schimba povestea, poezia, Puzzle, Memory sau vocile inregistrate. */
+/* Maricica • Atelierele curățeniei — două activități tactile (sortare și periaj).
+   Nu modifică povestea, poezia, Memory sau înregistrările audio. */
 (function(){
 'use strict';
 const host=document.getElementById('app');
@@ -76,7 +76,7 @@ function stainSvg(p,i){
  '</g>';
 }
 function mouthSvg(){
- const w=740,h=520,photo='assets/hygiene/teeth-3d-game.webp',cleanPhoto='assets/hygiene/teeth-3d-white.webp';
+ const w=740,h=520,photo='assets/hygiene/teeth-3d-game.webp',cleanPhoto='assets/hygiene/teeth-3d-clean.webp';
  const imageAttrs='x="23" y="0" width="694" height="520" preserveAspectRatio="none"';
  // Contururi ale celor opt coroane, corelate cu fotografia 3D, în coordonate 1152 × 864.
  const toothOutlines=[
@@ -95,7 +95,7 @@ function mouthSvg(){
  return '<svg class="hg-mouth-svg hg-photo-mouth" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" data-hg-mouth="yes" aria-label="Fotografie 3D cu un zâmbet și opt dinți. Curăță fiecare dinte de trei ori sus și jos.">'+
  '<defs>'+clips+'</defs>'+
  '<image href="'+photo+'" '+imageAttrs+' class="hg-mouth-background"/>'+
- '<image href="'+cleanPhoto+'" '+imageAttrs+' class="hg-mouth-all-white"/>'+
+ '<image href="'+cleanPhoto+'" '+imageAttrs+' class="hg-mouth-all-clean"/>'+
  cleanLayers+hitAreas+
  '<g id="hg-brush-cursor" class="hg-brush-cursor hg-brush-3d" transform="translate(660 447)" aria-hidden="true">'+
  '<image href="assets/hygiene/brush-blue-3d.webp" x="-68" y="-52" width="136" height="102" preserveAspectRatio="xMidYMid meet"/>'+
@@ -154,7 +154,7 @@ function cleanSpot(i){
  const badge=host.querySelector('.hg-dental-badge strong');if(badge)badge.textContent=percent+'%';
  const msg=host.querySelector('.hg-feedback');if(msg)msg.textContent=clean.size===spots.length?'✨ Toți dințișorii sunt curați! Minunat!':'Bravo! Un dințișor a devenit curat.';
  if(typeof tonal==='function')tonal(true);
- if(clean.size===spots.length){host.querySelector('.hg-dental-board')?.classList.add('hg-all-clean');host.querySelector('.hg-dental-badge')?.classList.add('done');if(typeof launchConfetti==='function')launchConfetti(host.querySelector('.hg-dental-surface'),42);}
+ if(clean.size===spots.length){host.querySelector('.hg-dental-board')?.classList.add('hg-all-clean');host.querySelector('.hg-dental-badge')?.classList.add('done');if(typeof launchConfetti==='function')launchConfetti(host.querySelector('.hg-dental-surface'),14);}
 }
 function svgPoint(event,svg){
  const r=svg.getBoundingClientRect();
