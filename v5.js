@@ -112,6 +112,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-v4],[data-
  const action=t.dataset.v5||t.dataset.v4;
  const legacy=['puzzle','memory','pick','slot','flip','reset-puzzle','reset-memory'];
  if(!t.hasAttribute('data-v5')&&!legacy.includes(action))return;
+ if(action==='piece'&&Date.now()<ignorePieceClickUntil){e.stopImmediatePropagation();e.preventDefault();return;}
  e.stopImmediatePropagation();e.preventDefault();
  switch(action){
  case'puzzle':case'puzzle-open':startPuzzle();break;
@@ -139,16 +140,70 @@ const oldTeacher=showTeacher;
 showTeacher=function(){oldTeacher();const body=modalRoot.querySelector('.teacher-body');if(body){body.insertAdjacentHTML('beforeend','<p><strong>Jocuri de consolidare:</strong> puzzle cu 4, 6 sau 8 piese și Memory cu 4, 6 sau 8 perechi. Piesele se pot trage cu mouse-ul sau degetul, dar se pot și selecta prin două atingeri.</p><p><strong>Accesibilitate:</strong> instrucțiunile audio sunt în limba română; când audio este blocat de browser, apăsați butonul de redare. Nu sunt colectate date personale despre copii.</p>')}};
 
 // Drag/drop for mouse & interactive boards, including touch via Pointer Events.
-let dragging=null;
-document.addEventListener('dragstart',e=>{const el=e.target.closest('.v5-tray-piece');if(!el)return;selectPiece(Number(el.dataset.id));e.dataTransfer?.setData('text/plain',el.dataset.id);if(e.dataTransfer)e.dataTransfer.effectAllowed='move'});
+let dragging=null,ignorePieceClickUntil=0;
+function discardDrag(){
+ if(dragging?.ghost)dragging.ghost.remove();
+ document.querySelectorAll('.v5-tray-piece.v5-dragging').forEach(el=>el.classList.remove('v5-dragging'));
+ dragging=null;
+}
+document.addEventListener('dragstart',e=>{
+ const el=e.target.closest('.v5-tray-piece');if(!el)return;
+ selectPiece(Number(el.dataset.id));
+ e.dataTransfer?.setData('text/plain',el.dataset.id);
+ if(e.dataTransfer)e.dataTransfer.effectAllowed='move';
+});
 document.addEventListener('dragover',e=>{if(e.target.closest('.v5-puzzle-slot'))e.preventDefault()});
-document.addEventListener('drop',e=>{const target=e.target.closest('.v5-puzzle-slot');if(!target)return;e.preventDefault();const pieceId=e.dataTransfer?.getData('text/plain');if(pieceId!==undefined&&pieceId!==null&&pieceId!=='')game.selected=Number(pieceId);placePiece(Number(target.dataset.id));});
-document.addEventListener('pointerdown',e=>{const tile=e.target.closest('.v5-tray-piece');if(!tile||e.pointerType==='mouse')return;dragging={id:Number(tile.dataset.id),startX:e.clientX,startY:e.clientY,move:false};tile.setPointerCapture?.(e.pointerId)},true);
-document.addEventListener('pointermove',e=>{if(!dragging)return;if(Math.hypot(e.clientX-dragging.startX,e.clientY-dragging.startY)>12)dragging.move=true;const active=document.querySelector(`.v5-tray-piece[data-id="${dragging.id}"]`);if(active)active.classList.toggle('v5-dragging',dragging.move)},true);
-document.addEventListener('pointerup',e=>{if(!dragging)return;const g=dragging;dragging=null;if(!g.move)return;const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('.v5-puzzle-slot');if(slot){game.selected=g.id;placePiece(Number(slot.dataset.id))}},true);
+document.addEventListener('drop',e=>{
+ const target=e.target.closest('.v5-puzzle-slot');if(!target)return;
+ e.preventDefault();
+ const id=e.dataTransfer?.getData('text/plain');
+ if(id===undefined||id===null||id==='')return;
+ game.selected=Number(id);placePiece(Number(target.dataset.id));
+});
+document.addEventListener('pointerdown',e=>{
+ const tile=e.target.closest('.v5-tray-piece');if(!tile||e.pointerType==='mouse'||state.view!=='v5-puzzle')return;
+ discardDrag();
+ dragging={id:Number(tile.dataset.id),pointer:e.pointerId,startX:e.clientX,startY:e.clientY,move:false,ghost:null};
+ try{tile.setPointerCapture(e.pointerId)}catch(err){}
+},true);
+document.addEventListener('pointermove',e=>{
+ if(!dragging||dragging.pointer!==e.pointerId)return;
+ const dist=Math.hypot(e.clientX-dragging.startX,e.clientY-dragging.startY);
+ if(!dragging.move&&dist>14){
+  dragging.move=true;
+  const active=document.querySelector('.v5-tray-piece[data-id="'+dragging.id+'"]');
+  if(active){
+   active.classList.add('v5-dragging');
+   dragging.ghost=active.cloneNode(true);
+   dragging.ghost.removeAttribute('data-v5');
+   dragging.ghost.className='v5-piece-ghost';
+   dragging.ghost.style.width=Math.min(active.getBoundingClientRect().width,120)+'px';
+   document.body.appendChild(dragging.ghost);
+  }
+ }
+ if(dragging.move){
+  if(dragging.ghost){
+   dragging.ghost.style.left=e.clientX+'px';
+   dragging.ghost.style.top=e.clientY+'px';
+  }
+  e.preventDefault();
+ }
+},true);
+document.addEventListener('pointerup',e=>{
+ if(!dragging||dragging.pointer!==e.pointerId)return;
+ const id=dragging.id,moved=dragging.move;
+ discardDrag();
+ if(!moved)return;
+ ignorePieceClickUntil=Date.now()+350;
+ const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.v5-puzzle-slot');
+ if(!target||state.view!=='v5-puzzle')return;
+ game.selected=id;placePiece(Number(target.dataset.id));
+},true);
+document.addEventListener('pointercancel',discardDrag,true);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)discardDrag()});
 
 // When leaving a game, there must be no delayed reveal or ghost touches.
 const oldHome=navHome;
-navHome=function(){dragging=null;clearTimeout(finishTimer);oldHome()};
+navHome=function(){discardDrag();clearTimeout(finishTimer);oldHome()};
 renderHome();
 })();
