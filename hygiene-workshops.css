@@ -252,3 +252,57 @@
  .hg-dental-badge strong{font-size:36px}
  .hg-bottom-tip{margin:8px 0 2px;font-size:12px}
 }
+
+/* MARICICA 3D PHOTO ART 4.0 — imaginile aprobate; fără recolorare sau SVG schematice. */
+.hg-photo-sprite{
+ display:block;flex:none;width:100%;height:auto;aspect-ratio:4/3;
+ background-image:url('assets/hygiene/hygiene-3d-sprite.webp');
+ background-repeat:no-repeat;background-size:300% 400%;
+ background-position:var(--hg-sprite-x,0%) var(--hg-sprite-y,0%);
+ background-color:transparent;
+ filter:drop-shadow(0 5px 6px rgba(99,63,89,.18));
+ pointer-events:none;user-select:none;-webkit-user-select:none;
+}
+.hg-token .hg-icon-premium{display:grid;place-items:center;overflow:visible;background:transparent!important;border:0!important;box-shadow:none!important}
+.hg-token .hg-photo-sprite{width:100%;max-width:120px;aspect-ratio:4/3;max-height:100%}
+.hg-basket .hg-art-basket.hg-photo-sprite{
+ width:100%;height:auto;aspect-ratio:4/3;max-width:185px;
+ margin:-4px auto -3px;filter:drop-shadow(0 8px 6px rgba(97,61,80,.22));
+}
+.hg-basket{padding-top:8px;justify-content:center}
+.hg-basket strong{position:relative;z-index:2}
+.hg-choice-stage .hg-choice-photo.hg-illustrated-object{overflow:visible;display:grid;place-items:center;filter:none}
+.hg-choice-stage .hg-choice-photo .hg-photo-sprite{width:100%;max-width:190px;aspect-ratio:4/3;max-height:100%}
+.hg-photo-comb{display:grid;place-items:center;background-image:none;aspect-ratio:4/3}
+.hg-photo-comb img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 4px rgba(85,55,74,.22))}
+.hg-collected .hg-photo-sprite{width:60px;height:45px}
+.hg-dental-board{aspect-ratio:740/520;background:linear-gradient(145deg,#f5e7f6,#dbf3f8)}
+.hg-mouth-svg.hg-photo-mouth{width:100%;height:100%;display:block;touch-action:none!important;overflow:hidden}
+.hg-mouth-background{pointer-events:none}
+.hg-clean-tooth{opacity:0;pointer-events:none;transition:opacity .22s ease-out}
+.hg-clean-tooth.hg-level-1{opacity:.31}
+.hg-clean-tooth.hg-level-2{opacity:.66}
+.hg-clean-tooth.hg-cleaned{opacity:1}
+.hg-dental-hit-area{cursor:crosshair;outline:none}
+.hg-dental-hit-area.hg-cleaned{pointer-events:none}
+.hg-dental-hit-area:focus-visible ellipse{stroke:#4a95cc;stroke-width:3;opacity:.15}
+.hg-brush-cursor.hg-brush-3d{opacity:0;pointer-events:none;transition:opacity .15s;filter:drop-shadow(0 7px 6px rgba(44,59,114,.32))}
+.hg-brush-cursor.hg-brush-3d.hg-brush-active{opacity:1}
+.hg-dental-board:before{display:none}
+.hg-realistic-mouth .hg-stroke-dots{display:none!important}
+@media(max-width:610px){
+ .hg-token .hg-icon-premium{width:min(100%,110px);height:90px}
+ .hg-token .hg-photo-sprite{width:100%;max-width:110px}
+ .hg-basket .hg-art-basket.hg-photo-sprite{max-width:140px;margin:-7px auto -1px}
+ .hg-basket{min-height:122px;padding:5px 2px 6px}
+ .hg-choice-stage .hg-choice-photo .hg-photo-sprite{width:100%}
+ .hg-dental-board{border-width:3px;border-radius:18px}
+}
+@media(orientation:landscape) and (max-height:570px) and (max-width:980px){
+ .hg-basket .hg-art-basket.hg-photo-sprite{max-width:138px}
+ .hg-token .hg-icon-premium{height:75px}
+ .hg-dental-board{width:100%;margin:5px auto}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg-clean-tooth,.hg-brush-cursor.hg-brush-3d{transition:none!important}
+}
