@@ -1,0 +1,37 @@
+/* MARICICA • obiecte si cosulete ilustrate 3D pastel, culori exacte fara filtre CSS. */
+(function(){
+'use strict';
+const colors={
+ red:{base:'#f46887',light:'#ffc4d2',shine:'#ffe9ef',mid:'#fb91ac',dark:'#ba385c',shade:'#873455',name:'Roșu'},
+ yellow:{base:'#ffc34b',light:'#fff2a5',shine:'#fffbe2',mid:'#ffdc77',dark:'#c18c23',shade:'#a77826',name:'Galben'},
+ blue:{base:'#4caef2',light:'#c2edff',shine:'#edfbff',mid:'#85d2ff',dark:'#2676ba',shade:'#205b91',name:'Albastru'},
+ purple:{base:'#cd8ce9',light:'#f1d4ff',shine:'#fbf1ff',mid:'#e8b9fa',dark:'#9458b7',shade:'#69407f',name:'Mov'}
+};
+function frame(type,color,markup){
+ const p=colors[color]||colors.blue;
+ const id='mha-'+type+'-'+color;
+ return '<svg class="hg-art-svg hg-art-'+type+' hg-art-'+color+'" viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs>'+
+ '<linearGradient id="'+id+'-body" x1=".03" y1="0" x2=".92" y2="1"><stop stop-color="'+p.shine+'"/><stop offset=".22" stop-color="'+p.light+'"/><stop offset=".58" stop-color="'+p.base+'"/><stop offset=".87" stop-color="'+p.mid+'"/><stop offset="1" stop-color="'+p.dark+'"/></linearGradient>'+
+ '<linearGradient id="'+id+'-deep" x1="0" y1="0" x2=".84" y2="1"><stop stop-color="'+p.mid+'"/><stop offset=".6" stop-color="'+p.base+'"/><stop offset="1" stop-color="'+p.dark+'"/></linearGradient>'+
+ '<linearGradient id="'+id+'-metal" x1="0" y1="0" x2=".4" y2="1"><stop stop-color="#fff"/><stop offset=".36" stop-color="#dfe7ed"/><stop offset=".67" stop-color="#a3c0d0"/><stop offset="1" stop-color="#eef8fd"/></linearGradient>'+
+ '<radialGradient id="'+id+'-light"><stop stop-color="#fff" stop-opacity=".88"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
+ '<filter id="'+id+'-shadow" x="-40%" y="-40%" width="180%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>'+
+ '</defs><ellipse cx="111" cy="171" rx="74" ry="12" fill="#72577d" opacity=".17" filter="url(#'+id+'-shadow)"/>'+markup.replaceAll('%BODY%','url(#'+id+'-body)').replaceAll('%DEEP%','url(#'+id+'-deep)').replaceAll('%METAL%','url(#'+id+'-metal)').replaceAll('%LIGHT%','url(#'+id+'-light)').replaceAll('%BASE%',p.base).replaceAll('%DARK%',p.dark).replaceAll('%SHINE%',p.shine).replaceAll('%MID%',p.mid)+'</svg>';
+}
+function object(kind,color='blue'){
+ if(kind==='soap')return frame(kind,color,
+ '<g><rect x="50" y="65" width="125" height="96" rx="34" fill="%DARK%" opacity=".25" transform="translate(0 4)"/><rect x="47" y="63" width="126" height="93" rx="35" fill="%BODY%" stroke="%SHINE%" stroke-width="3"/><path d="M61 104Q66 77 96 77H137" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none" opacity=".67"/><path d="M78 140Q113 158 151 139" stroke="%DARK%" opacity=".26" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M95 109Q108 99 122 109Q131 116 126 124Q113 136 99 124Q91 118 95 109Z" fill="#fff8f4" opacity=".8"/><circle cx="70" cy="55" r="18" fill="#fff" opacity=".93"/><circle cx="80" cy="51" r="7" fill="#cff6ff"/><circle cx="155" cy="50" r="13" fill="#fff" opacity=".82"/><circle cx="152" cy="48" r="4" fill="#ddfbff"/><circle cx="182" cy="92" r="8" fill="#fff" opacity=".9"/></g>');
+ if(kind==='brush')return frame(kind,color,
+ '<g transform="rotate(-31 113 98)"><rect x="25" y="93" width="177" height="32" rx="16" fill="%DARK%" opacity=".26" transform="translate(0 5)"/><rect x="22" y="89" width="176" height="31" rx="15" fill="%BODY%" stroke="%SHINE%" stroke-width="3"/><rect x="88" y="94" width="72" height="8" rx="4" fill="#fff" opacity=".66"/><rect x="22" y="69" width="62" height="36" rx="13" fill="%DEEP%" stroke="%SHINE%" stroke-width="3"/><rect x="29" y="65" width="48" height="14" rx="6" fill="#fff" stroke="#b9e6f9" stroke-width="2"/><g stroke="#fff" stroke-linecap="round" stroke-width="8"><path d="M35 67V49"/><path d="M45 67V46"/><path d="M55 67V47"/><path d="M65 67V48"/><path d="M75 67V51"/></g><g stroke="#9ce8fc" stroke-linecap="round" stroke-width="4"><path d="M40 66V49"/><path d="M60 66V48"/></g><path d="M164 94Q180 94 184 103" stroke="#fff" opacity=".5" stroke-width="5" fill="none" stroke-linecap="round"/></g><path d="M176 40l5-13 5 13 13 5-13 5-5 13-5-13-13-5Z" fill="#ffe39b" opacity=".9"/>');
+ if(kind==='towel')return frame(kind,color,
+ '<g><path d="M55 31H165" stroke="%METAL%" stroke-width="13" stroke-linecap="round"/><circle cx="56" cy="31" r="14" fill="%METAL%" stroke="#fff" stroke-width="3"/><circle cx="164" cy="31" r="14" fill="%METAL%" stroke="#fff" stroke-width="3"/><path d="M72 37Q107 30 150 38L159 153Q150 167 137 163L104 157L88 162Q65 162 64 150Z" fill="%BODY%" stroke="%SHINE%" stroke-width="4"/><path d="M74 42Q83 35 103 39L107 154Q90 165 78 154Z" fill="%MID%" opacity=".43"/><path d="M66 39Q108 25 156 38Q161 57 151 65Q110 60 67 66Q60 53 66 39Z" fill="%DEEP%" stroke="%SHINE%" stroke-width="4"/><path d="M79 127Q109 132 145 124" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M79 142Q109 146 144 139" stroke="#fff" stroke-width="4" opacity=".67" fill="none" stroke-linecap="round"/><path d="M88 80Q90 100 89 115" stroke="#fff" stroke-width="6" opacity=".23" stroke-linecap="round" fill="none"/><path d="M118 88Q111 80 104 89Q101 97 118 109Q135 97 132 89Q125 81 118 88Z" fill="#fff" opacity=".85"/></g>');
+ return frame('comb',color,
+ '<g transform="rotate(-23 112 96)"><rect x="28" y="53" width="166" height="43" rx="19" fill="%DARK%" opacity=".23" transform="translate(0 6)"/><rect x="28" y="49" width="166" height="43" rx="19" fill="%BODY%" stroke="%SHINE%" stroke-width="3"/><path d="M46 62Q117 51 173 60" fill="none" stroke="#fff" opacity=".66" stroke-width="8" stroke-linecap="round"/>'+Array.from({length:12},(_,i)=>'<rect x="'+(43+i*12)+'" y="85" width="7" height="'+(i%3===0?47:53)+'" rx="3.5" fill="%DEEP%" stroke="%SHINE%" stroke-width="1.7"/>').join('')+'</g>');
+}
+function basket(color){
+ const p=colors[color]||colors.blue;
+ const m='<g><path d="M50 79Q53 11 110 10Q165 13 171 78" fill="none" stroke="%DARK%" stroke-width="17" stroke-linecap="round"/><path d="M54 79Q59 22 110 22Q157 23 166 79" fill="none" stroke="%MID%" stroke-width="8" opacity=".9" stroke-linecap="round"/><path d="M19 76L34 156Q105 182 184 157L199 76Z" fill="%DEEP%" stroke="%SHINE%" stroke-width="4"/><path d="M32 88L43 149Q107 165 176 150L187 88" fill="%BODY%" opacity=".72"/><path d="M41 91L48 148M67 91L69 159M95 92L96 165M124 92L123 162M151 91L149 157M178 91L172 148" stroke="%DARK%" stroke-width="8" opacity=".48" stroke-linecap="round"/><path d="M37 110Q109 124 183 111M39 138Q107 153 179 140" fill="none" stroke="%DARK%" stroke-width="8" opacity=".45"/><path d="M36 101Q105 113 186 101M39 130Q106 142 182 130" fill="none" stroke="%SHINE%" stroke-width="5" opacity=".5"/><path d="M22 79H198" stroke="%DARK%" stroke-width="20" stroke-linecap="round"/><path d="M22 72H198" stroke="%BODY%" stroke-width="18" stroke-linecap="round"/><path d="M35 67H182" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/><path d="M52 95Q58 113 55 132" fill="none" stroke="#fff" opacity=".25" stroke-width="8" stroke-linecap="round"/></g>';
+ return frame('basket',color,m);
+}
+window.MaricicaHygieneArt={object,basket,colors,version:'3.0'};
+})();
