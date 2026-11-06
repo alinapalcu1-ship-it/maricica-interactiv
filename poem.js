@@ -21,6 +21,10 @@ const SCENES=[
 const TITLE='Prietenii curățeniei';
 const audio=new Audio();
 audio.preload='auto';
+function notifyPoemVoice(active){window.dispatchEvent(new CustomEvent('maricica:voice',{detail:{active:!!active}}));}
+audio.addEventListener('play',()=>notifyPoemVoice(true));
+for(const eventName of ['pause','ended','error'])audio.addEventListener(eventName,()=>notifyPoemVoice(false));
+
 let page=0,activeLine=-1,playing=false,runId=0,playList=[],playPos=0,spoken=null;
 const host=document.getElementById('app');
 function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
