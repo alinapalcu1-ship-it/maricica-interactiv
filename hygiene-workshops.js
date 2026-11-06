@@ -17,14 +17,8 @@ let sort={phase:'colors',selected:null,placed:[],picked:[],feedback:'Atinge un o
 let clean=new Set(),brushDown=false,drag=null,suppressClick=0;
 let strokes=new Map(),toothTracking=null,brushAudioCtx=null,brushAudioTime=0;
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','&quot;':'&quot;'}[c]||'&#39;'));}
-function icon(kind,color){
- const source=kind==='towel'?'assets/hygiene/towel-premium.svg':'assets/cinema/'+kind+'.webp';
- return '<span class="hg-icon hg-icon-photo hg-hue-'+color+' hg-kind-'+kind+'"><img src="'+source+'" alt="" draggable="false"></span>';
-}
-function basketSVG(color){
- const p=palette[color];
- return '<svg class="hg-basket-svg" viewBox="0 0 160 112" aria-hidden="true"><ellipse cx="80" cy="100" rx="71" ry="9" fill="#654e73" opacity=".12"/><path d="M47 44Q55 3 80 3Q105 3 114 44" fill="none" stroke="'+p.dark+'" stroke-width="10" stroke-linecap="round"/><path d="M10 39H150L136 99Q80 115 24 99Z" fill="'+p.hex+'" stroke="#fff" stroke-width="5"/><path d="M28 53H132M25 69H135M27 86H133M53 47L48 102M80 47V107M107 47L112 102" stroke="'+p.dark+'" stroke-width="4" opacity=".43"/><rect x="8" y="34" width="144" height="15" rx="7" fill="'+p.light+'" stroke="'+p.hex+'" stroke-width="5"/><ellipse cx="60" cy="63" rx="25" ry="7" fill="#fff" opacity=".24"/></svg>';
-}
+function icon(kind,color){return '<span class="hg-icon hg-icon-premium">'+window.MaricicaHygieneArt.object(kind,color)+'</span>';}
+function basketSVG(color){return window.MaricicaHygieneArt.basket(color);}
 function homeCards(){
  if(state.view!=='home')return;
  const grid=host.querySelector('.v4-start-grid');
@@ -61,8 +55,7 @@ function sortStage(){
  return '<div class="hg-play-layout">'+left+panel+'</div>';
 }
 function choicePhoto(t){
- if(t.id==='towel')return '<img class="hg-choice-photo" src="assets/hygiene/towel-premium.svg" alt="" draggable="false">';
- return '<img class="hg-choice-photo" src="assets/cinema/'+t.id+'.webp" alt="" draggable="false">';
+ return '<span class="hg-choice-photo hg-illustrated-object">'+window.MaricicaHygieneArt.object(t.id,t.id==='comb'?'purple':t.id==='towel'?'blue':t.id==='brush'?'blue':'red')+'</span>';
 }
 function choiceStage(){
  const n=sort.picked.length;
