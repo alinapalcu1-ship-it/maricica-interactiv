@@ -76,14 +76,26 @@ function stainSvg(p,i){
  '</g>';
 }
 function mouthSvg(){
- const w=740,h=520,photo='assets/hygiene/teeth-3d-game.webp',cleanPhoto='assets/hygiene/teeth-3d-clean.webp';
+ const w=740,h=520,photo='assets/hygiene/teeth-3d-game.webp',cleanPhoto='assets/hygiene/teeth-3d-white.webp';
  const imageAttrs='x="23" y="0" width="694" height="520" preserveAspectRatio="none"';
- const clips=spots.map((p,i)=>'<clipPath id="hg-clip-'+i+'"><ellipse cx="'+p.x+'" cy="'+p.y+'" rx="'+(i===0||i===4?51:48)+'" ry="'+(i<4?48:44)+'"/></clipPath>').join('');
+ // Contururi ale celor opt coroane, corelate cu fotografia 3D, în coordonate 1152 × 864.
+ const toothOutlines=[
+ [[236,238],[250,218],[275,200],[310,190],[349,198],[376,228],[387,272],[377,337],[345,349],[277,343],[238,318],[227,277]],
+ [[385,225],[402,198],[432,185],[474,181],[517,191],[547,214],[566,262],[560,334],[539,353],[475,357],[417,341],[389,310]],
+ [[563,222],[592,192],[639,182],[684,187],[725,211],[739,250],[734,331],[713,353],[648,355],[596,341],[566,301]],
+ [[740,220],[762,197],[803,192],[838,201],[868,231],[873,274],[858,330],[827,344],[774,340],[740,298]],
+ [[240,478],[267,458],[315,464],[356,487],[383,526],[373,585],[345,612],[294,614],[254,583],[237,536]],
+ [[378,503],[411,486],[469,486],[530,492],[555,516],[551,595],[528,638],[493,652],[425,644],[390,610],[376,553]],
+ [[546,508],[587,490],[638,488],[697,493],[729,519],[731,590],[707,631],[670,650],[607,641],[564,613]],
+ [[726,493],[760,474],[800,460],[830,480],[853,509],[852,562],[827,595],[785,611],[739,580],[723,540]]
+ ];
+ const clips=toothOutlines.map((poly,i)=>'<clipPath id="hg-clip-'+i+'"><polygon points="'+poly.map(([x,y])=>(23+x*694/1152).toFixed(1)+','+(y*520/864).toFixed(1)).join(' ')+'"/></clipPath>').join('');
  const cleanLayers=spots.map((p,i)=>'<g class="hg-clean-tooth" data-hg-clean="'+i+'" clip-path="url(#hg-clip-'+i+')" aria-hidden="true"><image href="'+cleanPhoto+'" '+imageAttrs+'/></g>').join('');
  const hitAreas=spots.map(stainSvg).join('');
  return '<svg class="hg-mouth-svg hg-photo-mouth" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" data-hg-mouth="yes" aria-label="Fotografie 3D cu un zâmbet și opt dinți. Curăță fiecare dinte de trei ori sus și jos.">'+
  '<defs>'+clips+'</defs>'+
  '<image href="'+photo+'" '+imageAttrs+' class="hg-mouth-background"/>'+
+ '<image href="'+cleanPhoto+'" '+imageAttrs+' class="hg-mouth-all-white"/>'+
  cleanLayers+hitAreas+
  '<g id="hg-brush-cursor" class="hg-brush-cursor hg-brush-3d" transform="translate(660 447)" aria-hidden="true">'+
  '<image href="assets/hygiene/brush-blue-3d.webp" x="-68" y="-52" width="136" height="102" preserveAspectRatio="xMidYMid meet"/>'+
