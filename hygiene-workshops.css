@@ -168,3 +168,87 @@
 @media(prefers-reduced-motion:reduce){
  .hg-choice-stage .hg-choice-photo,.hg-realistic-mouth .hg-dental-plaque{transition:none!important}
 }
+
+/* Maricica art system 3.0 — real 3D pastel shades, no photographic hue filters. */
+.hg-token .hg-icon-premium,.hg-collected .hg-icon-premium{
+ display:grid;place-items:center;width:clamp(78px,8.8vw,122px);height:clamp(76px,8vw,114px);
+ padding:0;overflow:visible;border:0;border-radius:0;background:transparent!important;box-shadow:none!important;
+}
+.hg-art-svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 5px #7c527130)}
+.hg-basket .hg-art-basket{display:block;width:min(100%,198px);height:clamp(84px,10.9vw,141px);margin:-2px auto 1px;filter:drop-shadow(0 8px 5px #79608327)}
+.hg-basket{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(150px,15vw,220px);background:linear-gradient(155deg,#fff,#fff6f6)}
+.hg-basket:before{content:"";position:absolute;inset:4px;z-index:-1;border-radius:20px;background:linear-gradient(130deg,#fff8,#fff0)}
+.hg-basket-red{background:linear-gradient(165deg,#fff7f9,#ffe1e9 90%)}
+.hg-basket-yellow{background:linear-gradient(165deg,#fffdf6,#fff0c1 90%)}
+.hg-basket-blue{background:linear-gradient(165deg,#f7fcff,#d5efff 90%)}
+.hg-basket:hover,.hg-basket:focus-visible{transform:translateY(-2px);box-shadow:0 10px 25px #a97a9940}
+.hg-basket strong{font-size:clamp(16px,1.5vw,22px)}
+.hg-token{background:linear-gradient(150deg,#fffefb,#f7f1fa)}
+.hg-token .hg-art-svg{filter:drop-shadow(0 5px 6px #967e8b3a)}
+.hg-token.hg-placed .hg-art-svg{filter:grayscale(.5);opacity:.45}
+.hg-token:active:not(:disabled){transform:scale(.97)}
+.hg-icon-photo,.hg-hue-yellow,.hg-hue-blue{filter:none}
+.hg-choice-stage .hg-choice-photo.hg-illustrated-object{
+ display:grid;place-items:center;width:min(100%,175px);height:clamp(118px,12.2vw,166px);
+ overflow:visible;background:transparent;filter:none;border-radius:0;
+}
+.hg-choice-stage .hg-choice-photo .hg-art-svg{height:100%;width:100%;object-fit:contain}
+.hg-choice-stage .hg-choice-premium:hover .hg-choice-photo{transform:scale(1.04)}
+.hg-choice-stage .hg-choice-premium{background:linear-gradient(160deg,#fffdfb,#faf0fb)}
+.hg-choice-stage .hg-choice-premium.hg-picked{background:linear-gradient(145deg,#e9fff4,#c9f5e0)}
+.hg-collected .hg-illustrated-object{display:block;height:52px;width:64px}
+.hg-collected .hg-illustrated-object svg{width:100%;height:100%}
+.hg-realistic-mouth .hg-tooth-unit{filter:none}
+.hg-realistic-mouth .hg-dental-plaque{transition:opacity .27s ease-out,filter .27s ease-out;filter:none}
+.hg-realistic-mouth .hg-dental-plaque.hg-level-1{opacity:.74}
+.hg-realistic-mouth .hg-dental-plaque.hg-level-2{opacity:.37}
+.hg-realistic-mouth .hg-dental-plaque.hg-cleaned{opacity:0;pointer-events:none}
+.hg-dental-board:before{display:none}
+.hg-dental-board .hg-sparkles{font-size:clamp(22px,4vw,45px);letter-spacing:.4em}
+.hg-realistic-mouth .hg-brush-cursor{filter:drop-shadow(0 3px 5px #4f6d9650)}
+.hg-mouth-svg,.hg-token{touch-action:none!important}
+@media(max-width:610px){
+ .hg-baskets{gap:7px;margin:12px 0 13px}
+ .hg-basket{min-height:121px;border-width:2px;padding:3px 2px 8px}
+ .hg-basket .hg-art-basket{width:100%;height:83px;margin:-4px auto -2px}
+ .hg-basket strong{font-size:14px}
+ .hg-basket small{font-size:10px}
+ .hg-token{min-height:111px;gap:3px}
+ .hg-token .hg-icon-premium{width:72px;height:75px}
+ .hg-choice-stage .hg-choice-photo.hg-illustrated-object{height:107px;width:125px}
+ .hg-collected .hg-illustrated-object{height:51px}
+ .hg-dental-board{border-radius:17px}
+}
+@media (orientation:landscape) and (max-width:980px) and (max-height:570px){
+ .hg-view{max-width:100%;margin:0;padding:2px 5px 15px}
+ .hg-header{display:flex;gap:8px;align-items:center;margin:0 0 8px}
+ .hg-titles{flex:1;text-align:left}
+ .hg-kicker{display:none}
+ .hg-titles h1{font-size:clamp(20px,3.3vw,28px);margin:0}
+ .hg-titles p{font-size:11px;margin:0}
+ .hg-play-layout{grid-template-columns:minmax(0,1.58fr) minmax(230px,.85fr);gap:10px;align-items:start}
+ .hg-game-surface{padding:10px;border-radius:18px}
+ .hg-guide{display:flex;padding:11px;border-radius:18px;min-height:0}
+ .hg-guide-top{display:grid;grid-template-columns:65px 1fr;gap:7px}
+ .hg-guide-top img{height:74px}
+ .hg-guide-top p{font-size:12px;line-height:1.25}
+ .hg-guide-top strong{font-size:16px}
+ .hg-guide-actions{display:flex;gap:5px}
+ .hg-guide-actions button{min-height:40px;padding:7px 9px;font-size:12px!important}
+ .hg-feedback{padding:10px;font-size:13px;min-height:40px}
+ .hg-teacher-note{display:none}
+ .hg-baskets{margin:8px 0;gap:6px}
+ .hg-basket{min-height:110px}
+ .hg-basket .hg-art-basket{height:75px;width:100%}
+ .hg-token-grid{gap:7px}
+ .hg-token{min-height:100px}
+ .hg-token .hg-icon-premium{width:69px;height:65px}
+ .hg-choice-stage .hg-choices{gap:8px}
+ .hg-choice-stage .hg-choice-premium{min-height:128px}
+ .hg-choice-stage .hg-choice-photo.hg-illustrated-object{height:92px;width:105px}
+ .hg-choice-stage .hg-task-prompt{font-size:17px;margin:8px 0;padding:9px}
+ .hg-dental-board{max-height:none;width:100%;margin:8px auto 0}
+ .hg-dental-badge{padding:9px}
+ .hg-dental-badge strong{font-size:36px}
+ .hg-bottom-tip{margin:8px 0 2px;font-size:12px}
+}
