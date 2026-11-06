@@ -18,16 +18,8 @@ let clean=new Set(),brushDown=false,drag=null,suppressClick=0;
 let strokes=new Map(),toothTracking=null,brushAudioCtx=null,brushAudioTime=0;
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','&quot;':'&quot;'}[c]||'&#39;'));}
 function icon(kind,color){
- const c=(palette[color]||palette.blue).hex;
- const begin='<svg class="hg-icon" viewBox="0 0 120 106" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
- const finish='</svg>';
- const shine='<ellipse cx="43" cy="29" rx="17" ry="5" fill="#fff" opacity=".5"/>';
- if(kind==='soap')return begin+'<ellipse cx="62" cy="90" rx="40" ry="8" fill="#745472" opacity=".13"/><rect x="18" y="22" width="84" height="65" rx="24" fill="'+c+'" stroke="#fff" stroke-width="4"/><rect x="25" y="28" width="70" height="48" rx="20" fill="#fff" opacity=".19"/>'+shine+'<circle cx="88" cy="20" r="8" fill="#fff" opacity=".92"/><circle cx="101" cy="37" r="4" fill="#fff" opacity=".9"/><path d="M47 61 Q60 45 74 61" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>';
- if(kind==='brush')return begin+'<ellipse cx="61" cy="89" rx="40" ry="7" fill="#745472" opacity=".12"/><g transform="rotate(-22 62 54)"><rect x="15" y="47" width="91" height="22" rx="11" fill="'+c+'" stroke="#fff" stroke-width="3"/><rect x="53" y="51" width="35" height="5" rx="3" fill="#fff" opacity=".63"/><rect x="15" y="39" width="30" height="13" rx="5" fill="#fff"/><path d="M19 41v-11M25 41V27M31 41V29M37 41V28M43 41V31" fill="none" stroke="'+c+'" stroke-width="4" stroke-linecap="round"/></g></svg>';
- if(kind==='towel')return begin+'<ellipse cx="61" cy="93" rx="43" ry="7" fill="#745472" opacity=".12"/><rect x="22" y="16" width="75" height="74" rx="12" fill="'+c+'" stroke="#fff" stroke-width="4"/><rect x="28" y="21" width="63" height="63" rx="8" fill="#fff" opacity=".22"/><path d="M31 68h58" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="M31 77h58" stroke="#fff" stroke-width="3" stroke-dasharray="2 6" opacity=".8"/></svg>';
- if(kind==='comb')return begin+'<g transform="rotate(-25 60 54)"><rect x="17" y="32" width="87" height="22" rx="10" fill="#db8ce4" stroke="#fff" stroke-width="3"/>'+Array.from({length:11},(_,i)=>'<rect x="'+(23+i*7)+'" y="50" width="4" height="26" rx="2" fill="#a95fba"/>').join('')+'</g></svg>';
- if(kind==='ball')return begin+'<circle cx="60" cy="53" r="35" fill="#ffbd59" stroke="#fff" stroke-width="4"/><path d="M38 25Q74 50 93 73M27 72Q55 45 73 21" stroke="#f47480" stroke-width="9" fill="none"/><circle cx="49" cy="35" r="9" fill="#fff" opacity=".6"/></svg>';
- return begin+'<rect x="19" y="39" width="80" height="36" rx="13" fill="#8ebdee" stroke="#fff" stroke-width="4"/><path d="M35 39l12-19h30l13 19" fill="#b7dcfa" stroke="#fff" stroke-width="4"/><circle cx="38" cy="78" r="11" fill="#585a80" stroke="#fff" stroke-width="3"/><circle cx="80" cy="78" r="11" fill="#585a80" stroke="#fff" stroke-width="3"/><rect x="32" y="44" width="14" height="7" rx="3" fill="#fff"/></svg>';
+ const source=kind==='towel'?'assets/hygiene/towel-premium.svg':'assets/cinema/'+kind+'.webp';
+ return '<span class="hg-icon hg-icon-photo hg-hue-'+color+' hg-kind-'+kind+'"><img src="'+source+'" alt="" draggable="false"></span>';
 }
 function basketSVG(color){
  const p=palette[color];
