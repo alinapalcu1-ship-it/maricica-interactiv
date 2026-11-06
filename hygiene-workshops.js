@@ -69,37 +69,59 @@ function choiceStage(){
  return '<div class="hg-play-layout">'+left+panel+'</div>';
 }
 function toothSvg(x,y,i){
- const bottom=i>=4;
- const rotate=bottom?' rotate(180)':'';
- const width=i%4===0||i%4===3?0.91:1;
- return '<g class="hg-tooth-unit" transform="translate('+x+' '+y+')'+rotate+' scale('+width+' 1)"><path d="M-43 -50 C-24 -58 22 -58 43 -50 C51 -24 53 11 43 33 C35 48 20 55 0 53 C-24 55 -36 48 -44 33 C-53 9 -51 -24 -43 -50Z" fill="url(#hg-enamel-real)" stroke="#e8ecf4" stroke-width="2.3"/><path d="M-39 -44 C-16 -52 19 -51 38 -44 C40 -38 41 -26 41 -12 C31 -26 -31 -27 -40 -9 C-42 -22 -41 -35 -39 -44Z" fill="url(#hg-neck-real)" opacity=".85"/><path d="M-28 -37 C-33 -10 -32 8 -26 21" stroke="#fff" stroke-opacity=".8" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M16 -30 Q31 -24 30 -5" stroke="#c9d4e5" stroke-opacity=".35" stroke-width="4.5" stroke-linecap="round" fill="none"/><path d="M-31 38 Q0 50 32 38" stroke="#fff" stroke-opacity=".6" stroke-width="3" fill="none"/></g>';
+ const lower=i>=4, outer=(i%4===0||i%4===3);
+ const angle=outer?(i%4===0?-4:4):0;
+ const wide=outer?.88:1.04;
+ return '<g class="hg-tooth-unit" transform="translate('+x+' '+y+') rotate('+angle+')'+(lower?' rotate(180)':'')+' scale('+wide+' 1)">'+
+ '<path d="M-43 -55 C-31 -64 29 -63 43 -53 C53 -39 52 -11 47 15 C44 39 34 52 14 56 Q0 59 -15 56 C-35 52 -44 40 -47 15 C-51 -13 -54 -41 -43 -55Z" fill="url(#hg-enamel-depth)" stroke="#faf8fb" stroke-width="3.4" filter="url(#hg-tooth-shadow)"/>'+
+ '<path d="M-38 -51 C-20 -59 24 -57 38 -48 Q43 -26 41 -13 C23 -20 -24 -22 -42 -9 Q-43 -32 -38 -51Z" fill="url(#hg-enamel-top)" opacity=".78"/>'+
+ '<path d="M-36 -47 Q-25 -52 -17 -50" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".87"/>'+
+ '<path d="M-33 -23 Q-38 3 -28 24 Q-22 36 -8 43" stroke="url(#hg-tooth-gloss)" stroke-width="10" fill="none" stroke-linecap="round"/>'+
+ '<path d="M28 -34 Q36 2 28 29" stroke="#b0c0d1" stroke-width="3.6" stroke-linecap="round" fill="none" opacity=".42"/>'+
+ '<path d="M-25 42 Q0 54 25 42" stroke="#fefeff" stroke-width="3.2" fill="none" opacity=".79"/>'+
+ '</g>';
 }
 function stainSvg(p,i){
- const top=i<4;
- const pos=top?'-8':'10';
- return '<g data-hg-stain="'+i+'" class="hg-stain hg-dental-plaque" transform="translate('+p.x+' '+p.y+')" role="button" tabindex="0" aria-label="Dintele '+(i+1)+', necesită 3 mișcări sus-jos">' +
- '<path d="M-24 -20 Q-36 -9 -26 4 Q-18 14 -13 12 Q-6 22 5 12 Q18 18 20 6 Q34 -5 21 -20 Q5 -12 -7 -20Z" fill="url(#hg-plaque-real)" opacity=".85"/>' +
- '<circle cx="-21" cy="-5" r="4" fill="#caa174" opacity=".65"/><circle cx="17" cy="-1" r="3" fill="#b98b61" opacity=".55"/><circle cx="-5" cy="8" r="3.5" fill="#b88f64" opacity=".67"/><path d="M-19 -15Q-8 -9 1 -13" fill="none" stroke="#e4c9a9" stroke-width="4" opacity=".7" stroke-linecap="round"/>' +
- '<g class="hg-stroke-dots" transform="translate(-20 33)"><circle cx="0" cy="0" r="5.5"/><circle cx="19" cy="0" r="5.5"/><circle cx="38" cy="0" r="5.5"/></g></g>';
+ const offset=i%2===0?-8:8;
+ return '<g data-hg-stain="'+i+'" class="hg-stain hg-dental-plaque" transform="translate('+p.x+' '+p.y+')" role="button" tabindex="0" aria-label="Dintele '+(i+1)+' — trei mișcări sus-jos">'+
+ '<path d="M-22 '+(-9+offset/3)+' Q-16 -21 -8 -16 Q2 -23 10 -12 Q22 -16 25 -3 Q18 5 12 4 Q5 15 -5 9 Q-17 14 -23 5 Q-31 -4 -22 '+(-9+offset/3)+'Z" fill="url(#hg-plaque-glow)" stroke="#b48a65" stroke-opacity=".16" stroke-width="2"/>'+
+ '<path d="M-17 -7 Q-11 -12 -5 -8 M9 -3 Q14 -5 18 -2" fill="none" stroke="#e8cba8" opacity=".7" stroke-linecap="round" stroke-width="5"/>'+
+ '<circle cx="-23" cy="3" r="3" fill="#c8a581" opacity=".45"/><circle cx="18" cy="9" r="2.4" fill="#ae8669" opacity=".36"/>'+
+ '</g>';
 }
 function mouthSvg(){
  const xs=[185,305,425,545];
- const teeth=xs.map((x,i)=>toothSvg(x,180,i)).join('')+xs.map((x,i)=>toothSvg(x,338,i+4)).join('');
- return '<svg class="hg-mouth-svg hg-realistic-mouth" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gură cu opt dinți. Periază fiecare dinte sus și jos de trei ori." data-hg-mouth="yes">' +
- '<defs><linearGradient id="hg-enamel-real" x1=".04" x2=".96" y1=".05" y2="1"><stop stop-color="#fff"/><stop offset=".32" stop-color="#fffefa"/><stop offset=".72" stop-color="#eff4fa"/><stop offset="1" stop-color="#d2ddec"/></linearGradient><linearGradient id="hg-neck-real" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#efe1e1"/><stop offset=".8" stop-color="#fff" stop-opacity=".1"/></linearGradient><radialGradient id="hg-plaque-real"><stop stop-color="#be8754"/><stop offset=".7" stop-color="#d9b186"/><stop offset="1" stop-color="#e4c49e" stop-opacity=".5"/></radialGradient><linearGradient id="hg-lips-real" x1=".1" x2=".92" y1=".12" y2=".9"><stop stop-color="#ffd5d5"/><stop offset=".36" stop-color="#ff9bb1"/><stop offset=".7" stop-color="#f17c99"/><stop offset="1" stop-color="#d95477"/></linearGradient><radialGradient id="hg-mouth-dark"><stop stop-color="#985068"/><stop offset=".65" stop-color="#70324e"/><stop offset="1" stop-color="#57263f"/></radialGradient><linearGradient id="hg-gum-real" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#de6784"/><stop offset=".5" stop-color="#f49eb1"/><stop offset="1" stop-color="#e16e8c"/></linearGradient></defs>' +
- '<ellipse cx="370" cy="470" rx="292" ry="18" fill="#c4779d" opacity=".11"/>' +
- '<path d="M49 259 C45 178 111 123 177 105 C239 89 287 96 370 103 C459 92 533 94 600 124 C666 160 698 207 691 280 C684 383 635 426 559 445 C479 464 422 453 370 455 C294 458 226 462 150 434 C89 413 48 352 49 259Z" fill="url(#hg-lips-real)" stroke="#fff2f0" stroke-width="6"/>' +
- '<path d="M87 259 C87 181 152 151 227 147 C275 145 325 145 370 149 C434 143 499 143 558 154 C620 166 650 214 647 265 C640 345 600 392 533 401 C461 413 423 408 370 408 C305 412 253 413 186 399 C120 382 91 344 87 259Z" fill="url(#hg-mouth-dark)" stroke="#b55775" stroke-width="8"/>' +
- '<path d="M118 160 Q370 98 624 159 Q629 187 617 207 Q496 173 370 175 Q234 173 126 211 Q110 192 118 160Z" fill="url(#hg-gum-real)" />' +
- '<path d="M117 371 Q371 431 625 370 Q615 346 602 333 Q466 360 370 350 Q253 362 133 333 Q123 351 117 371Z" fill="url(#hg-gum-real)" />' +
- '<path d="M206 394 Q370 337 528 398 Q491 418 370 414 Q260 419 206 394Z" fill="#e88da5" opacity=".7"/>' +
+ const teeth=xs.map((x,i)=>toothSvg(x,182,i)).join('')+xs.map((x,i)=>toothSvg(x,337,i+4)).join('');
+ return '<svg class="hg-mouth-svg hg-realistic-mouth" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Un zâmbet 3D cu opt dinți. Periază fiecare dinte sus și jos de trei ori." data-hg-mouth="yes">'+
+ '<defs>'+
+ '<radialGradient id="hg-lip-volume" cx=".25" cy=".15" r=".92"><stop stop-color="#fff1ec"/><stop offset=".22" stop-color="#ffb9bf"/><stop offset=".49" stop-color="#ff8fa4"/><stop offset=".77" stop-color="#ee6889"/><stop offset="1" stop-color="#bf446b"/></radialGradient>'+
+ '<linearGradient id="hg-lip-shine" x1=".1" y1="0" x2=".62" y2="1"><stop stop-color="#fff" stop-opacity=".9"/><stop offset=".52" stop-color="#ffe2e5" stop-opacity=".38"/><stop offset="1" stop-color="#ffe2e5" stop-opacity="0"/></linearGradient>'+
+ '<radialGradient id="hg-inner-mouth" cx=".55" cy=".8" r=".92"><stop stop-color="#bd6683"/><stop offset=".31" stop-color="#8c4567"/><stop offset=".71" stop-color="#692b4f"/><stop offset="1" stop-color="#411e3c"/></radialGradient>'+
+ '<linearGradient id="hg-gums" x1="0" y1="0" x2=".09" y2="1"><stop stop-color="#cf5578"/><stop offset=".44" stop-color="#ed9aaf"/><stop offset=".8" stop-color="#ffbdc7"/><stop offset="1" stop-color="#f1a2ae"/></linearGradient>'+
+ '<linearGradient id="hg-enamel-depth" x1=".05" y1=".06" x2=".94" y2=".97"><stop stop-color="#fffefc"/><stop offset=".18" stop-color="#fff"/><stop offset=".4" stop-color="#fbfbff"/><stop offset=".75" stop-color="#eef3fc"/><stop offset=".93" stop-color="#d8e3f0"/><stop offset="1" stop-color="#bccddd"/></linearGradient>'+
+ '<linearGradient id="hg-enamel-top" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f5eef4"/><stop offset=".65" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'+
+ '<linearGradient id="hg-tooth-gloss"><stop stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity=".05"/></linearGradient>'+
+ '<radialGradient id="hg-plaque-glow"><stop stop-color="#b28a60" stop-opacity=".83"/><stop offset=".65" stop-color="#d5ae80" stop-opacity=".64"/><stop offset="1" stop-color="#ead5b5" stop-opacity=".19"/></radialGradient>'+
+ '<linearGradient id="hg-brush-3d" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#effaff"/><stop offset=".24" stop-color="#a7e5ff"/><stop offset=".63" stop-color="#53aff1"/><stop offset=".92" stop-color="#3282c8"/><stop offset="1" stop-color="#2469ac"/></linearGradient>'+
+ '<filter id="hg-tooth-shadow" x="-30%" y="-30%" width="160%" height="165%"><feDropShadow dx="0" dy="5" stdDeviation="3" flood-color="#37152f" flood-opacity=".35"/></filter>'+
+ '<filter id="hg-lip-shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="13" stdDeviation="12" flood-color="#924365" flood-opacity=".23"/></filter>'+
+ '</defs>'+
+ '<ellipse cx="370" cy="479" rx="290" ry="17" fill="#816187" opacity=".15"/>'+
+ '<path d="M45 254 C45 166 103 111 183 97 C259 78 297 97 368 98 C440 97 497 78 571 98 C651 118 694 176 695 260 C693 368 626 429 542 445 C470 463 418 456 367 459 C307 457 258 465 184 444 C94 419 46 360 45 254Z" fill="url(#hg-lip-volume)" stroke="#ffedf2" stroke-width="4" filter="url(#hg-lip-shadow)"/>'+
+ '<path d="M94 251 C92 192 136 149 201 140 C259 132 314 145 371 143 C430 145 492 131 549 143 C613 157 649 202 649 263 C648 341 598 385 534 400 C475 413 428 405 369 409 C307 409 252 413 194 401 C129 383 93 341 94 251Z" fill="url(#hg-inner-mouth)" stroke="#7a304f" stroke-width="8"/>'+
+ '<path d="M122 162 Q182 140 243 146 Q304 128 370 144 Q439 129 500 145 Q569 143 624 170 L612 212 Q497 172 371 176 Q248 168 127 217Z" fill="url(#hg-gums)"/>'+
+ '<path d="M126 361 Q253 399 369 371 Q488 391 615 360 L604 394 Q497 427 370 410 Q232 428 138 393Z" fill="url(#hg-gums)"/>'+
+ '<path d="M212 398 Q372 334 526 398 Q500 419 370 413 Q254 418 212 398Z" fill="#d97694" opacity=".65"/>'+
  teeth+spots.map(stainSvg).join('')+
- '<path d="M147 132 Q371 105 590 140" stroke="#ffe7eb" stroke-width="11" stroke-linecap="round" fill="none" opacity=".65"/><path d="M147 420 Q367 454 584 419" stroke="#ffb5c4" stroke-width="8" stroke-linecap="round" fill="none" opacity=".38"/>' +
- '<g id="hg-brush-cursor" class="hg-brush-cursor" transform="translate(670 465) rotate(-32)">' +
- '<path d="M-12 -9 Q40 -6 100 -5 Q108 0 100 12 L-12 15 Q-22 11 -22 4Z" fill="#82bfee" stroke="#f9feff" stroke-width="3"/>' +
- '<path d="M12 -2 H80" stroke="#d2f7ff" stroke-width="7" stroke-linecap="round"/>' +
- '<rect x="-40" y="-20" width="42" height="37" rx="14" fill="#6eafe6" stroke="#fff" stroke-width="4"/>' +
- '<path d="M-34 -20V-39M-26 -20V-42M-18 -20V-43M-10 -20V-41M-2 -20V-38" stroke="#e9feff" stroke-width="7" stroke-linecap="round"/>' +
+ '<path d="M126 138 Q211 100 320 116" stroke="url(#hg-lip-shine)" stroke-width="13" stroke-linecap="round" fill="none"/>'+
+ '<path d="M388 113 Q483 105 577 138" stroke="#fff5f5" stroke-width="8" opacity=".56" stroke-linecap="round" fill="none"/>'+
+ '<path d="M144 427 Q367 459 585 419" stroke="#ffc1c9" stroke-width="8" opacity=".44" stroke-linecap="round" fill="none"/>'+
+ '<g id="hg-brush-cursor" class="hg-brush-cursor" transform="translate(676 465) rotate(-36)" filter="url(#hg-tooth-shadow)">'+
+ '<rect x="-16" y="-9" width="132" height="27" rx="13.5" fill="url(#hg-brush-3d)" stroke="#e7f8ff" stroke-width="2.8"/>'+
+ '<path d="M8 -4 H90" stroke="#fff" stroke-width="5" opacity=".6" stroke-linecap="round"/>'+
+ '<rect x="-41" y="-19" width="49" height="39" rx="12" fill="url(#hg-brush-3d)" stroke="#e7f8ff" stroke-width="3.2"/>'+
+ '<g stroke="#e5f9ff" stroke-width="6.5" stroke-linecap="round"><path d="M-35 -17V-40"/><path d="M-26 -17V-43"/><path d="M-17 -17V-43"/><path d="M-8 -17V-43"/><path d="M1 -17V-39"/></g>'+
+ '<path d="M-37 -14H6" stroke="#fff" stroke-width="4" opacity=".7" fill="none"/>'+
  '</g></svg>';
 }
 function brushStage(){
