@@ -322,9 +322,9 @@
 .hg-basket .hg-photo-isolated img{filter:drop-shadow(0 7px 7px rgba(101,64,86,.18))}
 .hg-choice-stage .hg-choice-photo .hg-photo-isolated{width:100%;height:100%;max-width:195px}
 .hg-collected .hg-photo-isolated{height:52px;width:60px}
-.hg-mouth-all-white{opacity:0;pointer-events:none;transition:opacity .27s ease}
-.hg-dental-board.hg-all-clean .hg-mouth-all-white{opacity:1}
-.hg-photo-mouth .hg-clean-tooth.hg-cleaned{opacity:1;filter:saturate(.05) brightness(1.025)}
+.hg-mouth-all-clean{opacity:0;pointer-events:none;transition:opacity .32s ease}
+.hg-dental-board.hg-all-clean .hg-mouth-all-clean{opacity:1}
+.hg-photo-mouth .hg-clean-tooth.hg-cleaned{opacity:1;filter:none}
 .hg-photo-mouth .hg-clean-tooth.hg-level-1{opacity:.35}
 .hg-photo-mouth .hg-clean-tooth.hg-level-2{opacity:.69}
 @media(max-width:610px){
@@ -333,5 +333,10 @@
  .hg-choice-stage .hg-choice-photo .hg-photo-isolated{height:100%;width:100%}
 }
 @media(prefers-reduced-motion:reduce){
- .hg-mouth-all-white{transition:none}
+ .hg-mouth-all-clean{transition:none}
 }
+
+/* Periaj 3D natural: fara efect de alb opac si fara straluciri suprapuse. */
+.hg-photo-mouth .hg-clean-tooth{filter:none!important}
+.hg-photo-mouth .hg-mouth-all-clean{filter:none!important}
+.hg-dental-board.hg-all-clean .hg-sparkles{animation:none!important;opacity:0!important}
