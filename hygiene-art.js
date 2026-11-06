@@ -21,16 +21,14 @@ function frame(type,color,markup){
 /* Ilustrații 3D aprobate: 12 obiecte decupate logic din planșa 3×4.
    Fără filtre de recolorare și fără imagini vectoriale de substituție. */
 function sprite(kind,color='blue'){
- const c={red:0,yellow:1,blue:2}[color]??2;
- const row={basket:0,soap:1,brush:2,towel:3}[kind];
- if(row===undefined){
+ if(!['basket','soap','brush','towel'].includes(kind)){
   return '<span class="hg-photo-sprite hg-photo-comb"><img src="assets/cinema/comb.webp" alt="" draggable="false"></span>';
  }
- const x=['0%','50%','100%'][c];
- const y=['0%','33.333333%','66.666667%','100%'][row];
- return '<span class="hg-photo-sprite hg-photo-'+kind+' hg-photo-'+color+'" style="--hg-sprite-x:'+x+';--hg-sprite-y:'+y+';" aria-hidden="true"></span>';
+ const c=['red','yellow','blue'].includes(color)?color:'blue';
+ const path='assets/hygiene/individual/'+kind+'-'+c+'.webp';
+ return '<span class="hg-photo-isolated hg-photo-'+kind+' hg-photo-'+c+'"><img src="'+path+'" loading="eager" alt="" draggable="false"></span>';
 }
 function object(kind,color='blue'){return sprite(kind,color)}
 function basket(color){return sprite('basket',color)}
-window.MaricicaHygieneArt={object,basket,colors,version:'3.0'};
+window.MaricicaHygieneArt={object,basket,colors,version:'5.0'};
 })();
