@@ -48,7 +48,7 @@ function newGame(which){
  document.getElementById('modal-root').innerHTML='';
  state.view=which==='sort'?'hygiene-sort':'hygiene-brush';
  if(which==='sort')sort={phase:'colors',selected:null,placed:[],picked:[],feedback:'Atinge un obiect, apoi coșulețul de aceeași culoare.'};
- else clean=new Set();
+ else{clean=new Set();strokes=new Map();brushDown=false;toothTracking=null;}
  draw();
 }
 function shell(tag,title,subtitle,inside){
@@ -119,16 +119,17 @@ function mouthSvg(){
 }
 function brushStage(){
  const percent=Math.round(clean.size/spots.length*100),done=clean.size===spots.length;
- const left='<section class="hg-game-surface hg-dental-surface"><div class="hg-stage-head"><strong>Dințișorii veseli</strong><span>'+clean.size+' din '+spots.length+' curățați</span></div><div class="hg-progress"><span style="width:'+percent+'%"></span></div><div class="hg-dental-board '+(done?'hg-all-clean':'')+'">'+mouthSvg()+'<div class="hg-sparkles" aria-hidden="true">✦ ✧ ✦</div></div><p class="hg-bottom-tip">☝️ Atinge petele sau plimbă periuța peste dinți.</p></section>';
- const text=done?'✨ Toți dințișorii sunt curați! Minunat!':'Șterge petele cu periuța. Fiecare dințișor devine strălucitor!';
- const panel=sidePanel('Mișcă degetul pe modelul mare cu dinți. Poți curăța și printr-o simplă atingere.','<div class="hg-dental-badge '+(done?'done':'')+'"><span aria-hidden="true">'+(done?'🌟':'🪥')+'</span><strong>'+percent+'%</strong><small>Dințișori curați</small></div><div class="hg-feedback" aria-live="polite">'+text+'</div><p class="hg-teacher-note">Fără cronometru, fără puncte pierdute. La fiecare atingere copilul primește feedback pozitiv.</p>','<button class="hg-small-action" data-hg="hear" type="button">🔊 Ascultă indicația</button><button class="hg-small-action" data-hg="clean-one" type="button">✨ Curăță un dințișor</button><button class="hg-primary" data-hg="restart-brush" type="button">↻ Reia curățarea</button>');
+ const left='<section class="hg-game-surface hg-dental-surface"><div class="hg-stage-head"><strong>Dințișorii veseli</strong><span>'+clean.size+' din '+spots.length+' curățați</span></div><div class="hg-progress"><span style="width:'+percent+'%"></span></div><div class="hg-dental-board '+(done?'hg-all-clean':'')+'">'+mouthSvg()+'<div class="hg-sparkles" aria-hidden="true">✦ ✧ ✦</div></div><p class="hg-bottom-tip">↕️ Freacă fiecare dinte de 3 ori în sus și în jos.</p></section>';
+ const text=done?'✨ Toți dințișorii sunt curați! Minunat!':'Periază de trei ori sus-jos pe fiecare dinte.';
+ const panel=sidePanel('Ține degetul pe un dinte și mișcă-l în sus și în jos de trei ori.','<div class="hg-dental-badge '+(done?'done':'')+'"><span aria-hidden="true">'+(done?'🌟':'🪥')+'</span><strong>'+percent+'%</strong><small>Dințișori curați</small></div><div class="hg-feedback" aria-live="polite">'+text+'</div><p class="hg-teacher-note">Petele se estompează după fiecare mișcare completă și dispar numai la a treia.</p>','<button class="hg-small-action" data-hg="hear" type="button">🔊 Ascultă indicația</button><button class="hg-primary" data-hg="restart-brush" type="button">↻ Reia curățarea</button>');
  return '<div class="hg-play-layout">'+left+panel+'</div>';
 }
 function draw(){
  if(state.view==='hygiene-sort')shell('🧺 CULORI ȘI IGIENĂ','Coșulețele cu obiecte de igienă','Alegem, sortăm și descoperim ce ne ajută să fim curați.',sort.phase==='colors'?sortStage():choiceStage());
  if(state.view==='hygiene-brush'){
-  shell('🪥 ACTIVITATE PRACTICĂ','Dințișorii veseli','Curățăm un model mare de dinți, atingând fiecare pată.',brushStage());
+  shell('🪥 ACTIVITATE PRACTICĂ','Dințișorii veseli','Periem fiecare dinte de trei ori, cu sunet de periaj.',brushStage());
   clean.forEach(i=>host.querySelector('[data-hg-stain="'+i+'"]')?.classList.add('hg-cleaned'));
+  strokes.forEach((_,i)=>{if(!clean.has(i))progressStroke(i);});
  }
 }
 function place(id,color){
@@ -141,22 +142,31 @@ function place(id,color){
  if(sort.placed.length===sortTokens.length&&typeof launchConfetti==='function')launchConfetti(host.querySelector('.hg-game-surface'),28);
 }
 function choose(id){
- const item=needs.find(t=>t.id===id);
- if(!item||sort.picked.includes(id))return;
- if(item.needed){sort.picked.push(id);sort.feedback=sort.picked.length===4?'🌟 Bravo! Ai ales toți cei patru prieteni ai curățeniei!':'Foarte bine! Acesta ne ajută să fim curați.';if(typeof tonal==='function')tonal(true);}
- else{sort.feedback='Acesta este pentru joacă. Hai să găsim un obiect pentru îngrijire.';if(typeof tonal==='function')tonal(false);}
+ const expected=tasks[sort.picked.length];
+ if(!expected||sort.picked.includes(id))return;
+ if(id===expected.id){
+  sort.picked.push(id);
+  sort.feedback=sort.picked.length===4?'🌟 Bravo! Toate obiectele potrivite sunt în coșuleț!':'Foarte bine! '+needs.find(t=>t.id===id).label+' este alegerea potrivită.';
+  if(typeof tonal==='function')tonal(true);
+ }else{
+  sort.feedback='Mai încearcă. '+expected.text;
+  if(typeof tonal==='function')tonal(false);
+ }
  draw();
  if(sort.picked.length===4&&typeof launchConfetti==='function')launchConfetti(host.querySelector('.hg-game-surface'),34);
 }
 function cleanSpot(i){
  if(state.view!=='hygiene-brush'||clean.has(i)||i<0||i>=spots.length)return;
+ const st=strokes.get(i);
+ if(!st||st.halves<6)return; // Neaparat trei cicluri complete sus-jos.
  clean.add(i);
- const stain=host.querySelector('[data-hg-stain="'+i+'"]');if(stain)stain.classList.add('hg-cleaned');
+ const stain=host.querySelector('[data-hg-stain="'+i+'"]');
+ if(stain){stain.classList.remove('hg-level-1','hg-level-2');stain.classList.add('hg-cleaned');}
  const percent=Math.round(clean.size/spots.length*100);
  const bar=host.querySelector('.hg-progress>span');if(bar)bar.style.width=percent+'%';
  const stageCount=host.querySelector('.hg-stage-head>span');if(stageCount)stageCount.textContent=clean.size+' din '+spots.length+' curățați';
  const badge=host.querySelector('.hg-dental-badge strong');if(badge)badge.textContent=percent+'%';
- const msg=host.querySelector('.hg-feedback');if(msg)msg.textContent=clean.size===spots.length?'✨ Toți dințișorii sunt curați! Minunat!':'Bravo! Încă un dințișor este curat.';
+ const msg=host.querySelector('.hg-feedback');if(msg)msg.textContent=clean.size===spots.length?'✨ Toți dințișorii sunt curați! Minunat!':'Bravo! Un dințișor a devenit curat.';
  if(typeof tonal==='function')tonal(true);
  if(clean.size===spots.length){host.querySelector('.hg-dental-board')?.classList.add('hg-all-clean');host.querySelector('.hg-dental-badge')?.classList.add('done');if(typeof launchConfetti==='function')launchConfetti(host.querySelector('.hg-dental-surface'),42);}
 }
@@ -165,19 +175,99 @@ function svgPoint(event,svg){
  if(!r.width||!r.height)return null;
  return {x:(event.clientX-r.left)*740/r.width,y:(event.clientY-r.top)*520/r.height};
 }
-function brushAt(event){
+function nearestTooth(point){
+ let best=-1,dist=Infinity;
+ for(let i=0;i<spots.length;i++){
+  if(clean.has(i))continue;
+  const d=Math.hypot(point.x-spots[i].x,point.y-spots[i].y);
+  if(d<dist){best=i;dist=d;}
+ }
+ return dist<72?best:-1;
+}
+function progressStroke(i){
+ const t=strokes.get(i);
+ if(!t)return;
+ const cycles=Math.min(3,Math.floor(t.halves/2));
+ const stain=host.querySelector('[data-hg-stain="'+i+'"]');
+ if(stain){
+  stain.classList.toggle('hg-level-1',cycles===1);
+  stain.classList.toggle('hg-level-2',cycles===2);
+  stain.querySelectorAll('.hg-stroke-dots circle').forEach((dot,j)=>dot.classList.toggle('on',j<cycles));
+  stain.setAttribute('aria-label','Dintele '+(i+1)+', '+cycles+' din 3 mișcări complete');
+ }
+ const msg=host.querySelector('.hg-feedback');
+ if(msg&&cycles<3)msg.textContent=cycles===0?'Mișcă periuța în sus și în jos pe același dinte.':'Foarte bine! '+cycles+' din 3 mișcări pe dintele acesta.';
+ if(t.halves>=6)cleanSpot(i);
+}
+let noiseBuffer=null;
+function brushSound(){
+ if(state.muted)return;
+ const now=Date.now();
+ if(now-brushAudioTime<90)return;
+ brushAudioTime=now;
+ try{
+  const Audio=window.AudioContext||window.webkitAudioContext;
+  if(!Audio)return;
+  brushAudioCtx=brushAudioCtx||new Audio();
+  if(brushAudioCtx.state==='suspended')brushAudioCtx.resume().catch(()=>{});
+  const ctx=brushAudioCtx;
+  if(!noiseBuffer){
+   noiseBuffer=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*.08),ctx.sampleRate);
+   const data=noiseBuffer.getChannelData(0);
+   for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*.65;
+  }
+  const src=ctx.createBufferSource();src.buffer=noiseBuffer;
+  const band=ctx.createBiquadFilter();band.type='bandpass';band.frequency.value=1550;band.Q.value=.7;
+  const gain=ctx.createGain();const when=ctx.currentTime;
+  gain.gain.setValueAtTime(.0001,when);
+  gain.gain.linearRampToValueAtTime(.042,when+.008);
+  gain.gain.exponentialRampToValueAtTime(.0001,when+.075);
+  src.connect(band);band.connect(gain);gain.connect(ctx.destination);
+  src.start(when);src.stop(when+.08);
+ }catch(e){/* sunetul nu trebuie sa intrerupa jocul */}
+}
+function brushAt(event,first=false){
  const svg=host.querySelector('[data-hg-mouth]');if(!svg)return;
  const point=svgPoint(event,svg);if(!point)return;
  const cursor=svg.querySelector('#hg-brush-cursor');
- if(cursor)cursor.setAttribute('transform','translate('+(point.x+18)+' '+(point.y+25)+') rotate(-36)');
- for(let i=0;i<spots.length;i++)if(!clean.has(i)&&Math.hypot(point.x-spots[i].x,point.y-spots[i].y)<52)cleanSpot(i);
+ if(cursor)cursor.setAttribute('transform','translate('+(point.x+16)+' '+(point.y+20)+') rotate(-36)');
+ if(first){
+  const i=nearestTooth(point);
+  if(i<0){toothTracking=null;return;}
+  const old=strokes.get(i)||{halves:0};
+  toothTracking={index:i,lastY:point.y,dir:0,travel:0,credited:false};
+  strokes.set(i,old);
+  return;
+ }
+ if(!toothTracking||clean.has(toothTracking.index))return;
+ const i=toothTracking.index,p=spots[i];
+ if(Math.hypot(point.x-p.x,point.y-p.y)>77){toothTracking.lastY=point.y;toothTracking.dir=0;toothTracking.travel=0;toothTracking.credited=false;return;}
+ const dy=point.y-toothTracking.lastY;toothTracking.lastY=point.y;
+ if(Math.abs(dy)<2.4)return;
+ const direction=dy>0?1:-1;
+ if(direction!==toothTracking.dir){
+  toothTracking.dir=direction;
+  toothTracking.travel=0;
+  toothTracking.credited=false;
+ }
+ if(!toothTracking.credited){
+  toothTracking.travel+=Math.abs(dy);
+  if(toothTracking.travel>=20){
+   toothTracking.credited=true;
+   const entry=strokes.get(i)||{halves:0};
+   entry.halves=Math.min(6,entry.halves+1);
+   strokes.set(i,entry);
+   progressStroke(i);
+  }
+ }
+ brushSound();
 }
 host.addEventListener('pointerdown',e=>{
  if(state.view==='hygiene-brush'&&e.target.closest('[data-hg-mouth]')){
   if(e.button!==0&&e.pointerType==='mouse')return;
   brushDown=true;
   try{e.target.closest('[data-hg-mouth]').setPointerCapture(e.pointerId);}catch(err){}
-  brushAt(e);e.preventDefault();return;
+  brushAt(e,true);e.preventDefault();return;
  }
  if(state.view==='hygiene-sort'&&sort.phase==='colors'){
   const t=e.target.closest('[data-hg="token"]');if(!t||t.disabled)return;
@@ -196,7 +286,7 @@ host.addEventListener('pointermove',e=>{
  if(drag.dragging&&drag.ghost){drag.ghost.style.left=e.clientX+'px';drag.ghost.style.top=e.clientY+'px';e.preventDefault();}
 });
 function finishPointer(e){
- if(brushDown){brushDown=false;const svg=host.querySelector('[data-hg-mouth]');if(svg&&e.type==='pointerup')brushAt(e);}
+ if(brushDown){brushDown=false;toothTracking=null;}
  if(drag){const d=drag;drag=null;if(d.ghost)d.ghost.remove();if(d.dragging){suppressClick=Date.now()+420;const basket=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-hg="basket"]');if(basket&&e.type==='pointerup')place(d.id,basket.dataset.color);}}
 }
 host.addEventListener('pointerup',finishPointer);
@@ -211,13 +301,13 @@ document.addEventListener('click',e=>{
  if(state.view!=='hygiene-sort'&&state.view!=='hygiene-brush')return;
  if(action==='home'){drag=null;brushDown=false;navHome();return;}
  if(action==='hear'){
-  if(typeof speak==='function')speak(state.view==='hygiene-brush'?'Atinge petele de pe dinți cu periuța. Curăță-i pe toți!':sort.phase==='colors'?'Alege un obiect. Pune-l în coșulețul de aceeași culoare.':'Alege săpunul, prosopul, periuța și pieptenele pentru Maricica.');
+  if(typeof speak==='function')speak(state.view==='hygiene-brush'?'Mișcă periuța în sus și în jos de trei ori pe fiecare dințișor.':sort.phase==='colors'?'Alege un obiect. Pune-l în coșulețul de aceeași culoare.':tasks[Math.min(sort.picked.length,3)].text);
   return;
  }
  if(action==='restart-sort'){newGame('sort');return;}
  if(action==='restart-brush'){newGame('brush');return;}
  if(action==='next-phase'){sort.phase='choose';sort.selected=null;sort.feedback='Găsește obiectele pentru curățenie.';draw();return;}
- if(action==='clean-one'){const next=spots.findIndex((_,i)=>!clean.has(i));if(next>=0)cleanSpot(next);return;}
+ 
  if(state.view!=='hygiene-sort'||Date.now()<suppressClick)return;
  if(action==='token'){sort.selected=t.dataset.id;sort.feedback='Acum alege coșulețul potrivit.';draw();return;}
  if(action==='basket'){if(sort.selected)place(sort.selected,t.dataset.color);else{sort.feedback='Alege mai întâi un obiect din tavă.';draw();}return;}
@@ -226,9 +316,22 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
  if(state.view!=='hygiene-brush')return;
  const spot=e.target.closest('[data-hg-stain]');
- if(spot&&(e.key==='Enter'||e.key===' ')){e.preventDefault();cleanSpot(Number(spot.dataset.hgStain));}
+ if(!spot)return;
+ if(e.key==='ArrowUp'||e.key==='ArrowDown'){
+  e.preventDefault();
+  const i=Number(spot.dataset.hgStain);
+  if(clean.has(i))return;
+  const dir=e.key==='ArrowUp'?-1:1;
+  const st=strokes.get(i)||{halves:0,keyDir:0};
+  if(st.keyDir===dir)return;
+  st.keyDir=dir;st.halves=Math.min(6,st.halves+1);strokes.set(i,st);
+  brushSound();progressStroke(i);
+ }else if(e.key==='Enter'||e.key===' '){
+  e.preventDefault();
+  if(typeof speak==='function')speak('Folosește săgețile în sus și în jos de trei ori.');
+ }
 });
-window.MaricicaHygieneWorkshops={openSort:()=>newGame('sort'),openBrush:()=>newGame('brush'),version:'1.0',games:2};
+window.MaricicaHygieneWorkshops={openSort:()=>newGame('sort'),openBrush:()=>newGame('brush'),version:'2.0',games:2};
 if(state.view==='home')homeCards();
 if(window.location.hash==='#cosulete')newGame('sort');
 if(window.location.hash==='#dintisori')newGame('brush');
