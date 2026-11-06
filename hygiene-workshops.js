@@ -9,11 +9,13 @@ const sortTokens=[
  {id:'d',kind:'brush',color:'yellow'},{id:'e',kind:'towel',color:'red'},{id:'f',kind:'soap',color:'blue'},
  {id:'g',kind:'soap',color:'yellow'},{id:'h',kind:'towel',color:'blue'},{id:'i',kind:'brush',color:'red'}
 ];
-const needs=[{id:'soap',label:'Săpun',needed:true},{id:'ball',label:'Minge',needed:false},{id:'brush',label:'Periuță',needed:true},{id:'towel',label:'Prosop',needed:true},{id:'car',label:'Mașinuță',needed:false},{id:'comb',label:'Pieptene',needed:true}];
+const needs=[{id:'soap',label:'Săpun'},{id:'towel',label:'Prosop'},{id:'brush',label:'Periuță'},{id:'comb',label:'Pieptene'}];
+const tasks=[{id:'soap',text:'Cu ce spălăm mânuțele?'},{id:'towel',text:'Cu ce ștergem mânuțele?'},{id:'brush',text:'Cu ce curățăm dințișorii?'},{id:'comb',text:'Cu ce aranjăm părul?'}];
 const names={soap:'Săpun',brush:'Periuță',towel:'Prosop',comb:'Pieptene',ball:'Minge',car:'Mașinuță'};
 const spots=[{x:185,y:187},{x:305,y:178},{x:425,y:181},{x:545,y:190},{x:185,y:333},{x:305,y:340},{x:425,y:336},{x:545,y:330}];
 let sort={phase:'colors',selected:null,placed:[],picked:[],feedback:'Atinge un obiect, apoi coșulețul de aceeași culoare.'};
 let clean=new Set(),brushDown=false,drag=null,suppressClick=0;
+let strokes=new Map(),toothTracking=null,brushAudioCtx=null,brushAudioTime=0;
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','&quot;':'&quot;'}[c]||'&#39;'));}
 function icon(kind,color){
  const c=(palette[color]||palette.blue).hex;
@@ -66,24 +68,54 @@ function sortStage(){
  const panel=sidePanel('Alegem un obiect și îl punem în coșulețul cu aceeași culoare.','<div class="hg-feedback" aria-live="polite">'+esc(sort.feedback)+'</div><p class="hg-teacher-note">Poți atinge obiectul și apoi coșul sau îl poți trage cu degetul.</p>','<button class="hg-small-action" data-hg="hear" type="button">🔊 Ascultă indicația</button><button class="hg-small-action" data-hg="restart-sort" type="button">↻ Reia jocul</button>'+(done?'<button class="hg-primary" data-hg="next-phase" type="button">Mai departe <span aria-hidden="true">→</span></button>':''));
  return '<div class="hg-play-layout">'+left+panel+'</div>';
 }
+function choicePhoto(t){
+ if(t.id==='towel')return '<img class="hg-choice-photo" src="assets/hygiene/towel-premium.svg" alt="" draggable="false">';
+ return '<img class="hg-choice-photo" src="assets/cinema/'+t.id+'.webp" alt="" draggable="false">';
+}
 function choiceStage(){
  const n=sort.picked.length;
- const items=needs.map(t=>'<button type="button" class="hg-choice '+(sort.picked.includes(t.id)?'hg-picked':'')+'" data-hg="choose" data-id="'+t.id+'" '+(sort.picked.includes(t.id)?'disabled':'')+' aria-label="'+t.label+'">'+icon(t.id,'blue')+'<strong>'+t.label+'</strong>'+(sort.picked.includes(t.id)?'<span class="hg-check" aria-hidden="true">✓</span>':'')+'</button>').join('');
- const left='<section class="hg-game-surface"><div class="hg-stage-head"><strong>2 · Ce îi trebuie Maricicăi?</strong><span>'+n+' din 4</span></div><div class="hg-progress"><span style="width:'+(n*25)+'%"></span></div><p class="hg-stage-tip">Atinge obiectele folosite pentru igienă. Cele de joacă rămân la locul lor.</p><div class="hg-choices">'+items+'</div></section>';
- const collected=sort.picked.map(id=>'<span class="hg-collected">'+icon(id,'blue')+'<small>'+needs.find(t=>t.id===id).label+'</small></span>').join('');
- const panel=sidePanel('Ce obiecte folosim ca să fim curați? Pune-le în coșulețul Maricicăi.','<div class="hg-personal-basket"><span>Coșulețul Maricicăi</span><div class="hg-collected-items">'+(collected||'<span class="hg-placeholder">Aici apar alegerile tale ♡</span>')+'</div></div><div class="hg-feedback" aria-live="polite">'+esc(sort.feedback)+'</div>','<button class="hg-small-action" data-hg="hear" type="button">🔊 Ascultă indicația</button><button class="hg-small-action" data-hg="restart-sort" type="button">↻ Reia jocul</button>'+(n===4?'<button class="hg-primary" data-hg="restart-sort" type="button">Bravo! Joacă din nou ✨</button>':''));
+ const task=tasks[Math.min(n,tasks.length-1)];
+ const finished=n===tasks.length;
+ const items=needs.map(t=>'<button type="button" class="hg-choice hg-choice-premium '+(sort.picked.includes(t.id)?'hg-picked':'')+'" data-hg="choose" data-id="'+t.id+'" '+(sort.picked.includes(t.id)?'disabled':'')+' aria-label="'+t.label+'">'+choicePhoto(t)+'<strong>'+t.label+'</strong>'+(sort.picked.includes(t.id)?'<span class="hg-check" aria-hidden="true">✓</span>':'')+'</button>').join('');
+ const prompt=finished?'🌟 Bravo! Ai ales toate obiectele potrivite!':task.text;
+ const left='<section class="hg-game-surface hg-choice-stage"><div class="hg-stage-head"><strong>2 · Ce îi trebuie Maricicăi?</strong><span>'+n+' din 4</span></div><div class="hg-progress"><span style="width:'+(n*25)+'%"></span></div><p class="hg-stage-tip hg-task-prompt" aria-live="polite">'+prompt+'</p><div class="hg-choices">'+items+'</div></section>';
+ const collected=sort.picked.map(id=>'<span class="hg-collected">'+choicePhoto(needs.find(t=>t.id===id))+'<small>'+needs.find(t=>t.id===id).label+'</small></span>').join('');
+ const panel=sidePanel('Alegem obiectul potrivit pentru fiecare activitate de îngrijire.','<div class="hg-personal-basket"><span>Coșulețul Maricicăi</span><div class="hg-collected-items">'+(collected||'<span class="hg-placeholder">Obiectele alese apar aici ♡</span>')+'</div></div><div class="hg-feedback" aria-live="polite">'+esc(sort.feedback)+'</div>','<button class="hg-small-action" data-hg="hear" type="button">🔊 Ascultă întrebarea</button><button class="hg-small-action" data-hg="restart-sort" type="button">↻ Reia jocul</button>'+(finished?'<button class="hg-primary" data-hg="restart-sort" type="button">Joacă din nou ✨</button>':''));
  return '<div class="hg-play-layout">'+left+panel+'</div>';
 }
 function toothSvg(x,y,i){
- return '<g class="hg-tooth-unit" transform="translate('+x+' '+y+')"><path d="M-51 -54 Q0 -66 51 -54 Q58 -20 47 33 Q42 61 8 65 Q-9 70 -27 60 Q-52 51 -50 23Z" fill="url(#hg-enamel)" stroke="#d5e7f5" stroke-width="5"/><path d="M-33 -37Q-15 -52 12 -48" fill="none" stroke="#fff" stroke-width="10" opacity=".87" stroke-linecap="round"/></g>';
+ const bottom=i>=4;
+ const rotate=bottom?' rotate(180)':'';
+ const width=i%4===0||i%4===3?0.91:1;
+ return '<g class="hg-tooth-unit" transform="translate('+x+' '+y+')'+rotate+' scale('+width+' 1)"><path d="M-43 -50 C-24 -58 22 -58 43 -50 C51 -24 53 11 43 33 C35 48 20 55 0 53 C-24 55 -36 48 -44 33 C-53 9 -51 -24 -43 -50Z" fill="url(#hg-enamel-real)" stroke="#e8ecf4" stroke-width="2.3"/><path d="M-39 -44 C-16 -52 19 -51 38 -44 C40 -38 41 -26 41 -12 C31 -26 -31 -27 -40 -9 C-42 -22 -41 -35 -39 -44Z" fill="url(#hg-neck-real)" opacity=".85"/><path d="M-28 -37 C-33 -10 -32 8 -26 21" stroke="#fff" stroke-opacity=".8" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M16 -30 Q31 -24 30 -5" stroke="#c9d4e5" stroke-opacity=".35" stroke-width="4.5" stroke-linecap="round" fill="none"/><path d="M-31 38 Q0 50 32 38" stroke="#fff" stroke-opacity=".6" stroke-width="3" fill="none"/></g>';
 }
 function stainSvg(p,i){
- return '<g data-hg-stain="'+i+'" class="hg-stain" transform="translate('+p.x+' '+p.y+')" role="button" tabindex="0" aria-label="Curăță pata de pe dintele '+(i+1)+'"><ellipse cx="0" cy="0" rx="31" ry="23" fill="#d8a880" opacity=".72"/><ellipse cx="0" cy="3" rx="23" ry="15" fill="#ad805f" opacity=".35"/><circle cx="-12" cy="-8" r="6" fill="#c39e7b"/><circle cx="13" cy="9" r="5" fill="#ae8665"/><circle cx="-7" cy="-2" r="3.5" fill="#674632"/><circle cx="7" cy="-2" r="3.5" fill="#674632"/><path d="M-4 9Q0 5 5 9" fill="none" stroke="#674632" stroke-width="2.7" stroke-linecap="round"/></g>';
+ const top=i<4;
+ const pos=top?'-8':'10';
+ return '<g data-hg-stain="'+i+'" class="hg-stain hg-dental-plaque" transform="translate('+p.x+' '+p.y+')" role="button" tabindex="0" aria-label="Dintele '+(i+1)+', necesită 3 mișcări sus-jos">' +
+ '<path d="M-24 -20 Q-36 -9 -26 4 Q-18 14 -13 12 Q-6 22 5 12 Q18 18 20 6 Q34 -5 21 -20 Q5 -12 -7 -20Z" fill="url(#hg-plaque-real)" opacity=".85"/>' +
+ '<circle cx="-21" cy="-5" r="4" fill="#caa174" opacity=".65"/><circle cx="17" cy="-1" r="3" fill="#b98b61" opacity=".55"/><circle cx="-5" cy="8" r="3.5" fill="#b88f64" opacity=".67"/><path d="M-19 -15Q-8 -9 1 -13" fill="none" stroke="#e4c9a9" stroke-width="4" opacity=".7" stroke-linecap="round"/>' +
+ '<g class="hg-stroke-dots" transform="translate(-20 33)"><circle cx="0" cy="0" r="5.5"/><circle cx="19" cy="0" r="5.5"/><circle cx="38" cy="0" r="5.5"/></g></g>';
 }
 function mouthSvg(){
- const top=[185,305,425,545],bottom=[185,305,425,545];
- const teeth=top.map((x,i)=>toothSvg(x,185,i)).join('')+bottom.map((x,i)=>toothSvg(x,336,i+4)).join('');
- return '<svg class="hg-mouth-svg" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Model mare cu opt dinți. Freacă petele cu degetul sau cu mouse-ul." data-hg-mouth="yes"><defs><linearGradient id="hg-enamel" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#fff"/><stop offset=".55" stop-color="#f9feff"/><stop offset="1" stop-color="#def1ff"/></linearGradient><linearGradient id="hg-lips" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffb1bc"/><stop offset="1" stop-color="#f27c9b"/></linearGradient></defs><circle cx="101" cy="75" r="11" fill="#fff" opacity=".9"/><circle cx="625" cy="435" r="9" fill="#fff" opacity=".9"/><path d="M82 260Q76 89 370 100Q663 89 657 260Q659 451 370 443Q77 449 82 260Z" fill="#693c5d" stroke="url(#hg-lips)" stroke-width="35"/><path d="M111 166Q370 90 624 166L628 193Q365 148 109 196Z" fill="#fa9ab4"/><path d="M110 358Q375 407 626 352L620 378Q369 455 116 379Z" fill="#fa9ab4"/>'+teeth+spots.map(stainSvg).join('')+'<g id="hg-brush-cursor" class="hg-brush-cursor" transform="translate(670 466) rotate(-36)"><rect x="-14" y="-7" rx="8" width="115" height="24" fill="#76bbf2" stroke="#fff" stroke-width="4"/><rect x="2" y="-4" rx="4" width="34" height="7" fill="#fff" opacity=".6"/><rect x="-38" y="-17" width="39" height="32" rx="10" fill="#fff" stroke="#8ad3f9" stroke-width="3"/><path d="M-32 -17V-35M-24 -17V-38M-16 -17V-35M-8 -17V-37" stroke="#7cd6ee" stroke-width="6" stroke-linecap="round"/></g></svg>';
+ const xs=[185,305,425,545];
+ const teeth=xs.map((x,i)=>toothSvg(x,180,i)).join('')+xs.map((x,i)=>toothSvg(x,338,i+4)).join('');
+ return '<svg class="hg-mouth-svg hg-realistic-mouth" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gură cu opt dinți. Periază fiecare dinte sus și jos de trei ori." data-hg-mouth="yes">' +
+ '<defs><linearGradient id="hg-enamel-real" x1=".04" x2=".96" y1=".05" y2="1"><stop stop-color="#fff"/><stop offset=".32" stop-color="#fffefa"/><stop offset=".72" stop-color="#eff4fa"/><stop offset="1" stop-color="#d2ddec"/></linearGradient><linearGradient id="hg-neck-real" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#efe1e1"/><stop offset=".8" stop-color="#fff" stop-opacity=".1"/></linearGradient><radialGradient id="hg-plaque-real"><stop stop-color="#be8754"/><stop offset=".7" stop-color="#d9b186"/><stop offset="1" stop-color="#e4c49e" stop-opacity=".5"/></radialGradient><linearGradient id="hg-lips-real" x1=".1" x2=".92" y1=".12" y2=".9"><stop stop-color="#ffd5d5"/><stop offset=".36" stop-color="#ff9bb1"/><stop offset=".7" stop-color="#f17c99"/><stop offset="1" stop-color="#d95477"/></linearGradient><radialGradient id="hg-mouth-dark"><stop stop-color="#985068"/><stop offset=".65" stop-color="#70324e"/><stop offset="1" stop-color="#57263f"/></radialGradient><linearGradient id="hg-gum-real" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#de6784"/><stop offset=".5" stop-color="#f49eb1"/><stop offset="1" stop-color="#e16e8c"/></linearGradient></defs>' +
+ '<ellipse cx="370" cy="470" rx="292" ry="18" fill="#c4779d" opacity=".11"/>' +
+ '<path d="M49 259 C45 178 111 123 177 105 C239 89 287 96 370 103 C459 92 533 94 600 124 C666 160 698 207 691 280 C684 383 635 426 559 445 C479 464 422 453 370 455 C294 458 226 462 150 434 C89 413 48 352 49 259Z" fill="url(#hg-lips-real)" stroke="#fff2f0" stroke-width="6"/>' +
+ '<path d="M87 259 C87 181 152 151 227 147 C275 145 325 145 370 149 C434 143 499 143 558 154 C620 166 650 214 647 265 C640 345 600 392 533 401 C461 413 423 408 370 408 C305 412 253 413 186 399 C120 382 91 344 87 259Z" fill="url(#hg-mouth-dark)" stroke="#b55775" stroke-width="8"/>' +
+ '<path d="M118 160 Q370 98 624 159 Q629 187 617 207 Q496 173 370 175 Q234 173 126 211 Q110 192 118 160Z" fill="url(#hg-gum-real)" />' +
+ '<path d="M117 371 Q371 431 625 370 Q615 346 602 333 Q466 360 370 350 Q253 362 133 333 Q123 351 117 371Z" fill="url(#hg-gum-real)" />' +
+ '<path d="M206 394 Q370 337 528 398 Q491 418 370 414 Q260 419 206 394Z" fill="#e88da5" opacity=".7"/>' +
+ teeth+spots.map(stainSvg).join('')+
+ '<path d="M147 132 Q371 105 590 140" stroke="#ffe7eb" stroke-width="11" stroke-linecap="round" fill="none" opacity=".65"/><path d="M147 420 Q367 454 584 419" stroke="#ffb5c4" stroke-width="8" stroke-linecap="round" fill="none" opacity=".38"/>' +
+ '<g id="hg-brush-cursor" class="hg-brush-cursor" transform="translate(670 465) rotate(-32)">' +
+ '<path d="M-12 -9 Q40 -6 100 -5 Q108 0 100 12 L-12 15 Q-22 11 -22 4Z" fill="#82bfee" stroke="#f9feff" stroke-width="3"/>' +
+ '<path d="M12 -2 H80" stroke="#d2f7ff" stroke-width="7" stroke-linecap="round"/>' +
+ '<rect x="-40" y="-20" width="42" height="37" rx="14" fill="#6eafe6" stroke="#fff" stroke-width="4"/>' +
+ '<path d="M-34 -20V-39M-26 -20V-42M-18 -20V-43M-10 -20V-41M-2 -20V-38" stroke="#e9feff" stroke-width="7" stroke-linecap="round"/>' +
+ '</g></svg>';
 }
 function brushStage(){
  const percent=Math.round(clean.size/spots.length*100),done=clean.size===spots.length;
