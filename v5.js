@@ -77,7 +77,7 @@ function flipMemory(id){if(state.view!=='v5-memory'||game.locked||game.found.has
  else{game.locked=true;tonal(false);finishTimer=setTimeout(()=>{if(game.version!==ver||state.view!=='v5-memory')return;game.open=[];game.locked=false;renderMemory5()},1100)}
 }
 function renderMemory5(){if(state.view!=='v5-memory')return;
- const done=game.found.size===game.size,cols=4;
+ const done=game.found.size===game.size,cols=game.size===4?2:game.size===6?3:4;
  app.innerHTML=`<section class="v5-play"><nav class="v5-play-nav"><button data-action="home">⌂ Acasă</button><span>Jocuri • Memory</span></nav>
  <div class="v5-play-panel"><div class="v5-play-heading"><div><span>💗 JOC DE MEMORIE</span><h1>Găsește perechile!</h1><p>Întoarce două cartonașe care arată la fel.</p></div><div class="v5-size-options" role="group" aria-label="Numărul perechilor">
  ${[2,3,4].map(n=>`<button data-v5="memory-size" data-size="${n*2}" class="${n*2===game.size?'active':''}" aria-pressed="${n*2===game.size}">${n} perechi</button>`).join('')}</div></div>
