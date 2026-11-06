@@ -1,0 +1,42 @@
+name: Install supplied Pixabay background track
+on:
+  push:
+    paths:
+      - ".github/workflows/install-background-music.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect exact original recording
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python - <<'PY'
+          import re,requests,html
+          urls=[
+            'https://pixabay.com/music/happy-childrens-tunes-children-522447/',
+            'https://pixabay.com/music/download/522447/'
+          ]
+          for url in urls:
+            try:
+              r=requests.get(url,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36','Referer':'https://pixabay.com/'},timeout=25)
+              print('probe',r.status_code,r.url,r.headers.get('content-type'),len(r.content))
+              if 'html' in r.headers.get('content-type',''):
+                body=html.unescape(r.text).replace('\\/','/')
+                candidates=re.findall(r'https?://[^\\\s\x22\x27<>]+(?:\\.mp3|\\.m4a|\\.ogg)[^\x22\x27<>\s]*',body,re.I)
+                for c in candidates[:12]: print('candidate',c[:320])
+                for token in ('cdn.pixabay','audio_file','audio_url','music_url','download_url'):
+                  for m in list(re.finditer(token,body,re.I))[:2]:
+                    print('context',token,body[max(0,m.start()-100):m.start()+220].replace('\\n',' ')[:320])
+              elif 'audio' in r.headers.get('content-type','') and len(r.content)>100000:
+                import pathlib
+                p=pathlib.Path('assets/audio/children-the-mountain-522447.mp3')
+                p.parent.mkdir(parents=True,exist_ok=True)
+                p.write_bytes(r.content);print('Downloaded',p,len(r.content))
+            except Exception as e:
+              print(type(e).__name__,str(e)[:200])
+          PY
