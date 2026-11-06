@@ -306,3 +306,32 @@
 @media(prefers-reduced-motion:reduce){
  .hg-clean-tooth,.hg-brush-cursor.hg-brush-3d{transition:none!important}
 }
+
+/* Maricica V5 media: imagini decupate INDIVIDUAL, fara fundalul plansei. */
+.hg-photo-isolated{
+ display:grid;place-items:center;flex:none;width:100%;height:100%;min-width:0;min-height:0;
+ background:transparent!important;border:0;overflow:visible;pointer-events:none;user-select:none;
+}
+.hg-photo-isolated img{
+ display:block;width:100%;height:100%;object-fit:contain;object-position:center;
+ filter:drop-shadow(0 6px 5px rgba(90,59,89,.15));-webkit-user-drag:none;
+}
+.hg-token .hg-icon-premium{width:clamp(78px,8.8vw,122px);height:clamp(76px,8vw,114px)}
+.hg-token .hg-photo-isolated{height:100%;width:100%;aspect-ratio:auto}
+.hg-basket .hg-photo-isolated{height:clamp(95px,10.5vw,150px);width:min(100%,205px);margin:-4px auto 0}
+.hg-basket .hg-photo-isolated img{filter:drop-shadow(0 7px 7px rgba(101,64,86,.18))}
+.hg-choice-stage .hg-choice-photo .hg-photo-isolated{width:100%;height:100%;max-width:195px}
+.hg-collected .hg-photo-isolated{height:52px;width:60px}
+.hg-mouth-all-white{opacity:0;pointer-events:none;transition:opacity .27s ease}
+.hg-dental-board.hg-all-clean .hg-mouth-all-white{opacity:1}
+.hg-photo-mouth .hg-clean-tooth.hg-cleaned{opacity:1;filter:saturate(.05) brightness(1.025)}
+.hg-photo-mouth .hg-clean-tooth.hg-level-1{opacity:.35}
+.hg-photo-mouth .hg-clean-tooth.hg-level-2{opacity:.69}
+@media(max-width:610px){
+ .hg-basket .hg-photo-isolated{height:89px;width:100%;max-width:150px}
+ .hg-token .hg-icon-premium{height:76px;max-width:108px}
+ .hg-choice-stage .hg-choice-photo .hg-photo-isolated{height:100%;width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg-mouth-all-white{transition:none}
+}
