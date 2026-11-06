@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 420" role="img" aria-label="Prosop turcoaz moale">
+<defs>
+<linearGradient id="towel" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f5ffff"/><stop offset=".22" stop-color="#9fe3f0"/><stop offset=".6" stop-color="#63b6dc"/><stop offset="1" stop-color="#438cb9"/></linearGradient>
+<linearGradient id="fold" x1="0" x2="1" y1="0" y2=".4"><stop stop-color="#b9eafa"/><stop offset=".43" stop-color="#7dc2e5"/><stop offset="1" stop-color="#449ac8"/></linearGradient>
+<linearGradient id="rod" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fff"/><stop offset=".4" stop-color="#d8e0ef"/><stop offset=".75" stop-color="#a2b4d6"/><stop offset="1" stop-color="#f8ffff"/></linearGradient>
+<radialGradient id="shadow"><stop stop-color="#786f9f" stop-opacity=".24"/><stop offset="1" stop-color="#786f9f" stop-opacity="0"/></radialGradient>
+<filter id="soft"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#6a80a2" flood-opacity=".18"/></filter>
+<filter id="fibers"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+</defs>
+<ellipse cx="238" cy="355" rx="176" ry="26" fill="url(#shadow)"/>
+<g filter="url(#soft)">
+<rect x="98" y="77" width="286" height="31" rx="15" fill="url(#rod)"/>
+<circle cx="102" cy="94" r="28" fill="#e9edf9" stroke="#b5bcd4" stroke-width="5"/>
+<circle cx="382" cy="94" r="28" fill="#e9edf9" stroke="#b5bcd4" stroke-width="5"/>
+<path d="M142 89 Q242 80 335 92 L346 333 Q333 355 306 349 L247 342 L212 351 L154 339 Q137 327 137 313Z" fill="url(#towel)" stroke="#f1ffff" stroke-width="7"/>
+<path d="M146 91 Q186 98 212 93 L220 351 Q179 364 155 341Z" fill="#4fa6d0" opacity=".4"/>
+<path d="M210 97 Q241 103 263 95 L270 344 Q244 358 217 348Z" fill="#e5ffff" opacity=".3"/>
+<path d="M143 86 Q242 65 341 88 Q349 106 336 126 Q243 117 143 127 Q131 108 143 86Z" fill="url(#fold)" stroke="#d9ffff" stroke-width="5"/>
+<path d="M157 290 Q240 302 330 291" stroke="#fffefa" stroke-width="14" opacity=".88" stroke-linecap="round"/>
+<path d="M160 309 Q240 320 328 308" stroke="#e2fcff" stroke-width="6" opacity=".9" stroke-linecap="round"/>
+<path d="M163 146 Q151 229 162 281" stroke="#e6fbff" stroke-width="12" stroke-linecap="round" opacity=".38"/>
+<path d="M310 147 Q331 204 325 277" stroke="#347fa8" stroke-width="8" opacity=".18" fill="none" stroke-linecap="round"/>
+<path d="M216 184C224 168 234 171 241 180C249 171 260 169 267 184C276 203 241 224 241 224C241 224 206 203 216 184Z" fill="#fff9fb" opacity=".83"/>
+</g></svg>
