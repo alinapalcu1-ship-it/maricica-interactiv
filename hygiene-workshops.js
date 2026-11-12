@@ -33,6 +33,7 @@ function newGame(which){
  stopAll();
  document.getElementById('modal-root').innerHTML='';
  state.view=which==='sort'?'hygiene-sort':'hygiene-brush';
+ cancelGestures();
  if(which==='sort')sort={phase:'colors',selected:null,placed:[],picked:[],feedback:'Atinge un obiect, apoi coșulețul de aceeași culoare.'};
  else{clean=new Set();strokes=new Map();brushDown=false;toothTracking=null;}
  draw();
@@ -91,6 +92,11 @@ function mouthSvg(){
  ];
  const clips=toothOutlines.map((poly,i)=>'<clipPath id="hg-clip-'+i+'"><polygon points="'+poly.map(([x,y])=>(23+x*694/1152).toFixed(1)+','+(y*520/864).toFixed(1)).join(' ')+'"/></clipPath>').join('');
  const cleanLayers=spots.map((p,i)=>'<g class="hg-clean-tooth" data-hg-clean="'+i+'" clip-path="url(#hg-clip-'+i+')" aria-hidden="true"><image href="'+cleanPhoto+'" '+imageAttrs+'/></g>').join('');
+ // Separate HTML image overlays are used instead of relying only on nested SVG image clipping.
+ // Samsung smart boards sometimes do not repaint external SVG <image> masks after class changes.
+ const htmlOverlays=toothOutlines.map((poly,i)=>'<img class="hg-tooth-overlay" data-hg-tooth-overlay="'+i+'" src="'+cleanPhoto+'" alt="" draggable="false" aria-hidden="true" style="clip-path:polygon('+poly.map(([x,y])=>(x/1152*100).toFixed(2)+'% '+(y/864*100).toFixed(2)+'%').join(',')+')">').join('');
+ const finalHtml='<img class="hg-final-clean-image" src="'+cleanPhoto+'" alt="" draggable="false" aria-hidden="true">';
+
  const hitAreas=spots.map(stainSvg).join('');
  return '<svg class="hg-mouth-svg hg-photo-mouth" viewBox="0 0 740 520" xmlns="http://www.w3.org/2000/svg" role="img" data-hg-mouth="yes" aria-label="Fotografie 3D cu un zâmbet și opt dinți. Curăță fiecare dinte de trei ori sus și jos.">'+
  '<defs>'+clips+'</defs>'+
@@ -99,7 +105,7 @@ function mouthSvg(){
  cleanLayers+hitAreas+
  '<g id="hg-brush-cursor" class="hg-brush-cursor hg-brush-3d" transform="translate(660 447)" aria-hidden="true">'+
  '<image href="assets/hygiene/brush-blue-3d.webp" x="-68" y="-52" width="136" height="102" preserveAspectRatio="xMidYMid meet"/>'+
- '</g></svg>';
+ '</g></svg>'+htmlOverlays+finalHtml;
 }
 function brushStage(){
  const percent=Math.round(clean.size/spots.length*100),done=clean.size===spots.length;
@@ -112,7 +118,7 @@ function draw(){
  if(state.view==='hygiene-sort')shell('🧺 CULORI ȘI IGIENĂ','Coșulețele cu obiecte de igienă','Alegem, sortăm și descoperim ce ne ajută să fim curați.',sort.phase==='colors'?sortStage():choiceStage());
  if(state.view==='hygiene-brush'){
   shell('🪥 ACTIVITATE PRACTICĂ','Dințișorii veseli','Periem fiecare dinte de trei ori, cu sunet de periaj.',brushStage());
-  clean.forEach(i=>{host.querySelector('[data-hg-stain="'+i+'"]')?.classList.add('hg-cleaned');host.querySelector('[data-hg-clean="'+i+'"]')?.classList.add('hg-cleaned');});
+  clean.forEach(i=>{host.querySelector('[data-hg-stain="'+i+'"]')?.classList.add('hg-cleaned');host.querySelector('[data-hg-clean="'+i+'"]')?.classList.add('hg-cleaned');host.querySelector('[data-hg-tooth-overlay="'+i+'"]')?.classList.add('hg-cleaned');});
   strokes.forEach((_,i)=>{if(!clean.has(i))progressStroke(i);});
  }
 }
@@ -148,6 +154,8 @@ function cleanSpot(i){
  if(stain){stain.classList.remove('hg-level-1','hg-level-2');stain.classList.add('hg-cleaned');}
  const cleanLayer=host.querySelector('[data-hg-clean="'+i+'"]');
  if(cleanLayer){cleanLayer.classList.remove('hg-level-1','hg-level-2');cleanLayer.classList.add('hg-cleaned');}
+ const htmlTooth=host.querySelector('[data-hg-tooth-overlay="'+i+'"]');
+ if(htmlTooth){htmlTooth.classList.remove('hg-level-1','hg-level-2');htmlTooth.classList.add('hg-cleaned');}
  const percent=Math.round(clean.size/spots.length*100);
  const bar=host.querySelector('.hg-progress>span');if(bar)bar.style.width=percent+'%';
  const stageCount=host.querySelector('.hg-stage-head>span');if(stageCount)stageCount.textContent=clean.size+' din '+spots.length+' curățați';
@@ -182,6 +190,9 @@ function progressStroke(i){
  }
  const layer=host.querySelector('[data-hg-clean="'+i+'"]');
  if(layer){layer.classList.toggle('hg-level-1',cycles===1);layer.classList.toggle('hg-level-2',cycles===2);}
+ const htmlTooth=host.querySelector('[data-hg-tooth-overlay="'+i+'"]');
+ if(htmlTooth){htmlTooth.classList.toggle('hg-level-1',cycles===1);htmlTooth.classList.toggle('hg-level-2',cycles===2);}
+
  const msg=host.querySelector('.hg-feedback');
  if(msg&&cycles<3)msg.textContent=cycles===0?'Mișcă periuța în sus și în jos pe același dinte.':'Foarte bine! '+cycles+' din 3 mișcări pe dintele acesta.';
  if(t.halves>=6)cleanSpot(i);
@@ -272,12 +283,36 @@ host.addEventListener('pointermove',e=>{
  }
  if(drag.dragging&&drag.ghost){drag.ghost.style.left=e.clientX+'px';drag.ghost.style.top=e.clientY+'px';e.preventDefault();}
 });
+function cancelGestures(){
+ if(drag?.ghost)drag.ghost.remove();
+ drag=null;brushDown=false;toothTracking=null;
+ host.querySelector('#hg-brush-cursor')?.classList.remove('hg-brush-active');
+ document.querySelectorAll('.hg-drag-ghost,.v5-piece-ghost').forEach(n=>n.remove());
+}
 function finishPointer(e){
- if(brushDown){brushDown=false;toothTracking=null;host.querySelector('#hg-brush-cursor')?.classList.remove('hg-brush-active');}
- if(drag){const d=drag;drag=null;if(d.ghost)d.ghost.remove();if(d.dragging){suppressClick=Date.now()+420;const basket=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-hg="basket"]');if(basket&&e.type==='pointerup')place(d.id,basket.dataset.color);}}
+ if(brushDown){
+  brushDown=false;toothTracking=null;
+  host.querySelector('#hg-brush-cursor')?.classList.remove('hg-brush-active');
+ }
+ if(drag){
+  const d=drag;drag=null;
+  if(d.ghost)d.ghost.remove();
+  if(d.dragging){
+   suppressClick=Date.now()+320;
+   const target=e.type==='pointerup'&&Number.isFinite(e.clientX)&&Number.isFinite(e.clientY)?document.elementFromPoint(e.clientX,e.clientY):null;
+   const basket=target?.closest('[data-hg="basket"]');
+   if(basket)place(d.id,basket.dataset.color);
+  }
+ }
 }
 host.addEventListener('pointerup',finishPointer);
 host.addEventListener('pointercancel',finishPointer);
+host.addEventListener('lostpointercapture',cancelGestures);
+window.addEventListener('pointerup',finishPointer);
+window.addEventListener('pointercancel',cancelGestures);
+window.addEventListener('blur',cancelGestures);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelGestures()});
+document.addEventListener('dragstart',e=>{if(e.target.closest('#app img,#app svg,#app .hg-token'))e.preventDefault()},true);
 document.addEventListener('click',e=>{
  const t=e.target.closest('[data-hg]');
  if(!t)return;
@@ -286,7 +321,7 @@ document.addEventListener('click',e=>{
  if(action==='open-sort'){newGame('sort');return;}
  if(action==='open-brush'){newGame('brush');return;}
  if(state.view!=='hygiene-sort'&&state.view!=='hygiene-brush')return;
- if(action==='home'){drag=null;brushDown=false;navHome();return;}
+ if(action==='home'){cancelGestures();navHome();return;}
  if(action==='hear'){
   if(typeof speak==='function')speak(state.view==='hygiene-brush'?'Mișcă periuța în sus și în jos de trei ori pe fiecare dințișor.':sort.phase==='colors'?'Alege un obiect. Pune-l în coșulețul de aceeași culoare.':tasks[Math.min(sort.picked.length,3)].text);
   return;
@@ -318,7 +353,7 @@ document.addEventListener('keydown',e=>{
   if(typeof speak==='function')speak('Folosește săgețile în sus și în jos de trei ori.');
  }
 });
-window.MaricicaHygieneWorkshops={openSort:()=>newGame('sort'),openBrush:()=>newGame('brush'),version:'2.0',games:2};
+window.MaricicaHygieneWorkshops={openSort:()=>newGame('sort'),openBrush:()=>newGame('brush'),resetCurrent:()=>newGame(state.view==='hygiene-brush'?'brush':'sort'),cancelDrag:cancelGestures,version:'3.0',games:2};
 if(state.view==='home')homeCards();
 if(window.location.hash==='#cosulete')newGame('sort');
 if(window.location.hash==='#dintisori')newGame('brush');
