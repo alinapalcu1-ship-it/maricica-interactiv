@@ -42,7 +42,7 @@ function start(next='hub',reset=true){
  try{stopAll()}catch(e){}
  const modal=document.getElementById('modal-root');if(modal)modal.innerHTML='';
  mode=next;state.view='worksheet-'+mode;draw();
- window.scrollTo?.({top:0,behavior:'instant'});
+ try{window.scrollTo?.(0,0)}catch(e){}
 }
 function success(message){
  finished=true;feedback=message;
