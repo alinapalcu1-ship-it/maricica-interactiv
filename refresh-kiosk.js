@@ -6,7 +6,7 @@ if(!header)return;
 const html='<span aria-hidden="true">↻</span>';
 const make=(cls,label)=>{
  const button=document.createElement('button');
- button.type='button';button.className=cls;button.id=cls==='mapp-refresh-global'?'maricica-refresh':'maricica-refresh-floating';
+ button.type='button';button.className=cls;button.id=cls.includes('mapp-refresh-global')?'maricica-refresh':'maricica-refresh-floating';
  button.innerHTML=html;button.setAttribute('aria-label',label);
  button.title=label;return button;
 };
@@ -33,6 +33,15 @@ document.addEventListener('dragstart',e=>{
  if(hit){e.preventDefault();}
 },true);
 document.addEventListener('pointercancel',()=>document.querySelectorAll('.hg-drag-ghost,.v5-piece-ghost').forEach(n=>n.remove()),true);
+function clearGhosts(){
+ document.querySelectorAll('.hg-drag-ghost,.v5-piece-ghost').forEach(n=>n.remove());
+}
+document.addEventListener('pointerup',clearGhosts,false);
+document.addEventListener('lostpointercapture',clearGhosts,false);
+document.addEventListener('contextmenu',e=>{
+ if(e.target.closest?.('#app .wg-app,#app .hg-view'))e.preventDefault();
+},true);
+
 window.addEventListener('blur',()=>document.querySelectorAll('.hg-drag-ghost,.v5-piece-ghost').forEach(n=>n.remove()));
 document.addEventListener('visibilitychange',()=>{if(document.hidden)document.querySelectorAll('.hg-drag-ghost,.v5-piece-ghost').forEach(n=>n.remove());});
 })();
