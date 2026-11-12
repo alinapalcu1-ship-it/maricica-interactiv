@@ -1,0 +1,180 @@
+/* Maricica | Storybook edition 2026: same three-dimensional story art, restrained UI. */
+.wg-app{--wg-primary:#a44371;--wg-surface:#fffbf6;--wg-tint:#fff1ed;--wg-line:#fff;max-width:1460px;min-height:unset;padding:clamp(8px,1.3vw,22px) 4px 35px;color:#55435e}
+.wg-app button{touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:background .16s ease,transform .16s ease,box-shadow .16s ease;-webkit-tap-highlight-color:transparent}
+.wg-app img,.wg-app svg{pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
+.wg-header{gap:12px;margin-bottom:clamp(13px,2vw,24px)}
+.wg-heading h1{font-size:clamp(30px,3.3vw,48px);color:#a84678;letter-spacing:-.035em;line-height:1.12}
+.wg-heading p{color:#82717d;font-size:clamp(13px,1.2vw,17px)}
+.wg-nav-btn{border:2px solid #fff;background:linear-gradient(160deg,#fffefa,#ffeff5);color:#83516f;box-shadow:0 8px 15px #a67d9424;border-radius:16px}
+.wg-nav-btn:focus-visible,.wg-app button:focus-visible{outline:4px solid #9071cc;outline-offset:2px}
+.wg-reset-btn{background:linear-gradient(140deg,#fff8db,#ffefcb)}
+.wg-hub-lead{gap:8px;padding:3px 0 23px}
+.wg-hub-lead h1{font-size:clamp(34px,4vw,55px);color:#ae4f82;letter-spacing:-.04em}
+.wg-hub-lead p{font-size:clamp(15px,1.3vw,19px)}
+.wg-hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(13px,1.6vw,23px)}
+.wg-hub-tile{display:flex;flex-direction:column;min-height:320px;gap:8px;padding:13px 13px 17px;border:4px solid #fff;border-radius:28px;overflow:hidden;align-items:stretch;text-align:left;box-shadow:0 13px 27px #ab819e2b;color:#674f70;isolation:isolate}
+.wg-hub-tile:hover{transform:translateY(-3px);box-shadow:0 18px 32px #ab819e35}
+.wg-hub-number{position:absolute;left:24px;top:24px;z-index:2;border:2px solid #fff9;background:#fffdf0e8;backdrop-filter:blur(6px);color:#a65e81;border-radius:12px;box-shadow:0 4px 10px #56445f26;font-size:14px;width:38px;height:34px}
+.wg-hub-illustration{display:block;align-self:stretch;width:100%;height:clamp(149px,17vw,205px);margin:0 0 6px;border:3px solid #fff;border-radius:21px;overflow:hidden;background:#fff7f5;box-shadow:0 6px 15px #a8769a1a}
+.wg-hub-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(1.03)}
+.wg-tile-lilac .wg-hub-photo{object-position:64% 72%}
+.wg-tile-peach .wg-hub-photo{object-position:69% 43%}
+.wg-hub-tile strong{font-size:clamp(18px,1.75vw,25px);font-weight:950;letter-spacing:-.025em;line-height:1.2;padding:0 5px}
+.wg-hub-tile small{font-size:clamp(12px,1.05vw,15px);line-height:1.35;font-weight:650;color:#836c81;padding:0 5px}
+.wg-hub-go{font-size:13px;padding:4px 5px;margin-top:auto;color:#a94e7f}
+.wg-tile-peach{background:linear-gradient(145deg,#fff4e9,#fee7df)}
+.wg-tile-mint{background:linear-gradient(145deg,#e5faf2,#d5f3e8)}
+.wg-tile-pink{background:linear-gradient(145deg,#fff1f7,#ffe3ec)}
+.wg-tile-sky{background:linear-gradient(145deg,#eaf9ff,#d8f2ff)}
+.wg-tile-lilac{background:linear-gradient(145deg,#f7efff,#ebdffd)}
+.wg-activity-surface{border:4px solid #fff;border-radius:27px;background:linear-gradient(145deg,#fffefb,#fff4f5 80%,#eefaf9);padding:clamp(14px,2vw,23px);box-shadow:0 14px 31px #ac89a029}
+.wg-activity-side{border:3px solid #fff;border-radius:25px;background:linear-gradient(160deg,#fffdf8,#fff1f5 75%,#ecf8f3);box-shadow:0 11px 26px #ad8a9e29}
+.wg-activity-side h2{font-size:clamp(19px,1.75vw,26px);color:#965579}
+.wg-object-tile{min-height:133px;background:linear-gradient(155deg,#fffefb,#f9f0f4);border:3px solid #fff;border-radius:22px}
+.wg-object-tile.is-selected{background:linear-gradient(125deg,#fff5db,#ffe8ce);border-color:#e9ad75;box-shadow:0 0 0 3px #ffd9ab}
+.wg-object-tile:disabled{opacity:.4}
+.wg-object-img{width:100%;max-width:140px;height:clamp(90px,9.7vw,135px);object-fit:contain}
+.wg-object-tile strong{font-size:clamp(13px,1.05vw,17px)}
+.wg-hero-strip{display:block;position:relative;overflow:hidden;margin:0 auto 8px;width:min(100%,740px);height:clamp(110px,12vw,170px);border:4px solid white;border-radius:21px;box-shadow:0 7px 17px #a988a12b;background:#ffebf0}
+.wg-strip-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 53%}
+.wg-hero-strip:after{content:"";position:absolute;inset:47% 0 0;background:linear-gradient(transparent,#1b23344a)}
+.wg-hero-strip>span{position:absolute;bottom:12px;left:16px;z-index:1;color:white;text-shadow:0 2px 5px #343041aa;font-size:clamp(15px,1.7vw,21px);font-weight:950}
+.wg-suitcase{max-width:670px;padding-top:39px;margin:10px auto 0}
+.wg-case-body{background:radial-gradient(circle at 45% 8%,#fff,#faf8f2 55%,#f5e2df);border-color:#4fc9b9;border-width:8px;border-radius:65px 65px 44px 44px/62px 62px 39px 39px;box-shadow:inset 0 0 0 7px #edfffa,0 11px 19px #6c9b943d;padding:clamp(18px,3vw,34px) clamp(10px,2vw,25px) clamp(35px,5vw,52px)}
+.wg-case-handle{border-color:#ee889e;box-shadow:inset 0 6px 4px #fff7}
+.wg-kit-hole{border:3px dashed #a6d6ca;border-radius:20px;background:#fffdfa;aspect-ratio:.83}
+.wg-kit-hole.wg-filled{border-color:#51c9a6;border-style:solid;box-shadow:inset 0 0 0 2px #effcf8}
+.wg-slot-open{display:block;width:48px;height:48px;border-radius:50%;border:3px dashed #a5d6ca;background:radial-gradient(circle,#fffdf9,#edf9f5)}
+.wg-kit-hole small{color:#7eaaa3}
+.wg-match-targets{gap:clamp(8px,1.4vw,16px);margin:10px 0}
+.wg-match-target{min-height:270px;padding:8px 8px 12px;background:linear-gradient(#fffefa,#e8f7f4);border:3px solid #fff;border-radius:23px;gap:5px;box-shadow:0 8px 15px #aa8fa328}
+.wg-match-target:hover:not(.wg-correct){transform:translateY(-2px)}
+.wg-target-art{display:block;overflow:hidden;width:100%;height:clamp(116px,11.5vw,178px);border-radius:18px;background:#fbedf2;filter:none;box-shadow:0 5px 10px #987e8f24}
+.wg-target-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:51% 45%}
+.wg-match-target strong{font-size:clamp(16px,1.5vw,21px)}
+.wg-match-target small{font-size:clamp(10px,1vw,13px);min-height:23px}
+.wg-target-pocket{flex-direction:row;gap:7px;min-height:61px;background:#fffdfc;border:2px dashed #b4ded0;border-radius:15px;color:#7a968d}
+.wg-pocket-ring{display:block;width:24px;height:24px;border:3px dotted #8dccc3;border-radius:50%}
+.wg-mini-placed img{height:48px}
+.wg-match-target.wg-correct{border-color:#8ddcba;background:#e3faf0}
+.wg-girl{border:4px solid #fff;min-height:0;padding:10px 10px 14px;box-shadow:0 9px 20px #a986a132}
+.wg-girl img{display:block;width:100%;height:clamp(200px,27vw,335px);border-radius:19px;border:2px solid white;object-fit:cover;object-position:center;background:#fff0f3}
+.wg-girl.wg-correct{border-color:#90d9b4;box-shadow:0 0 0 2px #c8f3dc,0 9px 20px #8bc4ad3b}
+.wg-step-label{font-size:clamp(15px,1.3vw,20px);margin:12px 0}
+.wg-bubble-surface{background:radial-gradient(circle at 50% 39%,#f3ffff 0%,#e2f8fa 47%,#fceef4 100%)}
+.wg-bubble-play{position:relative;aspect-ratio:1.5;max-width:710px;min-height:0;margin:0 auto;overflow:visible}
+.wg-bubble-glow{position:absolute;inset:14% 19%;border-radius:50%;background:radial-gradient(circle,#fff9 0%,#e7f8fc44 50%,transparent 72%);pointer-events:none}
+.wg-bubble-soap{position:absolute;inset:22% 22%;display:grid;place-items:center;pointer-events:none}
+.wg-soap-photo{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 13px 15px #a75b8a30)}
+.wg-bubble-spot{position:absolute;z-index:3;transform:translate(-50%,-50%);width:clamp(65px,7.2vw,96px);height:clamp(65px,7.2vw,96px);border:0;border-radius:50%;background:transparent;box-shadow:none;overflow:visible}
+.wg-empty-bubble{position:relative;display:block;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 27% 22%,#fff,#eaf9fa86 25%,#c0e9ee96 63%,#badfe880 100%);border:3px dashed #84c9d3;box-shadow:inset 0 3px 7px #fff,0 6px 12px #6aa0b535}
+.wg-empty-bubble:after{content:"";position:absolute;top:22%;left:28%;width:25%;height:12%;border-radius:50%;background:#fff9;transform:rotate(-28deg)}
+.wg-bubble-spot.wg-bubbled{background:transparent;border:0}
+.wg-real-bubble{border:2px solid #d4ffffb5;background:radial-gradient(circle at 25% 21%,#fff 0%,#e9ffffc9 20%,#addfeeae 51%,#97c9e38a 78%,#c9d4f1b3 100%);box-shadow:inset -6px -9px 12px #8db8da44,0 7px 12px #76aec044}
+.wg-bubble-story{width:100%;aspect-ratio:16/9;border-radius:18px;border:3px solid white;overflow:hidden;box-shadow:0 7px 17px #927a982a}
+.wg-bubble-story img{width:100%;height:100%;object-fit:cover}
+.wg-bubble-note .wg-big-symbol{display:none}
+.wg-bubble-note h2{margin:2px 0}
+.wg-bubble-note p{font-size:clamp(14px,1.15vw,17px)}
+.wg-towel-display{position:relative;isolation:isolate;aspect-ratio:1.2;width:min(100%,710px);max-height:580px;margin:0 auto;background:radial-gradient(ellipse at 53% 47%,#fff 0%,#fffaf5 41%,#f6eaf8 77%,#f6eaf800 100%);border-radius:24px;display:grid;place-items:center}
+.wg-towel-light{position:absolute;inset:14% 12% 2%;border-radius:30%;background:radial-gradient(circle,#c8f3ff88,transparent 69%);pointer-events:none}
+.wg-towel-photo{position:relative;z-index:1;display:block;object-fit:contain;width:100%;height:100%;filter:drop-shadow(0 12px 12px #63849d3a)}
+.wg-towel-canvas{position:absolute;inset:25% 25% 17% 25%;z-index:2}
+.wg-towel-spot{position:absolute;width:clamp(60px,7vw,94px);height:clamp(60px,7vw,94px);transform:translate(-50%,-50%);background:transparent;border:none;box-shadow:none;display:grid;place-items:center;padding:1px;overflow:visible}
+.wg-towel-target{display:block;width:65%;height:65%;border-radius:50%;border:3px dashed #e3faff;box-shadow:0 0 0 2px #5aafcf88;background:#ffffff35;backdrop-filter:blur(2px)}
+.wg-towel-spot.is-stamped{background:transparent;border:none;font-size:unset;text-shadow:none;animation:none}
+.wg-stamp-svg{display:block;width:100%;height:100%;filter:drop-shadow(0 4px 3px #81617650)}
+.wg-towel-spot .wg-stamp-svg{width:80%;height:80%}
+.wg-stamp-palette{gap:9px}
+.wg-sticker-choice{min-height:114px;border:3px solid #fff;border-radius:19px;background:linear-gradient(150deg,#fffefa,#fff2f7);padding:8px}
+.wg-sticker-choice.is-selected{background:linear-gradient(135deg,#fff8d8,#ffe9d2);border-color:#efb97c;box-shadow:0 0 0 2px #ffdfb3}
+.wg-sticker-choice .wg-stamp-svg{width:73px;height:73px}
+.wg-sticker-choice small{font-size:clamp(13px,1.1vw,16px)}
+.wg-towel-scene{width:100%;aspect-ratio:16/9;overflow:hidden;border:3px solid white;border-radius:17px;box-shadow:0 5px 12px #91779221}
+.wg-towel-scene img{display:block;width:100%;height:100%;object-fit:cover}
+.wg-footer{background:linear-gradient(110deg,#fffbf3,#fff1f7 79%,#e5faf5);border:3px solid #fff;box-shadow:0 9px 21px #a8829526}
+.wg-index{font-size:12px;color:#9f88a0}
+@media(max-width:980px){
+ .wg-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .wg-kit-layout,.wg-match-layout,.wg-towel-layout,.wg-bubbles-layout{grid-template-columns:1fr}
+ .wg-activity-side{gap:10px}
+ .wg-match-targets{margin:5px}
+ .wg-match-target{min-height:0}
+ .wg-kit-objects{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .wg-match-objects{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .wg-match-objects .wg-object-tile:last-child{grid-column:auto}
+ .wg-girl img{height:clamp(185px,32vw,320px)}
+ .wg-towel-display{max-height:540px}
+}
+@media(max-width:620px){
+ .wg-app{padding:5px 0 18px}
+ .wg-hub-grid{grid-template-columns:1fr;gap:11px}
+ .wg-hub-tile{display:grid;grid-template-columns:minmax(125px,42%) minmax(0,1fr);grid-template-rows:auto auto 1fr;align-content:center;min-height:156px;padding:9px;gap:5px 13px;border-radius:19px}
+ .wg-hub-illustration{grid-column:1;grid-row:1 / span 3;height:145px;align-self:stretch;margin:0;border-radius:14px}
+ .wg-hub-number{left:18px;top:17px;width:29px;height:29px;font-size:11px}
+ .wg-hub-tile strong{grid-column:2;grid-row:1;font-size:clamp(16px,4.4vw,20px);align-self:end;margin-top:12px}
+ .wg-hub-tile small{grid-column:2;grid-row:2;font-size:12px}
+ .wg-hub-go{grid-column:2;grid-row:3;font-size:11px;align-self:end;margin-top:auto}
+ .wg-hub-lead{padding-bottom:15px}
+ .wg-hub-lead h1{font-size:clamp(30px,7vw,42px)}
+ .wg-heading h1{font-size:clamp(22px,5.5vw,31px)}
+ .wg-heading p{font-size:11px}
+ .wg-activity-surface{padding:10px;border-width:3px;border-radius:19px}
+ .wg-kit-objects{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .wg-object-tile{min-height:112px;padding:4px}
+ .wg-object-img{height:82px}
+ .wg-hero-strip{height:112px;border-radius:14px}
+ .wg-suitcase{padding-top:30px;margin:5px auto 0}
+ .wg-case-body{border-width:6px;padding:18px 8px 36px;border-radius:38px}
+ .wg-kit-hole{border-width:2px;border-radius:13px}
+ .wg-slot-open{width:26px;height:26px}
+ .wg-match-targets{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:5px 0}
+ .wg-match-target{padding:5px 3px;gap:4px;border-width:2px;border-radius:14px}
+ .wg-target-art{height:clamp(76px,19vw,112px);border-radius:9px}
+ .wg-match-target strong{font-size:clamp(12px,3vw,16px)}
+ .wg-match-target small{font-size:10px;min-height:27px}
+ .wg-target-pocket{flex-direction:column;gap:3px;min-height:45px;padding:4px 2px;font-size:10px}
+ .wg-pocket-ring{width:17px;height:17px}
+ .wg-mini-placed img{height:38px;width:47px}
+ .wg-match-objects{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .wg-match-objects .wg-object-tile{min-height:98px}
+ .wg-match-objects .wg-object-img{height:65px}
+ .wg-girls{gap:9px}
+ .wg-girl{padding:5px;border-width:3px;border-radius:16px}
+ .wg-girl img{height:clamp(145px,41vw,230px);border-radius:11px;object-fit:cover}
+ .wg-girl strong{font-size:12px}
+ .wg-bubble-play{aspect-ratio:1.2;min-height:0}
+ .wg-bubble-spot{width:clamp(47px,12vw,65px);height:clamp(47px,12vw,65px)}
+ .wg-bubble-soap{inset:24% 18%}
+ .wg-towel-display{aspect-ratio:1.12}
+ .wg-towel-canvas{inset:25% 23% 16% 23%}
+ .wg-towel-spot{width:clamp(43px,11vw,60px);height:clamp(43px,11vw,60px)}
+ .wg-sticker-choice{min-height:92px}
+ .wg-sticker-choice .wg-stamp-svg{width:58px;height:58px}
+ .wg-footer>span{font-size:13px}
+ .wg-index{font-size:11px}
+}
+@media(orientation:landscape) and (max-width:980px) and (max-height:590px){
+ .wg-hub-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .wg-hub-tile{display:flex;min-height:190px;padding:6px;border-radius:15px}
+ .wg-hub-illustration{width:100%;height:105px;min-height:105px;border-radius:10px}
+ .wg-hub-tile strong{font-size:13px;margin:0;line-height:1.1}
+ .wg-hub-tile small{font-size:10px}
+ .wg-hub-go{display:none}
+ .wg-hub-number{top:10px;left:10px}
+ .wg-kit-layout,.wg-match-layout,.wg-bubbles-layout,.wg-towel-layout{grid-template-columns:minmax(0,1.3fr) minmax(210px,.8fr)}
+ .wg-activity-surface{padding:9px}
+ .wg-activity-side{padding:9px}
+ .wg-hero-strip{height:88px}
+ .wg-suitcase{padding-top:24px}
+ .wg-case-body{padding:14px 8px 30px}
+ .wg-kit-hole{max-height:135px}
+ .wg-match-target{min-height:0}
+ .wg-target-art{height:100px}
+ .wg-bubble-play{aspect-ratio:1.52;max-width:500px}
+ .wg-towel-display{max-height:350px;width:min(100%,500px)}
+ .wg-towel-spot{width:clamp(36px,6vw,59px);height:clamp(36px,6vw,59px)}
+ .wg-towel-scene{display:none}
+ .wg-girl img{height:138px}
+}
+@media(prefers-reduced-motion:reduce){.wg-app button,.wg-hub-tile{transition:none!important}}
