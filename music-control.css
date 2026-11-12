@@ -1,0 +1,22 @@
+/* Maricica — control de muzica lizibil, cu stare reala. */
+#ambient-music-toggle.mapp-music-toggle{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
+ min-width:105px;width:auto;height:44px;min-height:44px;padding:7px 12px;
+ font-size:21px;line-height:1;color:#795d80;border:2px solid #fff;
+ border-radius:15px;background:linear-gradient(135deg,#fffaf6,#fceaf1);
+ box-shadow:0 4px 12px #a68da326;white-space:nowrap;
+}
+#ambient-music-toggle.mapp-music-toggle small{display:inline;font-size:12px;font-weight:850;letter-spacing:-.015em;color:#8c728c}
+#ambient-music-toggle.mapp-music-toggle.is-on{background:linear-gradient(125deg,#e0f9ed,#dcf4f4);border-color:#fff;box-shadow:0 4px 15px #70a68c2d}
+#ambient-music-toggle.mapp-music-toggle.is-on small{color:#457c65}
+#ambient-music-toggle.mapp-music-toggle:focus-visible{outline:4px solid #8b63e2;outline-offset:2px}
+@media(max-width:1020px){
+ #ambient-music-toggle.mapp-music-toggle{width:46px;min-width:46px;padding:5px}
+ #ambient-music-toggle.mapp-music-toggle small{display:none}
+}
+@media(max-width:900px){
+ #ambient-music-toggle.mapp-music-toggle{width:42px;min-width:42px;height:42px;min-height:42px;font-size:24px}
+}
+@media(max-width:390px){
+ #ambient-music-toggle.mapp-music-toggle{width:38px;min-width:38px;height:38px;min-height:38px}
+}
