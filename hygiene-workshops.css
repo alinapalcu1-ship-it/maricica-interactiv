@@ -340,3 +340,28 @@
 .hg-photo-mouth .hg-clean-tooth{filter:none!important}
 .hg-photo-mouth .hg-mouth-all-clean{filter:none!important}
 .hg-dental-board.hg-all-clean .hg-sparkles{animation:none!important;opacity:0!important}
+
+/* Samsung Board / Chrome / iPhone: reliable photo per-tooth rendering.
+   HTML masked images repaint on class change even where SVG external <image> stays cached. */
+.hg-dental-board{position:relative;isolation:isolate;overflow:hidden}
+.hg-dental-board .hg-mouth-svg{position:relative;z-index:1;display:block;width:100%}
+.hg-dental-board .hg-tooth-overlay,
+.hg-dental-board .hg-final-clean-image{
+ position:absolute;z-index:2;left:3.108108%;top:0;width:93.783784%;height:100%;
+ object-fit:fill;object-position:center;pointer-events:none;user-select:none;-webkit-user-drag:none;
+ opacity:0;transition:opacity .22s ease;will-change:opacity;
+}
+.hg-dental-board .hg-tooth-overlay.hg-level-1{opacity:.34}
+.hg-dental-board .hg-tooth-overlay.hg-level-2{opacity:.67}
+.hg-dental-board .hg-tooth-overlay.hg-cleaned{opacity:1!important}
+.hg-dental-board.hg-all-clean .hg-final-clean-image{opacity:1!important}
+.hg-dental-board .hg-final-clean-image{z-index:3}
+.hg-dental-board .hg-sparkles{z-index:4;pointer-events:none}
+.hg-dental-board .hg-tooth-overlay,
+.hg-dental-board .hg-final-clean-image{filter:none!important}
+#app img{user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
+#app .hg-drag-ghost{pointer-events:none!important}
+.hg-mouth-svg{touch-action:none!important}
+@media(prefers-reduced-motion:reduce){
+ .hg-dental-board .hg-tooth-overlay,.hg-dental-board .hg-final-clean-image{transition:none!important}
+}
